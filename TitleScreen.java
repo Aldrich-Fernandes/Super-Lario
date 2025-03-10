@@ -1,51 +1,51 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-import javafx.scene.layout.*;
+import javafx.geometry.*;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 /**
- * The opening Screen when the user starts the game
+ * Write a description of class TitleScreen here.
+ *
+ * @author (your name)
+ * @version (a version number or a date)
  */
-public class TitleScreen
+public class TitleScreen extends BaseScreen
 {
-    // Elements
-    private Scene introScreen;
+   
+    private Label lbl_title;
+    private Button btn_play;
+    private Button btn_exit;
 
     /**
-     * Constructor for objects of class StartScreen
+     * Constructor for objects of class TitleScreen
      */
-    public void StartScreen()
+    public TitleScreen(GameManager gameManager, int width, int height)
     {
-        VBox root = new VBox();
-        root.getChildren().add(makeMenuBar());
-
-        Scene introScreen = new Scene(root, 600, 600);
-        
+        super(gameManager, width, height);
+        setContent();
     }
     
-    private VBox makeMenuBar(){        
-        MenuBar menuBar = new MenuBar();
+    @Override
+    protected void setContent(){
+        VBox container = new VBox(20);
+        container.setAlignment(Pos.CENTER);
+        container.setPadding(new Insets(50));
         
-        Menu fileMenu = new Menu("File");
-        MenuItem quitOpt = new MenuItem("Quit");
-        fileMenu.getItems().add(quitOpt);
+        lbl_title = new Label("SUPER LARIO");
+        lbl_title.setStyle("-fx-font-size: 48px; -fx-font-weight: bold;");
         
-        Menu helpMenu = new Menu("Help");
-        MenuItem aboutOpt = new MenuItem("About");
-        helpMenu.getItems().add(aboutOpt);
-
-        menuBar.getMenus().addAll(fileMenu, helpMenu);
-        return new VBox(menuBar);
-    }
-    
-    public Scene getScene(){
-        return introScreen;
-    }
-   
+        btn_play = new Button("PLAY");
+        btn_play.setStyle("-fx-font-size: 24px; -fx-min-width: 200px;");
+        btn_play.setOnAction(event -> gameManager.startGame());
+        
+        btn_exit = new Button("EXIT");
+        btn_exit.setStyle("-fx-font-size: 24px; -fx-min-width: 200px;");
+        btn_exit.setOnAction(event -> System.exit(0));
+        
+        container.getChildren().addAll(lbl_title, btn_play, btn_exit);
+        
+        root.getChildren().addAll(container);
+    }    
 }
