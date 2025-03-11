@@ -8,5 +8,5 @@ PROJECT TITLE:
 PURPOSE OF PROJECT:
 VERSION or DATE:
 HOW TO START THIS PROJECT:
-AUTHORS: Mehdi Belhadj, Aldrich Fernandes, Fadi Mostefei
+AUTHORS: Mehdi Belhadj, Aldrich Fernandes, Fadi Mostefei, Kishan Prakash
 USER INSTRUCTIONS:
