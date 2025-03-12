@@ -53,4 +53,29 @@ public class GameScreen extends BaseScreen
         
         root.getChildren().addAll(temp, gamePane);
     }
+
+    @Override
+    public Scene getScene() {
+        Scene scene = super.getScene();
+    
+        scene.setOnKeyPressed(event -> handleKeyPress(event));
+        scene.setOnKeyPressed(event -> handleKeyRelease(event));
+
+        return scene;
+    }
+
+    /**
+     * Handle key press events (forwards it to the player class)
+     */
+    private void handleKeyPress(KeyEvent event) {
+        player.handleKeyPressed(event.getCode());
+    }
+
+    /**
+     * Handle key release events (forwards it to the player class)
+     */
+    private void handleKeyRelease(KeyEvent event) {
+        player.handleKeyReleased(event.getCode());
+    }
+
 }
