@@ -20,12 +20,14 @@ public class GameScreen extends BaseScreen
     private Rectangle rect1;
     private Rectangle rect2;
     private Pane gamePane;
+    private AnimationTimer gameLoop;
     
     public GameScreen(GameManager gameManager, Player player, int width, int height)
     {
         super(gameManager, width, height);
         this.player = player;
         setContent();
+        setGameLoop();
     }
     
     protected void setContent(){
@@ -59,7 +61,7 @@ public class GameScreen extends BaseScreen
         Scene scene = super.getScene();
     
         scene.setOnKeyPressed(event -> handleKeyPress(event));
-        scene.setOnKeyPressed(event -> handleKeyRelease(event));
+        scene.setOnKeyReleased(event -> handleKeyRelease(event));
 
         return scene;
     }
@@ -78,4 +80,31 @@ public class GameScreen extends BaseScreen
         player.handleKeyReleased(event.getCode());
     }
 
+    /**
+     * Set up game loop with AnimationTimer
+     * check this: https://stackoverflow.com/questions/73326895/javafx-animationtimer-and-events
+     * ^ I'm not sure if we want to keep the game at 60fps or if you got something else in mind.
+     */
+    private void setGameLoop() {
+        gameLoop = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                updateGameState();
+            }
+        };
+        gameLoop.start();
+    }
+
+    /**
+     * Main game update method - might be a good idea to take it to game manager?
+     */
+    private void updateGameState() {
+        player.update();
+
+        double newX = player.getCenterX() + player.getVelocityX();
+        double newY = player.getCenterY() + player.getVelocityY();
+    
+        player.setCenterX(newX);
+        player.setCenterY(newY);
+    }
 }
