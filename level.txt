@@ -1,14 +1,15 @@
+#1
 XXXXXXXXXXXXXXXXXXXXXXX
 X                     X
-X                     X
-X    P                X
+X                K    X
+X  K P          XXX   X
 X  XXXXX              X
 X                     X
 X         XXXX        X
-X                     X
+X               CCCC  X
 X              XXXXX  X
-X                     X
+X       CCC           X
 X       XXXX          X
-X                     X
-X                     X
+  CCC                 
+              K       
 XXXXXXXXXXXXXXXXXXXXXXX

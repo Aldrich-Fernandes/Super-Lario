@@ -31,12 +31,13 @@ public abstract class BaseScreen
         Menu fileMenu = new Menu("File");
         MenuItem quitOpt = new MenuItem("Quit");
         quitOpt.setOnAction(event -> System.exit(0));
+        MenuItem main = new MenuItem("Main Menu");
+        //quitOpt.setOnAction(event -> System.exit(0));
         fileMenu.getItems().add(quitOpt);
-        
         
         Menu helpMenu = new Menu("Help");
         MenuItem aboutOpt = new MenuItem("About");
-        quitOpt.setOnAction(event -> showAboutDialog());
+        aboutOpt.setOnAction(event -> showAboutDialog());
         MenuItem controlOpt = new MenuItem("Controls");
         controlOpt.setOnAction(event -> showControls());
         helpMenu.getItems().addAll(aboutOpt, controlOpt);

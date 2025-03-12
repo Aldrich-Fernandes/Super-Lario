@@ -24,10 +24,13 @@ public class Player extends Circle {
     private boolean rightPressed = false;
     private boolean jumpPressed = false;
     
+    // Properties
+    private static final double radius = 5;
+    
     /**
      * Creates a new player at the specified position with the given radius
      */
-    public Player(double centerX, double centerY, double radius) {
+    public Player(double centerX, double centerY) {
         super(centerX, centerY, radius, Color.RED);
     }
     

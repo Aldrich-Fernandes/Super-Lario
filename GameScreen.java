@@ -10,7 +10,9 @@ import javafx.scene.control.Label;
  */
 public class GameScreen extends BaseScreen
 {    
-    public GameScreen(GameManager gameManager, int width, int height)
+    private int currentScene;
+    
+    public GameScreen(GameManager gameManager, Player player, int width, int height)
     {
         super(gameManager, width, height);
         setContent();
