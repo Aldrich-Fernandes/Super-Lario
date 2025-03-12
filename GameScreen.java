@@ -50,7 +50,7 @@ public class GameScreen extends BaseScreen
         
         // position player on top of rect1
         player.setCenterX(rect1.getX() + 50);
-        player.setCenterY(rect1.getY() - 500);
+        player.setCenterY(rect1.getY() - 5);
         
         gamePane.getChildren().addAll(rect1, rect2, player);
         

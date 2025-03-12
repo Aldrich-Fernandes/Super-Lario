@@ -32,6 +32,7 @@ public class Player extends Circle {
      */
     public Player(double centerX, double centerY) {
         super(centerX, centerY, radius, Color.RED);
+        this.isOnGround = true; // REMOVE WHEN COLLISIONS ARE WORKING!!
     }
     
     /**
