@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.Scene;
 
 /**
  * Main screen where the game is rendered and run.
@@ -49,7 +50,7 @@ public class GameScreen extends BaseScreen
         
         // position player on top of rect1
         player.setCenterX(rect1.getX() + 50);
-        player.setCenterY(rect1.getY() - player.getRadius());
+        player.setCenterY(rect1.getY() - 500);
         
         gamePane.getChildren().addAll(rect1, rect2, player);
         
