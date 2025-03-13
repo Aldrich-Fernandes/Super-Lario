@@ -32,6 +32,7 @@ public class Player extends Circle {
      */
     public Player(double centerX, double centerY) {
         super(centerX, centerY, radius, Color.RED);
+        this.isOnGround = true; // REMOVE WHEN COLLISIONS ARE WORKING!!
     }
     
     /**
@@ -77,11 +78,26 @@ public class Player extends Circle {
         }
         
         // Apply gravity
-        velocityY += GRAVITY;
-        
-        // Update player position with collision detection TODO
-       
-        
-        // Handle screen boundaries TODO
+       if(!isOnGround) 
+           velocityY += GRAVITY;
     }
+    
+    /**
+     * Getter and setter methods for GameScreen to use
+     */
+    public double getVelocityX() {
+        return velocityX;
+    }
+    
+    public double getVelocityY() {
+        return velocityY;
+    }
+    
+    public boolean isOnGround() {
+        return isOnGround;
+    }
+    
+    public void setIsOnGround(boolean onGround) {
+        this.isOnGround = onGround;
+    }  
 }
