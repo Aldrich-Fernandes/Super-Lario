@@ -34,18 +34,19 @@ public class TitleScreen extends BaseScreen
         container.setPadding(new Insets(50));
         
         lbl_title = new Label("SUPER LARIO");
-        lbl_title.setStyle("-fx-font-size: 48px; -fx-font-weight: bold;");
+        lbl_title.getStyleClass().add("title_lbl");
         
         btn_play = new Button("PLAY");
-        btn_play.setStyle("-fx-font-size: 24px; -fx-min-width: 200px;");
+        btn_play.getStyleClass().add("button");
         btn_play.setOnAction(event -> gameManager.startGame());
         
         btn_exit = new Button("EXIT");
-        btn_exit.setStyle("-fx-font-size: 24px; -fx-min-width: 200px;");
+        btn_exit.getStyleClass().add("button");
         btn_exit.setOnAction(event -> System.exit(0));
         
         container.getChildren().addAll(lbl_title, btn_play, btn_exit);
         
         root.getChildren().addAll(container);
+        
     }    
 }
