@@ -38,9 +38,6 @@ public class GameScreen extends BaseScreen
         // temporary Pane for game elements
         gamePane = new Pane();
         gamePane.setPrefSize(800, 500);
-        // temperarrly fixing the size of the pane
-        gamePane.setMaxSize(800, 500);
-        gamePane.setMinSize(800, 500);
         
         // two temp rectangles (collision testing)
         tiles = new ArrayList<>();
@@ -90,18 +87,38 @@ public class GameScreen extends BaseScreen
     }
     
     private void checkCollisions(){
-        double playerBottom = player.getEdges().get("bottom");
+        boolean onPlatform = false; 
         
         for (Rectangle tile: tiles){
             if (player.getBoundsInParent().intersects(tile.getBoundsInParent())){
-                // collsion with top of tile
-                double top = tile.getBoundsInParent().getMinY();
-                if (top < playerBottom){
-                    player.setIsOnGround(true);
-                    player.setCenterY(top - player.getRadius());
+                double tile_top = tile.getBoundsInParent().getMinY();
+                double tile_bottom = tile.getBoundsInParent().getMaxY();
+                double tile_left = tile.getBoundsInParent().getMinX();
+                double tile_right = tile.getBoundsInParent().getMaxX();
+                
+                // Collision with top of platform
+                if (tile_top < player.getEdges().get("bottom")){
+                    onPlatform = true;
+                    player.setCenterY(tile_top - player.getRadius());
+                }
+                // Collision with bottom of platform
+                else if (tile_bottom < player.getEdges().get("top")){
+                    player.setCenterY(tile_bottom + player.getRadius());
+                    player.stopVerticleMovement();
+                }
+                // Collision with left of platform
+                else if (tile_left < player.getEdges().get("right")){
+                    player.setCenterX(tile_left - player.getRadius());
+                }
+                // Collision with right of platform
+                else if (tile_right > player.getEdges().get("left")){
+                    player.setCenterX(tile_right + player.getRadius());
                 }
             }
         }
+        
+        // Allows for updates both ways when player is on and off the platform
+        player.setIsOnGround(onPlatform);
     }
 
     /**

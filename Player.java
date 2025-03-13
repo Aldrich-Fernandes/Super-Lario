@@ -11,8 +11,9 @@ import java.util.HashMap;
  */
 public class Player extends Circle {
     // Physics 
-    private static final double GRAVITY = 0.2;
-    private static final double JUMP_FORCE = -10;
+    private static final double GRAVITY = 0.8;
+    private static final double MAX_VELOCITY = 10;
+    private static final double JUMP_FORCE = -15;
     private static final double MOVE_SPEED = 3;
     
     // Movement 
@@ -77,7 +78,10 @@ public class Player extends Circle {
         
         // Apply gravity
         if(!isOnGround) 
-            velocityY += GRAVITY; 
+            velocityY += GRAVITY;
+            if (velocityY > MAX_VELOCITY){
+                velocityY = MAX_VELOCITY;
+            }
             
         setCenterX(getCenterX() + velocityX);
         setCenterY(getCenterY() + velocityY);
@@ -101,8 +105,14 @@ public class Player extends Circle {
     
     public void setIsOnGround(boolean onGround) {
         this.isOnGround = onGround;
-        velocityY = 0;
     } 
+    
+    public void stopVerticleMovement(){
+        velocityY = 0.0;
+    }
+    public void stopHorizontalMovement(){
+        velocityX = 0.0;
+    }
     
     /**
      * Returns a hashmap of the 4 coordinates of each pole of the player
