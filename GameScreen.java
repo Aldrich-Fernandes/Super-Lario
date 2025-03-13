@@ -16,18 +16,7 @@ public class GameScreen extends BaseScreen
     {
         super(gameManager, width, height);
         setContent();
-    }
-
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
-    {
-        return 0;
-    }
+    }    
     
     protected void setContent(){
         Label temp = new Label("SUPER LARIO");

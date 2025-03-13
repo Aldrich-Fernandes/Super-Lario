@@ -22,6 +22,7 @@ public abstract class BaseScreen
         this.height = height;
         
         root = new VBox(10);
+        root.getStyleClass().add("format.css");
         root.getChildren().add(makeMenuBar());
     }
     
@@ -31,8 +32,6 @@ public abstract class BaseScreen
         Menu fileMenu = new Menu("File");
         MenuItem quitOpt = new MenuItem("Quit");
         quitOpt.setOnAction(event -> System.exit(0));
-        MenuItem main = new MenuItem("Main Menu");
-        //quitOpt.setOnAction(event -> System.exit(0));
         fileMenu.getItems().add(quitOpt);
         
         Menu helpMenu = new Menu("Help");
@@ -43,6 +42,7 @@ public abstract class BaseScreen
         helpMenu.getItems().addAll(aboutOpt, controlOpt);
         
         menuBar.getMenus().addAll(fileMenu, helpMenu);
+        
         return menuBar;
     }   
     
@@ -52,14 +52,18 @@ public abstract class BaseScreen
     protected abstract void setContent();
     
     public Scene getScene(){
-        scene = new Scene(root, width, height);        
+        // Prevents having to reload a new screen each time it is called.
+        if (scene == null){
+             return new Scene(root, width, height);    
+        }       
         return scene;
     }
     
     private void showAboutDialog(){
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("About");
-        alert.setContentText("Some information about the game I am to lazy to write now.");
+        alert.setHeaderText(null);
+        alert.setContentText("Welcome to SUPER LARIO. \n\nDeveloped by: \n - Aldrich Fernandes\n - Mehdi Belhadj\n - Fadi Mostefei\n - Kishan Prakash");
         
         alert.showAndWait();
     }
@@ -67,7 +71,8 @@ public abstract class BaseScreen
     private void showControls(){
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Controls");
-        alert.setContentText("Some information about the controls I am also to lazy to write now.");
+        alert.setHeaderText(null);
+        alert.setContentText("  D   - Move right\n"+"  A   - Move left\n"+"SPACE - Move right\n");
         
         alert.showAndWait();
     }
