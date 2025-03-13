@@ -22,7 +22,6 @@ public abstract class BaseScreen
         this.height = height;
         
         root = new VBox(10);
-        root.getStyleClass().add("format.css");
         root.getChildren().add(makeMenuBar());
     }
     
@@ -54,7 +53,8 @@ public abstract class BaseScreen
     public Scene getScene(){
         // Prevents having to reload a new screen each time it is called.
         if (scene == null){
-             return new Scene(root, width, height);    
+             scene = new Scene(root, width, height);
+             scene.getStylesheets().add(getClass().getResource("/format.css").toExternalForm());
         }       
         return scene;
     }
