@@ -24,11 +24,13 @@ public class GameScreen extends BaseScreen
     private AnimationTimer gameLoop;
     
     private ArrayList<Rectangle> tiles;
+    private ArrayList<Coin> coins; 
     
     public GameScreen(GameManager gameManager, int width, int height)
     {
         super(gameManager, width, height);
         this.player = new Player(100, 100);
+        this.coins = new ArrayList<>();
         setContent();
         setGameLoop();
     }
@@ -52,6 +54,9 @@ public class GameScreen extends BaseScreen
         floor.setFill(Color.DARKGRAY);
         floor.setStroke(Color.BLACK);
         tiles.add(floor);
+        
+        // adding a temp coin to test out the features!
+        addCoin(350, 230);
         
         gamePane.getChildren().addAll(rect1, floor, player);
         
@@ -165,7 +170,27 @@ public class GameScreen extends BaseScreen
      */
     private void updateGameState() {
         player.update();
-        
         checkCollisions();
+        checkCoins();
+    }
+    
+    /**
+     * Add a coin to the game at the specified position
+     */
+    private void addCoin(double x, double y) {
+        Coin coin = new Coin(x, y, 10); 
+        coins.add(coin);
+        gamePane.getChildren().add(coin);
+    }
+    
+    /**
+     * Check if player has collected any coins
+     */
+    private void checkCoins() {
+        for (Coin coin : coins) {
+            if (!coin.isCollected() && coin.checkCollection(player)) {
+                coin.collect();
+            }
+        }
     }
 }
