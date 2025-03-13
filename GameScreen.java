@@ -24,7 +24,9 @@ public class GameScreen extends BaseScreen
     private AnimationTimer gameLoop;
     
     private ArrayList<Rectangle> tiles;
-    private ArrayList<Coin> coins; 
+    private ArrayList<Coin> coins;
+    private int coinCount = 0;
+    private Label coinLabel;
     
     public GameScreen(GameManager gameManager, int width, int height)
     {
@@ -55,8 +57,16 @@ public class GameScreen extends BaseScreen
         floor.setStroke(Color.BLACK);
         tiles.add(floor);
         
-        // adding a temp coin to test out the features!
+        // adding a temp coin to test out the features! 
         addCoin(350, 230);
+        addCoin(400, 320);
+        
+        // Adding coin display functionality
+        coinLabel = new Label("Coint Count: 0");
+        coinLabel.setLayoutX(10);
+        coinLabel.setLayoutY(10);
+        coinLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
+        root.getChildren().add(coinLabel);
         
         gamePane.getChildren().addAll(rect1, floor, player);
         
@@ -190,6 +200,8 @@ public class GameScreen extends BaseScreen
         for (Coin coin : coins) {
             if (!coin.isCollected() && coin.checkCollection(player)) {
                 coin.collect();
+                coinCount++;
+                coinLabel.setText("Coint Count: " + coinCount);
             }
         }
     }

@@ -72,7 +72,7 @@ public abstract class BaseScreen
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Controls");
         alert.setHeaderText(null);
-        alert.setContentText("  D   - Move right\n"+"  A   - Move left\n"+"SPACE - Move right\n");
+        alert.setContentText("  D or right arrow key  - Move right\n"+"  A or left arrow key  - Move left\n"+"SPACE - Move right\n");
         
         alert.showAndWait();
     }
