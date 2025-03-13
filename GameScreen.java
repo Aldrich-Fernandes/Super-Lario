@@ -6,6 +6,8 @@ import javafx.scene.layout.Pane;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.Scene;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Main screen where the game is rendered and run.
@@ -18,43 +20,42 @@ public class GameScreen extends BaseScreen
 {    
     private int currentScene;
     private Player player;
-    private Rectangle rect1;
-    private Rectangle rect2;
     private Pane gamePane;
     private AnimationTimer gameLoop;
     
-    public GameScreen(GameManager gameManager, Player player, int width, int height)
+    private ArrayList<Rectangle> tiles;
+    
+    public GameScreen(GameManager gameManager, int width, int height)
     {
         super(gameManager, width, height);
-        this.player = player;
+        this.player = new Player(100, 100);
         setContent();
         setGameLoop();
     }
     
     protected void setContent(){
-        Label temp = new Label("SUPER LARIO");
-        temp.setStyle("-fx-font-size: 48px; -fx-font-weight: bold;");
         
+        // Node start coordinated from top left
         // temporary Pane for game elements
         gamePane = new Pane();
-        gamePane.setPrefSize(800, 500); 
+        gamePane.setPrefSize(800, 500);
         
         // two temp rectangles (collision testing)
-        rect1 = new Rectangle(100, 300, 200, 30);
+        tiles = new ArrayList<>();
+        
+        Rectangle rect1 = new Rectangle(250, 350, 200, 30); // (x, y, width, height)
         rect1.setFill(Color.DARKGRAY);
         rect1.setStroke(Color.BLACK);
+        tiles.add(rect1);
         
-        rect2 = new Rectangle(400, 200, 150, 30);
-        rect2.setFill(Color.DARKGRAY);
-        rect2.setStroke(Color.BLACK);
+        Rectangle floor = new Rectangle(0, 470, 800, 30);
+        floor.setFill(Color.DARKGRAY);
+        floor.setStroke(Color.BLACK);
+        tiles.add(floor);
         
-        // position player on top of rect1
-        player.setCenterX(rect1.getX() + 50);
-        player.setCenterY(rect1.getY() - 5);
+        gamePane.getChildren().addAll(rect1, floor, player);
         
-        gamePane.getChildren().addAll(rect1, rect2, player);
-        
-        root.getChildren().addAll(temp, gamePane);
+        root.getChildren().add(gamePane);
     }
 
     @Override
@@ -80,6 +81,69 @@ public class GameScreen extends BaseScreen
     private void handleKeyRelease(KeyEvent event) {
         player.handleKeyReleased(event.getCode());
     }
+    
+    private void restart(){
+        player.setCenterX(100);
+        player.setCenterY(100);
+    }
+    
+    private void checkCollisions(){
+        boolean onPlatform = false; 
+        
+        // Player edges
+        HashMap<String, Double> playerEdges = player.getEdges();
+        double player_top = player.getEdges().get("top");
+        double player_bottom = player.getEdges().get("bottom");
+        double player_left = player.getEdges().get("left");
+        double player_right = player.getEdges().get("right");
+        double player_radius = player.getRadius();
+        
+        for (Rectangle tile: tiles){
+            if (player.getBoundsInParent().intersects(tile.getBoundsInParent())){
+                // Tile borders
+                double tile_top = tile.getBoundsInParent().getMinY();
+                double tile_bottom = tile.getBoundsInParent().getMaxY();
+                double tile_left = tile.getBoundsInParent().getMinX();
+                double tile_right = tile.getBoundsInParent().getMaxX();
+                
+                // Finds overlaps with platform
+                double topOverlap = player_bottom - tile_top;
+                double bottomOverlap = tile_bottom - player_top;
+                double leftOverlap = player_right - tile_left;
+                double rightOverlap = tile_right - player_left;
+                
+                // the side with with lowest overlap is the one which had been collieded with
+                double minOverlap = Math.min(
+                    Math.min(topOverlap, bottomOverlap),
+                    Math.min(leftOverlap, rightOverlap));
+                
+                // Collision with top of platform
+                if (minOverlap == topOverlap && player.getVelocityY() >= 0) {
+                    player.setCenterY(tile_top - player_radius);
+                    onPlatform = true;
+                    player.stopVerticleMovement();
+                }
+                // Collision with bottom of platform
+                else if (minOverlap == bottomOverlap && player.getVelocityY() < 0) {
+                    player.setCenterY(tile_bottom + player_radius);
+                    player.stopVerticleMovement();
+                }
+                // Collision with left of platform
+                else if (minOverlap == leftOverlap && player.getVelocityX() > 0) {
+                    player.setCenterX(tile_left - player_radius);
+                    player.stopHorizontalMovement();
+                }
+                // Collision with right of platform
+                else if (minOverlap == rightOverlap && player.getVelocityX() < 0) {
+                    player.setCenterX(tile_right + player_radius);
+                    player.stopHorizontalMovement();
+                }
+            }
+        }
+        
+        // Allows for updates both ways when player is on and off the platform
+        player.setIsOnGround(onPlatform);
+    }
 
     /**
      * Set up game loop with AnimationTimer
@@ -101,11 +165,7 @@ public class GameScreen extends BaseScreen
      */
     private void updateGameState() {
         player.update();
-
-        double newX = player.getCenterX() + player.getVelocityX();
-        double newY = player.getCenterY() + player.getVelocityY();
-    
-        player.setCenterX(newX);
-        player.setCenterY(newY);
+        
+        checkCollisions();
     }
 }
