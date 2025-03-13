@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.Scene;
+import java.util.ArrayList;
 
 /**
  * Main screen where the game is rendered and run.
@@ -18,43 +19,45 @@ public class GameScreen extends BaseScreen
 {    
     private int currentScene;
     private Player player;
-    private Rectangle rect1;
-    private Rectangle rect2;
     private Pane gamePane;
     private AnimationTimer gameLoop;
     
-    public GameScreen(GameManager gameManager, Player player, int width, int height)
+    private ArrayList<Rectangle> tiles;
+    
+    public GameScreen(GameManager gameManager, int width, int height)
     {
         super(gameManager, width, height);
-        this.player = player;
+        this.player = new Player(100, 100);
         setContent();
         setGameLoop();
     }
     
     protected void setContent(){
-        Label temp = new Label("SUPER LARIO");
-        temp.setStyle("-fx-font-size: 48px; -fx-font-weight: bold;");
         
+        // Node start coordinated from top left
         // temporary Pane for game elements
         gamePane = new Pane();
-        gamePane.setPrefSize(800, 500); 
+        gamePane.setPrefSize(800, 500);
+        // temperarrly fixing the size of the pane
+        gamePane.setMaxSize(800, 500);
+        gamePane.setMinSize(800, 500);
         
         // two temp rectangles (collision testing)
-        rect1 = new Rectangle(100, 300, 200, 30);
+        tiles = new ArrayList<>();
+        
+        Rectangle rect1 = new Rectangle(100, 300, 200, 30); // (x, y, width, height)
         rect1.setFill(Color.DARKGRAY);
         rect1.setStroke(Color.BLACK);
+        tiles.add(rect1);
         
-        rect2 = new Rectangle(400, 200, 150, 30);
-        rect2.setFill(Color.DARKGRAY);
-        rect2.setStroke(Color.BLACK);
+        Rectangle floor = new Rectangle(0, 470, 800, 30);
+        floor.setFill(Color.DARKGRAY);
+        floor.setStroke(Color.BLACK);
+        tiles.add(floor);
         
-        // position player on top of rect1
-        player.setCenterX(rect1.getX() + 50);
-        player.setCenterY(rect1.getY() - 5);
+        gamePane.getChildren().addAll(rect1, floor, player);
         
-        gamePane.getChildren().addAll(rect1, rect2, player);
-        
-        root.getChildren().addAll(temp, gamePane);
+        root.getChildren().add(gamePane);
     }
 
     @Override
@@ -80,6 +83,26 @@ public class GameScreen extends BaseScreen
     private void handleKeyRelease(KeyEvent event) {
         player.handleKeyReleased(event.getCode());
     }
+    
+    private void restart(){
+        player.setCenterX(100);
+        player.setCenterY(100);
+    }
+    
+    private void checkCollisions(){
+        double playerBottom = player.getEdges().get("bottom");
+        
+        for (Rectangle tile: tiles){
+            if (player.getBoundsInParent().intersects(tile.getBoundsInParent())){
+                // collsion with top of tile
+                double top = tile.getBoundsInParent().getMinY();
+                if (top < playerBottom){
+                    player.setIsOnGround(true);
+                    player.setCenterY(top - player.getRadius());
+                }
+            }
+        }
+    }
 
     /**
      * Set up game loop with AnimationTimer
@@ -101,11 +124,7 @@ public class GameScreen extends BaseScreen
      */
     private void updateGameState() {
         player.update();
-
-        double newX = player.getCenterX() + player.getVelocityX();
-        double newY = player.getCenterY() + player.getVelocityY();
-    
-        player.setCenterX(newX);
-        player.setCenterY(newY);
+        
+        checkCollisions();
     }
 }
