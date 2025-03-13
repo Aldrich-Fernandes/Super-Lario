@@ -7,6 +7,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.Scene;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Main screen where the game is rendered and run.
@@ -42,7 +43,7 @@ public class GameScreen extends BaseScreen
         // two temp rectangles (collision testing)
         tiles = new ArrayList<>();
         
-        Rectangle rect1 = new Rectangle(100, 300, 200, 30); // (x, y, width, height)
+        Rectangle rect1 = new Rectangle(250, 350, 200, 30); // (x, y, width, height)
         rect1.setFill(Color.DARKGRAY);
         rect1.setStroke(Color.BLACK);
         tiles.add(rect1);
@@ -89,30 +90,53 @@ public class GameScreen extends BaseScreen
     private void checkCollisions(){
         boolean onPlatform = false; 
         
+        // Player edges
+        HashMap<String, Double> playerEdges = player.getEdges();
+        double player_top = player.getEdges().get("top");
+        double player_bottom = player.getEdges().get("bottom");
+        double player_left = player.getEdges().get("left");
+        double player_right = player.getEdges().get("right");
+        double player_radius = player.getRadius();
+        
         for (Rectangle tile: tiles){
             if (player.getBoundsInParent().intersects(tile.getBoundsInParent())){
+                // Tile borders
                 double tile_top = tile.getBoundsInParent().getMinY();
                 double tile_bottom = tile.getBoundsInParent().getMaxY();
                 double tile_left = tile.getBoundsInParent().getMinX();
                 double tile_right = tile.getBoundsInParent().getMaxX();
                 
+                // Finds overlaps with platform
+                double topOverlap = player_bottom - tile_top;
+                double bottomOverlap = tile_bottom - player_top;
+                double leftOverlap = player_right - tile_left;
+                double rightOverlap = tile_right - player_left;
+                
+                // the side with with lowest overlap is the one which had been collieded with
+                double minOverlap = Math.min(
+                    Math.min(topOverlap, bottomOverlap),
+                    Math.min(leftOverlap, rightOverlap));
+                
                 // Collision with top of platform
-                if (tile_top < player.getEdges().get("bottom")){
+                if (minOverlap == topOverlap && player.getVelocityY() >= 0) {
+                    player.setCenterY(tile_top - player_radius);
                     onPlatform = true;
-                    player.setCenterY(tile_top - player.getRadius());
+                    player.stopVerticleMovement();
                 }
                 // Collision with bottom of platform
-                else if (tile_bottom < player.getEdges().get("top")){
-                    player.setCenterY(tile_bottom + player.getRadius());
+                else if (minOverlap == bottomOverlap && player.getVelocityY() < 0) {
+                    player.setCenterY(tile_bottom + player_radius);
                     player.stopVerticleMovement();
                 }
                 // Collision with left of platform
-                else if (tile_left < player.getEdges().get("right")){
-                    player.setCenterX(tile_left - player.getRadius());
+                else if (minOverlap == leftOverlap && player.getVelocityX() > 0) {
+                    player.setCenterX(tile_left - player_radius);
+                    player.stopHorizontalMovement();
                 }
                 // Collision with right of platform
-                else if (tile_right > player.getEdges().get("left")){
-                    player.setCenterX(tile_right + player.getRadius());
+                else if (minOverlap == rightOverlap && player.getVelocityX() < 0) {
+                    player.setCenterX(tile_right + player_radius);
+                    player.stopHorizontalMovement();
                 }
             }
         }
