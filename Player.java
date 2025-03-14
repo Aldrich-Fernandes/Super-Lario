@@ -14,7 +14,7 @@ public class Player extends Circle {
     private static final double GRAVITY = 0.8;
     private static final double MAX_VELOCITY = 10;
     private static final double JUMP_FORCE = -15;
-    private static final double MOVE_SPEED = 3;
+    private static final double MOVE_SPEED = 5;
     
     // Movement 
     private double velocityX = 0;
@@ -28,6 +28,9 @@ public class Player extends Circle {
     
     // Properties
     private static final double radius = 15.0;
+    
+    // Items held
+    private final boolean hasKey = true;
     
     /**
      * Creates a new player at the specified position with the given radius

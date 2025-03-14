@@ -24,6 +24,7 @@ public class GameScreen extends BaseScreen
     private AnimationTimer gameLoop;
     
     private ArrayList<Rectangle> tiles;
+    
     private ArrayList<Coin> coins;
     private int coinCount = 0;
     private Label coinLabel;
@@ -68,7 +69,9 @@ public class GameScreen extends BaseScreen
         coinLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
         root.getChildren().add(coinLabel);
         
-        gamePane.getChildren().addAll(rect1, floor, player);
+        gamePane.getChildren().add(player);
+        
+        tiles.forEach(gamePane.getChildren()::add);
         
         root.getChildren().add(gamePane);
     }
