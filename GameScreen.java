@@ -44,8 +44,6 @@ public class GameScreen extends BaseScreen
         gamePane = new Pane();
         gamePane.setPrefSize(800, 500);
         
-        
-        
         gameMap = new GameMap("level.txt");
         
         // Adding coin display functionality
