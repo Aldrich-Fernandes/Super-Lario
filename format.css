@@ -1,8 +1,25 @@
 .title_lbl {
-    -fx-font: 36px "Arial";
-    -fx-padding: 10;
+    -fx-font-family: "Impact", sans-serif;
+    -fx-font-size: 60px;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 4, 0, 0, 2);
 }
 
 .button {
-    -fx-font: 20px, "Arial";
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 20px;
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-padding: 8px 16px;
+    -fx-min-width: 200px;
+}
+
+.button:hover {
+    -fx-background-color: #2980b9;
+    -fx-cursor: hand;
+}
+
+.root {
+    -fx-background-color: #e0e0e0;
 }
