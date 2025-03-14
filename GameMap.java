@@ -1,4 +1,4 @@
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import java.io.File;
@@ -13,14 +13,18 @@ import java.util.List;
  */
 public class GameMap {
     // Constants for tile dimensions
-    private static final int TILE_SIZE = 50;
+    public static final int TILE_SIZE = 30;
     
     // The main container for all tiles
-    private GridPane mapGrid;
+    private Pane mapPane;
     
     // Map dimensions
     private int width;
     private int height;
+    
+    private int playerX;
+    private int playerY;
+    private int playerRadius;
     
     // Storage for game entities
     private Tile[][] tiles;
@@ -34,8 +38,7 @@ public class GameMap {
      * @param levelFilePath Path to the level definition file
      */
     public GameMap(String levelFilePath) {
-        mapGrid = new GridPane();
-        mapGrid.setGridLinesVisible(false); // Set to true for debugging
+        mapPane = new Pane();
         
         coins = new ArrayList<>();
         terrainTiles = new ArrayList<>();
@@ -99,47 +102,48 @@ public class GameMap {
                 Tile terrain = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "TERRAIN");
                 tiles[x][y] = terrain;
                 terrainTiles.add(terrain);
-                mapGrid.add(terrain, x, y);
+                mapPane.getChildren().add(terrain);
                 break;
                 
             case 'P': // Player
                 // Create an empty/background tile first
                 Tile backgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
                 tiles[x][y] = backgroundTile;
-                mapGrid.add(backgroundTile, x, y);
+                mapPane.getChildren().add(backgroundTile);
                 
-                // Create player at this position
-                player = new Player(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE/2);
-                mapGrid.add(player, x, y);
+                playerX = x * TILE_SIZE + TILE_SIZE/2;
+                playerY = y * TILE_SIZE + TILE_SIZE/2;
+                playerRadius = TILE_SIZE/2;
+                
                 break;
                 
             case 'C': // Coin
                 // Create an empty/background tile first
                 Tile coinBackgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
                 tiles[x][y] = coinBackgroundTile;
-                mapGrid.add(coinBackgroundTile, x, y);
+                mapPane.getChildren().add(coinBackgroundTile);
                 
                 // Create coin at this position
                 Coin coin = new Coin(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE/3);
                 coins.add(coin);
-                mapGrid.add(coin, x, y);
+                mapPane.getChildren().add(coin);
                 break;
                 
             case 'K': // Key (from level file, adding support for it)
                 // Create an empty/background tile first
                 Tile keyBackgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
                 tiles[x][y] = keyBackgroundTile;
-                mapGrid.add(keyBackgroundTile, x, y);
+                mapPane.getChildren().add(keyBackgroundTile);
                 
                 // Create a key object (you would need to implement this class)
                 Key key = new Key(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE/2);
-                mapGrid.add(key, x, y);
+                mapPane.getChildren().add(key);
                 break;
                 
             default: // Empty space
                 Tile emptyTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
                 tiles[x][y] = emptyTile;
-                mapGrid.add(emptyTile, x, y);
+                mapPane.getChildren().add(emptyTile);
                 break;
         }
     }
@@ -149,8 +153,8 @@ public class GameMap {
      * 
      * @return The GridPane containing all map tiles
      */
-    public GridPane getMapGrid() {
-        return mapGrid;
+    public Pane getMapGrid() {
+        return mapPane;
     }
     
     /**
@@ -158,8 +162,16 @@ public class GameMap {
      * 
      * @return The player
      */
-    public Player getPlayer() {
-        return player;
+    public int getPlayerX() {
+        return playerX;
+    }
+    
+    public int getPlayerY() {
+        return playerY;
+    }
+    
+    public int getPlayerRadius() {
+        return playerRadius;
     }
     
     /**
@@ -196,6 +208,10 @@ public class GameMap {
      */
     public int getHeight() {
         return height;
+    }
+    
+    public Tile[][] getTile() {
+        return tiles;
     }
     
     /**
