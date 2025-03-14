@@ -26,8 +26,6 @@ public class Player extends Circle {
     private boolean rightPressed = false;
     private boolean jumpPressed = false;
     
-    // Properties
-    private static final double radius = 15.0;
     
     /**
      * Creates a new player at the specified position with the given radius
@@ -85,6 +83,7 @@ public class Player extends Circle {
             
         setCenterX(getCenterX() + velocityX);
         setCenterY(getCenterY() + velocityY);
+        
         
     }
     

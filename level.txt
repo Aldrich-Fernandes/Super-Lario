@@ -4,12 +4,12 @@ X                     X
 X                K    X
 X  K P          XXX   X
 X  XXXXX              X
-X                     X
+X           C         X
 X         XXXX        X
-X               CCCC  X
+X               CCC   X
 X              XXXXX  X
-X       CCC           X
+X        C            X
 X       XXXX          X
-  CCC                 
-              K       
+X                  K  X
+X                     X
 XXXXXXXXXXXXXXXXXXXXXXX
