@@ -35,11 +35,11 @@ public class TitleScreen extends BaseScreen
         
         lbl_title = new Label("SUPER LARIO");
         lbl_title.getStyleClass().add("title_lbl");
-        
+
         btn_play = new Button("PLAY");
         btn_play.getStyleClass().add("button");
         btn_play.setOnAction(event -> gameManager.startGame());
-        
+
         btn_exit = new Button("EXIT");
         btn_exit.getStyleClass().add("button");
         btn_exit.setOnAction(event -> System.exit(0));
@@ -47,6 +47,5 @@ public class TitleScreen extends BaseScreen
         container.getChildren().addAll(lbl_title, btn_play, btn_exit);
         
         root.getChildren().addAll(container);
-        
     }    
 }

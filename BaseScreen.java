@@ -33,15 +33,15 @@ public abstract class BaseScreen
         quitOpt.setOnAction(event -> System.exit(0));
         fileMenu.getItems().add(quitOpt);
         
+        
         Menu helpMenu = new Menu("Help");
         MenuItem aboutOpt = new MenuItem("About");
-        aboutOpt.setOnAction(event -> showAboutDialog());
+        quitOpt.setOnAction(event -> showAboutDialog());
         MenuItem controlOpt = new MenuItem("Controls");
         controlOpt.setOnAction(event -> showControls());
         helpMenu.getItems().addAll(aboutOpt, controlOpt);
         
         menuBar.getMenus().addAll(fileMenu, helpMenu);
-        
         return menuBar;
     }   
     
@@ -62,8 +62,7 @@ public abstract class BaseScreen
     private void showAboutDialog(){
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("About");
-        alert.setHeaderText(null);
-        alert.setContentText("Welcome to SUPER LARIO. \n\nDeveloped by: \n - Aldrich Fernandes\n - Mehdi Belhadj\n - Fadi Mostefei\n - Kishan Prakash");
+        alert.setContentText("Some information about the game I am to lazy to write now.");
         
         alert.showAndWait();
     }
@@ -71,8 +70,7 @@ public abstract class BaseScreen
     private void showControls(){
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Controls");
-        alert.setHeaderText(null);
-        alert.setContentText("  D or right arrow key  - Move right\n"+"  A or left arrow key  - Move left\n"+"SPACE - Move right\n");
+        alert.setContentText("Some information about the controls I am also to lazy to write now.");
         
         alert.showAndWait();
     }
