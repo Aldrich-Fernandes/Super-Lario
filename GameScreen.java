@@ -8,6 +8,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.Scene;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javafx.animation.Timeline;
+import javafx.scene.layout.HBox;
+import javafx.geometry.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
+import javafx.animation.KeyFrame;
+import javafx.scene.input.KeyCode;
 
 /**
  * Main screen where the game is rendered and run.
@@ -21,12 +28,18 @@ public class GameScreen extends BaseScreen
     private int currentScene;
     private Player player;
     private Pane gamePane;
+    private Pane countdownPane;
     private AnimationTimer gameLoop;
     
     private ArrayList<Rectangle> tiles;
     private ArrayList<Coin> coins;
     private int coinCount = 0;
     private Label coinLabel;
+    
+    private Timeline timer;
+    private Label countdownLabel;
+    private int timeRemaining = 30;
+    private boolean pauseTimer = false;
     
     public GameScreen(GameManager gameManager, int width, int height)
     {
@@ -35,19 +48,19 @@ public class GameScreen extends BaseScreen
         this.coins = new ArrayList<>();
         setContent();
         setGameLoop();
-    }
-    
-    protected void setContent(){
         
-        // Node start coordinated from top left
-        // temporary Pane for game elements
+
+
+    }
+
+    protected void setContent(){
+        // Node start coordinates from top left
         gamePane = new Pane();
         gamePane.setPrefSize(800, 500);
-        
-        // two temp rectangles (collision testing)
+    
         tiles = new ArrayList<>();
         
-        Rectangle rect1 = new Rectangle(250, 350, 200, 30); // (x, y, width, height)
+        Rectangle rect1 = new Rectangle(250, 350, 200, 30);
         rect1.setFill(Color.DARKGRAY);
         rect1.setStroke(Color.BLACK);
         tiles.add(rect1);
@@ -56,27 +69,82 @@ public class GameScreen extends BaseScreen
         floor.setFill(Color.DARKGRAY);
         floor.setStroke(Color.BLACK);
         tiles.add(floor);
-        
-        // adding a temp coin to test out the features! 
+    
         addCoin(350, 230);
         addCoin(400, 320);
-        
-        // Adding coin display functionality
-        coinLabel = new Label("Coint Count: 0");
+    
+        coinLabel = new Label("Coin Count: 0");
         coinLabel.setLayoutX(10);
         coinLabel.setLayoutY(10);
         coinLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
         root.getChildren().add(coinLabel);
+    
+        countdownLabel = new Label("Time remaining: " + timeRemaining);
+        countdownLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
+        countdownLabel.setLayoutX(620); 
+        countdownLabel.setLayoutY(-40);
         
-        gamePane.getChildren().addAll(rect1, floor, player);
-        
-        root.getChildren().add(gamePane);
+        gamePane.getChildren().addAll(rect1, floor, player, countdownLabel);
+        root.getChildren().addAll(gamePane);
+    
+        startCountdown();
     }
+
+    private void startCountdown() {
+        timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            timeRemaining--;
+            countdownLabel.setText("Time remaining: " + timeRemaining);
+    
+            if (timeRemaining <= 0) {
+                timer.stop();
+                System.out.println("Game Over");
+
+            }
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
+    }
+    
+
+    private void pauseCountdown() {
+        if (timer != null) {
+            timer.pause();
+        }
+    }
+    
+    private void resumeCountdown() {
+        if (timer != null) {
+            timer.play();
+        }
+    }
+        
+    private void checkKeyCommands() {
+        
+        Scene scene = getScene();
+        if (scene == null) return; 
+    
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                if (!pauseTimer) {
+                    pauseCountdown();
+                    pauseTimer = true;
+                } else {
+                    resumeCountdown();
+                    pauseTimer = false;
+                }
+            } else {
+                handleKeyPress(event); 
+            }
+        });
+    
+        scene.setOnKeyReleased(this::handleKeyRelease);
+    }
+
 
     @Override
     public Scene getScene() {
         Scene scene = super.getScene();
-    
+        
         scene.setOnKeyPressed(event -> handleKeyPress(event));
         scene.setOnKeyReleased(event -> handleKeyRelease(event));
 
@@ -182,6 +250,7 @@ public class GameScreen extends BaseScreen
         player.update();
         checkCollisions();
         checkCoins();
+        checkKeyCommands();
     }
     
     /**
@@ -192,7 +261,8 @@ public class GameScreen extends BaseScreen
         coins.add(coin);
         gamePane.getChildren().add(coin);
     }
-    
+
+
     /**
      * Check if player has collected any coins
      */
