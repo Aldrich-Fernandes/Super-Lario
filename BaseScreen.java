@@ -22,7 +22,6 @@ public abstract class BaseScreen
         this.height = height;
         
         root = new VBox(10);
-        root.getStyleClass().add("format.css");
         root.getChildren().add(makeMenuBar());
     }
     
@@ -54,7 +53,8 @@ public abstract class BaseScreen
     public Scene getScene(){
         // Prevents having to reload a new screen each time it is called.
         if (scene == null){
-             return new Scene(root, width, height);    
+             scene = new Scene(root, width, height);
+             scene.getStylesheets().add(getClass().getResource("/format.css").toExternalForm());
         }       
         return scene;
     }
@@ -72,7 +72,7 @@ public abstract class BaseScreen
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Controls");
         alert.setHeaderText(null);
-        alert.setContentText("  D   - Move right\n"+"  A   - Move left\n"+"SPACE - Move right\n");
+        alert.setContentText("  D or right arrow key  - Move right\n"+"  A or left arrow key  - Move left\n"+"SPACE - Move right\n");
         
         alert.showAndWait();
     }
