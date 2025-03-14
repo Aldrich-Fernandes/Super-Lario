@@ -51,7 +51,11 @@ public abstract class BaseScreen
     protected abstract void setContent();
     
     public Scene getScene(){
-        scene = new Scene(root, width, height);        
+        // Prevents having to reload a new screen each time it is called.
+        if (scene == null){
+             scene = new Scene(root, width, height);
+             scene.getStylesheets().add(getClass().getResource("/format.css").toExternalForm());
+        }       
         return scene;
     }
     
