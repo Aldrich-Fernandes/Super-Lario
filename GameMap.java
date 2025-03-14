@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class GameMap {
     // Constants for tile dimensions
-    public static final int TILE_SIZE = 30;
+    public static final int TILE_SIZE = 60;
     
     // The main container for all tiles
     private Pane mapPane;
@@ -58,10 +58,8 @@ public class GameMap {
         // First read all lines to determine map dimensions
         try (Scanner scanner = new Scanner(levelFile)) {
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine().trim();
-                if (!line.isEmpty()) {
-                    lines.add(line);
-                }
+                String line = scanner.nextLine();
+                lines.add(line);
             }
         } catch (FileNotFoundException e) {
             System.err.println("Error: Level file not found: " + levelFilePath);
@@ -76,6 +74,7 @@ public class GameMap {
             width = Math.max(width, line.length());
         }
         
+        
         // Initialize the tile array
         tiles = new Tile[width][height];
         
@@ -83,8 +82,13 @@ public class GameMap {
         for (int y = 0; y < lines.size(); y++) {
             String line = lines.get(y);
             for (int x = 0; x < line.length(); x++) {
-                char tileChar = line.charAt(x);
-                createTile(x, y, tileChar);
+                if ((y != 0 && y != height - 1) && (x == 0 || x == width - 1)) {
+                    createTile(x, y, ' ');   
+                }
+                else {
+                    char tileChar = line.charAt(x);
+                    createTile(x, y, tileChar);    
+                }
             }
         }
     }

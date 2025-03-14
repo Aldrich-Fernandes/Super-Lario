@@ -59,6 +59,8 @@ public class GameScreen extends BaseScreen
         
         gamePane.getChildren().addAll(player, gameMap.getMapGrid());
         
+        System.out.println("Over here bozo");
+        
         root.getChildren().add(gamePane);
     }
 
@@ -106,7 +108,7 @@ public class GameScreen extends BaseScreen
         
         for (Tile[] tileRow: tiles){
             for (Tile tile: tileRow) {
-                if (player.getBoundsInParent().intersects(tile.getBoundsInParent()) && !tile.isPassable()){
+                if (!tile.isPassable() && player.getBoundsInParent().intersects(tile.getBoundsInParent())){
                     // Tile borders
                     double tile_top = tile.getBoundsInParent().getMinY();
                     double tile_bottom = tile.getBoundsInParent().getMaxY();

@@ -19,7 +19,7 @@ public class Player extends Circle {
     // Movement 
     private double velocityX = 0;
     private double velocityY = 0;
-    private boolean isOnGround = false;
+    private boolean isOnGround = true;
     
     // Keys
     private boolean leftPressed = false;

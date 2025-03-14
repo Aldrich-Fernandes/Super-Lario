@@ -1,4 +1,5 @@
-
+import javafx.stage.Screen;
+import javafx.geometry.Rectangle2D;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,9 +26,13 @@ public class GameManager
         this.stage = stage;
         stage.setTitle("SUPER LARIO");
         
+        
+        stage.setResizable(false);
+        stage.centerOnScreen();
+        
         // Other Components
         titleScreen = new TitleScreen(this, 600, 600);
-        gameScreen = new GameScreen(this, 1000, 900);
+        gameScreen = new GameScreen(this, 1200, 900);
     }    
     
     public void startGame(){
