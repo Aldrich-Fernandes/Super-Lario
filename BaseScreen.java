@@ -33,15 +33,15 @@ public abstract class BaseScreen
         quitOpt.setOnAction(event -> System.exit(0));
         fileMenu.getItems().add(quitOpt);
         
-        
         Menu helpMenu = new Menu("Help");
         MenuItem aboutOpt = new MenuItem("About");
-        quitOpt.setOnAction(event -> showAboutDialog());
+        aboutOpt.setOnAction(event -> showAboutDialog());
         MenuItem controlOpt = new MenuItem("Controls");
         controlOpt.setOnAction(event -> showControls());
         helpMenu.getItems().addAll(aboutOpt, controlOpt);
         
         menuBar.getMenus().addAll(fileMenu, helpMenu);
+        
         return menuBar;
     }   
     
@@ -51,14 +51,19 @@ public abstract class BaseScreen
     protected abstract void setContent();
     
     public Scene getScene(){
-        scene = new Scene(root, width, height);        
+        // Prevents having to reload a new screen each time it is called.
+        if (scene == null){
+             scene = new Scene(root, width, height);
+             scene.getStylesheets().add(getClass().getResource("/format.css").toExternalForm());
+        }       
         return scene;
     }
     
     private void showAboutDialog(){
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("About");
-        alert.setContentText("Some information about the game I am to lazy to write now.");
+        alert.setHeaderText(null);
+        alert.setContentText("Welcome to SUPER LARIO. \n\nDeveloped by: \n - Aldrich Fernandes\n - Mehdi Belhadj\n - Fadi Mostefei\n - Kishan Prakash");
         
         alert.showAndWait();
     }
@@ -66,7 +71,8 @@ public abstract class BaseScreen
     private void showControls(){
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Controls");
-        alert.setContentText("Some information about the controls I am also to lazy to write now.");
+        alert.setHeaderText(null);
+        alert.setContentText("  D or right arrow key  - Move right\n"+"  A or left arrow key  - Move left\n"+"SPACE - Move right\n");
         
         alert.showAndWait();
     }
