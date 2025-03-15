@@ -10,6 +10,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.Scene;
 import java.util.HashMap;
 import java.util.Random;
+import javafx.scene.layout.HBox;
+import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 
 /**
  * Main screen where the game is rendered and run.
@@ -67,11 +70,25 @@ public class GameScreen extends BaseScreen
         
         keyLabel = new Label("Key Collected: false");
         keyLabel.setLayoutX(10);
-        keyLabel.setLayoutY(40);
+        keyLabel.setLayoutY(10);
         keyLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
         
-        root.getChildren().add(coinLabel);
-        root.getChildren().add(keyLabel);
+        // With this code:
+        HBox statsBox = new HBox(20); // 20 is the spacing between elements
+        statsBox.setPrefHeight(20); // Set the preferred height to exactly 40 pixels
+        statsBox.setMinHeight(20);  // Set the minimum height to 40 pixels
+        statsBox.setMaxHeight(20);  // Set the maximum height to 40 pixels      
+        statsBox.setAlignment(Pos.CENTER_LEFT);
+        statsBox.setPadding(new Insets(10));
+        statsBox.getChildren().addAll(coinLabel, keyLabel);
+        
+        // Reset the coinLabel and keyLabel positions
+        coinLabel.setLayoutX(0);
+        coinLabel.setLayoutY(0);
+        keyLabel.setLayoutX(0);
+        keyLabel.setLayoutY(0);
+        
+        root.getChildren().add(statsBox);
         
         player = new Player(levelMaps[index].getPlayerX(), levelMaps[index].getPlayerY(), levelMaps[index].getPlayerRadius());
         tiles = levelMaps[index].getTile();
@@ -209,6 +226,7 @@ public class GameScreen extends BaseScreen
             gamePane = levelMaps[index].getMapGrid();
             tiles = levelMaps[index].getTile();
             coins = levelMaps[index].getCoins();
+            key = levelMaps[index].getKey();
             gamePane.getChildren().add(player);
             root.getChildren().add(gamePane);
         } 
@@ -281,6 +299,8 @@ public class GameScreen extends BaseScreen
                     
                     // Optional: Show a notification or play a sound
                     showKeyCollectedMessage();
+                    
+                    
                 }
             }
         }
