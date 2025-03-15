@@ -23,6 +23,7 @@ public class GameManager
         // Creating the stage
         this.stage = stage;
         stage.setTitle("SUPER LARIO");
+        stage.setResizable(false); // avoid resizing the game needlessly
         
         
         stage.setResizable(false);

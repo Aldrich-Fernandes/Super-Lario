@@ -30,9 +30,14 @@ public class GameScreen extends BaseScreen
     private Tile[][] tiles;
     private GameMap[] levelMaps;
     private List<Coin> coins;
+    private Key key;
+    
     private int coinCount = 0;
     private int index;
+    private boolean keyCollected = false;
+    
     private Label coinLabel;
+    private Label keyLabel;
     
     public GameScreen(GameManager gameManager, int width, int height)
     {
@@ -59,11 +64,19 @@ public class GameScreen extends BaseScreen
         coinLabel.setLayoutX(10);
         coinLabel.setLayoutY(10);
         coinLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
+        
+        keyLabel = new Label("Key Collected: false");
+        keyLabel.setLayoutX(10);
+        keyLabel.setLayoutY(40);
+        keyLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
+        
         root.getChildren().add(coinLabel);
+        root.getChildren().add(keyLabel);
         
         player = new Player(levelMaps[index].getPlayerX(), levelMaps[index].getPlayerY(), levelMaps[index].getPlayerRadius());
         tiles = levelMaps[index].getTile();
         coins = levelMaps[index].getCoins();
+        key = levelMaps[index].getKey();
         
         gamePane.getChildren().add(player);
         
@@ -224,6 +237,15 @@ public class GameScreen extends BaseScreen
         checkCollisions();
         checkOutOfBounds();
         checkCoins();
+        checkKey();
+    }
+    
+    /**
+     * Update UI labels with current game state
+     */
+    private void updateLabels() {
+        coinLabel.setText("Coins: " + coinCount);
+        keyLabel.setText("Key Collected: " + keyCollected);
     }
     
     /**
@@ -234,8 +256,44 @@ public class GameScreen extends BaseScreen
             if (!coin.isCollected() && coin.checkCollection(player)) {
                 coin.collect();
                 coinCount++;
-                coinLabel.setText("Coint Count: " + coinCount);
+                updateLabels();
             }
         }
+    }
+    
+    /**
+     * Check if player has collected the key
+     */
+    private void checkKey() {
+        if (key != null && !key.isCollected()) {
+            // First check if player has enough coins
+            if (coinCount >= 5) {
+                // Then check collection using the original method
+                if (key.checkCollection(player)) {
+                    key.collect();
+                    keyCollected = true;
+                    
+                    // Deduct 5 coins from the player's total
+                    coinCount -= 5;
+                    
+                    // Update UI
+                    updateLabels();
+                    
+                    // Optional: Show a notification or play a sound
+                    showKeyCollectedMessage();
+                }
+            }
+        }
+    }
+    
+    /**
+     * Show a message when the key is collected
+     */
+    private void showKeyCollectedMessage() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Key Collected");
+        alert.setHeaderText(null);
+        alert.setContentText("You have collected the key! 5 coins have been deducted.");
+        alert.show();
     }
 }

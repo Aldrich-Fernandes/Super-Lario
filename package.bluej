@@ -3,6 +3,7 @@ dependency1.from=TitleScreen
 dependency1.to=GameManager
 dependency1.type=UsesDependency
 dependency10.from=GameScreen
+<<<<<<< HEAD
 dependency10.to=Coin
 dependency10.type=UsesDependency
 dependency11.from=GameScreen
@@ -27,20 +28,47 @@ dependency2.from=Coin
 dependency2.to=Player
 dependency2.type=UsesDependency
 dependency3.from=Main
+=======
+dependency10.to=GameMap
+dependency10.type=UsesDependency
+dependency11.from=GameScreen
+dependency11.to=Coin
+dependency11.type=UsesDependency
+dependency12.from=GameScreen
+dependency12.to=Key
+dependency12.type=UsesDependency
+dependency13.from=GameScreen
+dependency13.to=GameManager
+dependency13.type=UsesDependency
+dependency14.from=GameScreen
+dependency14.to=Tile
+dependency14.type=UsesDependency
+dependency15.from=GameManager
+dependency15.to=TitleScreen
+dependency15.type=UsesDependency
+dependency16.from=GameManager
+dependency16.to=GameScreen
+dependency16.type=UsesDependency
+dependency2.from=BaseScreen
+dependency2.to=GameManager
+dependency2.type=UsesDependency
+dependency3.from=TitleScreen
+>>>>>>> ba6261c52a7d96ff084eea5a9e204261274a3bbd
 dependency3.to=GameManager
 dependency3.type=UsesDependency
 dependency4.from=Key
 dependency4.to=Player
 dependency4.type=UsesDependency
-dependency5.from=GameManager
-dependency5.to=TitleScreen
+dependency5.from=GameMap
+dependency5.to=Player
 dependency5.type=UsesDependency
-dependency6.from=GameManager
-dependency6.to=GameScreen
+dependency6.from=GameMap
+dependency6.to=Coin
 dependency6.type=UsesDependency
-dependency7.from=BaseScreen
-dependency7.to=GameManager
+dependency7.from=GameMap
+dependency7.to=Tile
 dependency7.type=UsesDependency
+<<<<<<< HEAD
 dependency8.from=GameScreen
 dependency8.to=Player
 dependency8.type=UsesDependency
@@ -61,6 +89,28 @@ package.editor.x=0
 package.editor.y=0
 package.frame.height=1399
 package.frame.width=1294
+=======
+dependency8.from=GameMap
+dependency8.to=Key
+dependency8.type=UsesDependency
+dependency9.from=GameScreen
+dependency9.to=Player
+dependency9.type=UsesDependency
+editor.fx.0.height=728
+editor.fx.0.width=800
+editor.fx.0.x=712
+editor.fx.0.y=194
+objectbench.height=119
+objectbench.width=888
+package.divider.horizontal=0.5998659517426274
+package.divider.vertical=0.8459657701711492
+package.editor.height=685
+package.editor.width=1396
+package.editor.x=0
+package.editor.y=100
+package.frame.height=882
+package.frame.width=1512
+>>>>>>> ba6261c52a7d96ff084eea5a9e204261274a3bbd
 package.numDependencies=16
 package.numTargets=12
 package.showExtends=true
@@ -69,7 +119,7 @@ project.charset=UTF-8
 project.invoke.thread=FX
 readme.height=60
 readme.name=@README
-readme.width=49
+readme.width=48
 readme.x=10
 readme.y=10
 target1.height=70
@@ -99,14 +149,23 @@ target12.showInterface=false
 target12.type=ClassTarget
 target12.width=120
 target12.x=140
+<<<<<<< HEAD
 target12.y=390
+=======
+target12.y=480
+>>>>>>> ba6261c52a7d96ff084eea5a9e204261274a3bbd
 target2.height=70
 target2.name=GameMap
 target2.showInterface=false
 target2.type=ClassTarget
 target2.width=120
+<<<<<<< HEAD
 target2.x=140
 target2.y=90
+=======
+target2.x=360
+target2.y=450
+>>>>>>> ba6261c52a7d96ff084eea5a9e204261274a3bbd
 target3.height=70
 target3.name=GameManager
 target3.showInterface=false
