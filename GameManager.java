@@ -28,7 +28,7 @@ public class GameManager
         
         // Other Components
         titleScreen = new TitleScreen(this, 600, 600);
-        gameScreen = new GameScreen(this, 700, 500);
+        gameScreen = new GameScreen(this, 700, 600);
     }    
     
     public void startGame(){

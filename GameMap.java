@@ -31,6 +31,7 @@ public class GameMap {
     private Player player;
     private List<Coin> coins;
     private List<Tile> terrainTiles;
+    private Key key;
     
     /**
      * Creates a new GameMap and loads the specified level file.
@@ -136,7 +137,7 @@ public class GameMap {
                 mapPane.getChildren().add(keyBackgroundTile);
                 
                 // Create a key object (you would need to implement this class)
-                Key key = new Key(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE/2);
+                key = new Key(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE/2);
                 mapPane.getChildren().add(key);
                 break;
                 
@@ -181,6 +182,15 @@ public class GameMap {
      */
     public List<Coin> getCoins() {
         return coins;
+    }
+    
+    /**
+     * Get the key in the level
+     * 
+     * @return The key object
+     */
+    public Key getKey() {
+        return key;
     }
     
     /**
