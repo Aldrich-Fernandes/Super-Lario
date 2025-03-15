@@ -1,5 +1,3 @@
-import javafx.stage.Screen;
-import javafx.geometry.Rectangle2D;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

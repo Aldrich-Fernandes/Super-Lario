@@ -63,7 +63,7 @@ public abstract class BaseScreen
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("About");
         alert.setHeaderText(null);
-        alert.setContentText("Welcome to SUPER LARIO. \n\nDeveloped by: \n - Aldrich Fernandes\n - Mehdi Belhadj\n - Fadi Mostefei\n - Kishan Prakash");
+        alert.setContentText("Welcome to SUPER LARIO. \n\nDeveloped by: \n - Aldrich Fernandes\n - Mehdi Belhadj\n - Fadi Mostefai\n - Kishan Prakash");
         alert.showAndWait();
     }
     
@@ -71,7 +71,7 @@ public abstract class BaseScreen
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Controls");
         alert.setHeaderText(null);
-        alert.setContentText("  D   - Move right\n"+"  A   - Move left\n"+"SPACE - Move right\n");
+        alert.setContentText("  D   - Move right\n"+"  A   - Move left\n"+"SPACE - Jump\n");
         alert.showAndWait();
     }
 }

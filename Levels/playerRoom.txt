@@ -1,0 +1,14 @@
+XXXXXXXXXXXXXXXXXXXX
+X                  E
+X                  E
+X    P             E
+X  XXXXX           E
+X         C        E
+X       XXXX       E
+X            CCC   E
+X           XXXXX  E
+X        C         E
+X       XXXX       E
+X                  E
+X                  E
+XXXXXXXXXXXXXXXXXXXX
