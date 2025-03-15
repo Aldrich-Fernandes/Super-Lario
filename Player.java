@@ -13,7 +13,7 @@ public class Player extends Circle {
     // Physics 
     private static final double GRAVITY = 0.8;
     private static final double MAX_VELOCITY = 10;
-    private static final double JUMP_FORCE = -15;
+    private static final double JUMP_FORCE = -20;
     private static final double MOVE_SPEED = 3;
     
     // Movement 
@@ -124,4 +124,19 @@ public class Player extends Circle {
         edges.put("right", this.getBoundsInParent().getMaxX());
         return edges;
     }
+    
+    /**
+     * Resets all input state (for use when pausing the game or showing alerts)
+     */
+    public void resetInputState() {
+        // Reset all input flags
+        leftPressed = false;
+        rightPressed = false;
+        jumpPressed = false;
+        
+        // Reset velocity (optional, depending on your preference)
+        velocityX = 0;
+        velocityY = 0;
+    }
+    
 }
