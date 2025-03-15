@@ -1,14 +1,21 @@
-XXXXXXXXXXXXXXXXXXXX
-E                  X
-E                  X
-E                  X
-E  XXXXX           X
-E         C        X
-E       XXXX       X
-E            CCC   X
-E           XXXXX  X
-E        C         X
-E       XXXX       X
-E                  X
-E                  X
-XXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+E                            X
+E                            X
+E                            X
+E  XXXXXXXXXX       CC       X
+E                 XXXXXX     X
+E                            X
+E            CCC             X
+E           XXXXX            X
+E        C                   X
+E       XXXX                 X
+E                            X
+E                CCC         X
+E               XXXXXX       X
+E                            X
+E         CCC                X
+E       XXXXX                X
+E             C              X
+E                XXX         X
+E                            X
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

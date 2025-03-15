@@ -1,5 +1,7 @@
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * Tile class represents a single tile in the game world.
@@ -8,6 +10,7 @@ import javafx.scene.shape.Rectangle;
 public class Tile extends Rectangle {
     private String type;
     private boolean isPassable;
+    private ImageView imageView;
     
     /**
      * Creates a new Tile with the specified position, size, and type.
@@ -36,6 +39,7 @@ public class Tile extends Rectangle {
     private void configureTileProperties() {
         switch (type) {
             case "TERRAIN":
+                //loadSprite("Sprites/stone_brick12.png");
                 setFill(Color.DARKGRAY);
                 setStroke(Color.BLACK);
                 setStrokeWidth(1);
@@ -43,6 +47,18 @@ public class Tile extends Rectangle {
                 break;
                 
             case "BACKGROUND":
+                //loadSprite("Sprites/shadow_w.png");
+                setOpacity(0.3); // Semi-transparent
+                isPassable = true;
+                break;
+                
+            case "KEY":
+                //loadSprite("Sprites/key.png");
+                setOpacity(0.3); // Semi-transparent
+                isPassable = true;
+                break;
+                
+            case "COIN":
                 setFill(Color.LIGHTBLUE);
                 setOpacity(0.3); // Semi-transparent
                 isPassable = true;
@@ -53,6 +69,53 @@ public class Tile extends Rectangle {
                 isPassable = true;
                 break;
         }
+    }
+    
+    /**
+     * Loads a sprite image for this tile.
+     * 
+     * @param imagePath Path to the image file
+     */
+    private void loadSprite(String imagePath) {
+        try {
+            // Load the image
+            Image image = new Image(imagePath);
+            
+            // Create an ImageView with the same size as the tile
+            imageView = new ImageView(image);
+            imageView.setFitWidth(getWidth());
+            imageView.setFitHeight(getHeight());
+            
+            // Make the rectangle transparent since we're showing an image
+            setFill(Color.TRANSPARENT);
+            
+            // You'll need to add this imageView to your Pane in GameMap
+            // We'll return it via a getter method
+        } catch (Exception e) {
+            // If image loading fails, use a default color
+            System.err.println("Failed to load image: " + imagePath);
+            setFill(Color.DARKGRAY);
+            setStroke(Color.BLACK);
+            setStrokeWidth(1);
+        }
+    }
+    
+    /**
+     * Gets the ImageView for this tile if it has a sprite.
+     * 
+     * @return The ImageView or null if this tile doesn't use a sprite
+     */
+    public ImageView getImageView() {
+        return imageView;
+    }
+    
+    /**
+     * Checks if this tile has a sprite image.
+     * 
+     * @return true if this tile has a sprite image, false otherwise
+     */
+    public boolean hasSprite() {
+        return imageView != null;
     }
     
     /**

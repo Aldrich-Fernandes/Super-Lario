@@ -1,11 +1,5 @@
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.io.IOException;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Rectangle;
@@ -26,16 +20,15 @@ import java.util.Random;
  */
 public class GameScreen extends BaseScreen
 {    
-    private static final int numberOfScreens = 10;
+    public static final int numberOfScreens = 10;
     private int currentScene;
     private Player player;
     private Pane gamePane;
     private AnimationTimer gameLoop;
-    private GameMap gameMap;
+    private LevelManager levelManager;
     
     private Tile[][] tiles;
     private GameMap[] levelMaps;
-    private List<String> levelPaths;
     private List<Coin> coins;
     private int coinCount = 0;
     private int index;
@@ -48,60 +41,17 @@ public class GameScreen extends BaseScreen
         setGameLoop();
     }
     
-    /**
-     * Scans the Levels directory and collects paths to all .txt files.
-     */
-    private void loadLevelPaths() {
-        try {
-            
-            System.out.println("OverOverHere");
-            // Get the path to the Levels directory
-            File levelsDir = new File("Levels");
-            
-            levelMaps = new GameMap[numberOfScreens];
-            levelPaths = new ArrayList<>();
-            
-            // Check if directory exists
-            if (!levelsDir.exists() || !levelsDir.isDirectory()) {
-                System.err.println("Levels directory not found!");
-                return;
-            }
-            
-            // List all files in the directory
-            File[] files = levelsDir.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    // Only add .txt files
-                    if (file.isFile() && file.getName().toLowerCase().endsWith(".txt") && !file.getName().equals("playerRoom.txt") && !file.getName().equals("keyRoom.txt") && !file.getName().equals("endRoom.txt")) {
-                        levelPaths.add(file.getPath());
-                        System.out.println("Found level: " + file.getPath());
-                    }
-                }
-            }
-            
-            System.out.println("Total levels found: " + levelPaths.size());
-        } catch (Exception e) {
-            System.err.println("Error loading levels: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-    
     protected void setContent(){
         
-        System.out.println("OverHere");
-        loadLevelPaths();
-        gameMap = new GameMap("Levels/playerRoom.txt");
+        levelManager = new LevelManager();
+        levelMaps = new GameMap[numberOfScreens];
         index = 0;
-        levelMaps[0] = gameMap;
-        Random rand  = new Random();
-        int randindex = rand.nextInt(1, numberOfScreens-1);
-        levelMaps[randindex] = new GameMap("Levels/keyRoom.txt");
-        levelMaps[9] = new GameMap("Levels/endRoom.txt");
+        levelMaps[index] = new GameMap("Levels/playerRoom.txt");
+        levelMaps[levelManager.randomKeyRoomIndex()] = new GameMap("Levels/keyRoom.txt");
+        levelMaps[numberOfScreens-1] = new GameMap("Levels/endRoom.txt");
         
-        // Node start coordinated from top left
-        // temporary Pane for game elements
-        gamePane = gameMap.getMapGrid();
         
+        gamePane = levelMaps[index].getMapGrid();
         
         
         // Adding coin display functionality
@@ -111,9 +61,9 @@ public class GameScreen extends BaseScreen
         coinLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
         root.getChildren().add(coinLabel);
         
-        player = new Player(gameMap.getPlayerX(), gameMap.getPlayerY(), gameMap.getPlayerRadius());
-        tiles = gameMap.getTile();
-        coins = gameMap.getCoins();
+        player = new Player(levelMaps[index].getPlayerX(), levelMaps[index].getPlayerY(), levelMaps[index].getPlayerRadius());
+        tiles = levelMaps[index].getTile();
+        coins = levelMaps[index].getCoins();
         
         gamePane.getChildren().add(player);
         
@@ -145,9 +95,7 @@ public class GameScreen extends BaseScreen
     }
     
     private void restart(){
-        gameMap = new GameMap("level.txt");
-        tiles = gameMap.getTile();
-        coins = gameMap.getCoins();
+        setContent();
     }
     
     private void checkCollisions(){
@@ -187,64 +135,26 @@ public class GameScreen extends BaseScreen
                         player.setCenterY(tile_top - player_radius);
                         onPlatform = true;
                         player.stopVerticleMovement();
+                        //break;
                     }
                     // Collision with bottom of platform
                     else if (minOverlap == bottomOverlap && player.getVelocityY() < 0) {
                         player.setCenterY(tile_bottom + player_radius);
                         player.stopVerticleMovement();
+                        //break;
                     }
                     // Collision with left of platform
                     else if (minOverlap == leftOverlap && player.getVelocityX() > 0) {
                         player.setCenterX(tile_left - player_radius);
                         player.stopHorizontalMovement();
+                        //break;
                     }
                     // Collision with right of platform
                     else if (minOverlap == rightOverlap && player.getVelocityX() < 0) {
                         player.setCenterX(tile_right + player_radius);
                         player.stopHorizontalMovement();
+                        //break;
                     }
-                }
-                else if (player.getCenterX() < 0 || player.getCenterX() > (gameMap.getWidth() * gameMap.TILE_SIZE)) {
-                    System.out.println("CENTERX: " + player.getCenterX() + ", INDEX: " + index);
-                    GameMap newMap = new GameMap(levelPaths.get(0));
-                    
-                    gamePane.getChildren().remove(player);
-                    root.getChildren().remove(gamePane);
-                    
-                    if (player.getCenterX() < 0) {
-                        if (levelMaps[index - 1] != null) {
-                            newMap = levelMaps[index-1];
-                        }
-                        else {
-                            Random rand = new Random();
-                            int randIndex = rand.nextInt(levelPaths.size());
-                            newMap = new GameMap(levelPaths.get(0));
-                            levelMaps[index-1] = newMap;
-                        }
-                        index--;
-                        player.setCenterX((newMap.getWidth() * newMap.TILE_SIZE) + player.getCenterX() + player_radius);
-                    }
-                    else if (player.getCenterX() > (gameMap.getWidth() * gameMap.TILE_SIZE)) {
-                        if (levelMaps[index + 1] != null) {
-                            newMap = levelMaps[index+1];
-                        }
-                        else {
-                            Random rand = new Random();
-                            int randIndex = rand.nextInt(levelPaths.size());
-                            newMap = new GameMap(levelPaths.get(0));
-                            levelMaps[index+1] = newMap;
-                            System.out.println("Great success.");
-                        }
-                        index++;
-                        player.setCenterX((player.getCenterX() - (newMap.getWidth() * newMap.TILE_SIZE)) + player_radius);
-                    }
-                    
-                    System.out.println("CENTERX: " + player.getCenterX() + ", INDEX: " + index);
-                    
-                    gameMap = newMap;
-                    gamePane = gameMap.getMapGrid();
-                    gamePane.getChildren().add(player);
-                    root.getChildren().add(gamePane);
                 }
             }
         }
@@ -253,6 +163,44 @@ public class GameScreen extends BaseScreen
         player.setIsOnGround(onPlatform);
     }
 
+    private void checkOutOfBounds() {
+        if (player.getCenterX() < 0 || player.getCenterX() > (levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE)) {
+            //System.out.println("CENTERX: " + player.getCenterX() + ", INDEX: " + index);
+            GameMap newRoom = levelManager.generateRandomRoom();
+            
+            gamePane.getChildren().remove(player);
+            root.getChildren().remove(gamePane);
+            
+            if (player.getCenterX() < 0) {
+                if (levelMaps[index - 1] != null) {
+                    newRoom = levelMaps[index-1];
+                }
+                else {
+                    levelMaps[index-1] = newRoom;
+                }
+                index--;
+                player.setCenterX((newRoom.getWidth() * newRoom.TILE_SIZE) + player.getCenterX());
+            }
+            else if (player.getCenterX() > (levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE)) {
+                if (levelMaps[index + 1] != null) {
+                    newRoom = levelMaps[index+1];
+                }
+                else {
+                    levelMaps[index+1] = newRoom;
+                }
+                index++;
+                player.setCenterX((player.getCenterX() - (newRoom.getWidth() * newRoom.TILE_SIZE)));
+            }
+            //System.out.println("CENTERX: " + player.getCenterX() + ", INDEX: " + index);
+            
+            gamePane = levelMaps[index].getMapGrid();
+            tiles = levelMaps[index].getTile();
+            coins = levelMaps[index].getCoins();
+            gamePane.getChildren().add(player);
+            root.getChildren().add(gamePane);
+        } 
+    }
+    
     /**
      * Set up game loop with AnimationTimer
      * check this: https://stackoverflow.com/questions/73326895/javafx-animationtimer-and-events
@@ -274,17 +222,8 @@ public class GameScreen extends BaseScreen
     private void updateGameState() {
         player.update();
         checkCollisions();
+        checkOutOfBounds();
         checkCoins();
-    }
-
-    
-    /**
-     * Add a coin to the game at the specified position
-     */
-    private void addCoin(double x, double y) {
-        Coin coin = new Coin(x, y, 10); 
-        coins.add(coin);
-        gamePane.getChildren().add(coin);
     }
     
     /**

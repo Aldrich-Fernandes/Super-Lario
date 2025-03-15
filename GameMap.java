@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * GameMap class handles the creation and management of the game's tile-based world.
@@ -13,7 +15,7 @@ import java.util.List;
  */
 public class GameMap {
     // Constants for tile dimensions
-    public static final int TILE_SIZE = 60;
+    public static final int TILE_SIZE = 40;
     
     // The main container for all tiles
     private Pane mapPane;
@@ -109,6 +111,8 @@ public class GameMap {
                 tiles[x][y] = terrain;
                 terrainTiles.add(terrain);
                 mapPane.getChildren().add(terrain);
+                
+                showSprite(terrain, x, y);
                 break;
                 
             case 'P': // Player
@@ -150,7 +154,22 @@ public class GameMap {
                 Tile emptyTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
                 tiles[x][y] = emptyTile;
                 mapPane.getChildren().add(emptyTile);
+                
+                showSprite(emptyTile, x, y);
                 break;
+        }
+    }
+    
+    private void showSprite(Tile tile, int x, int y) {
+        // Add the sprite image if the tile has one
+        if (tile.hasSprite()) {
+            ImageView imageView = tile.getImageView();
+                
+            // Position the ImageView at the same location as the tile
+            imageView.setTranslateX(x * TILE_SIZE);
+            imageView.setTranslateY(y * TILE_SIZE);
+                
+            mapPane.getChildren().add(imageView);
         }
     }
     
