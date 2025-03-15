@@ -24,10 +24,11 @@ public class GameManager
         // Creating the stage
         this.stage = stage;
         stage.setTitle("SUPER LARIO");
+        stage.setResizable(false); // avoid resizing the game needlessly
         
         // Other Components
         titleScreen = new TitleScreen(this, 600, 600);
-        gameScreen = new GameScreen(this, 1000, 900);
+        gameScreen = new GameScreen(this, 700, 500);
     }    
     
     public void startGame(){
