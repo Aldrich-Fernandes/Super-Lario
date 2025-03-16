@@ -310,10 +310,18 @@ public class GameScreen extends BaseScreen
      * Show a message when the key is collected
      */
     private void showKeyCollectedMessage() {
+        // pause the game and reset player input
+        gameLoop.stop();
+        player.resetInputState();
+        
+        // make a alert!
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Key Collected");
         alert.setHeaderText(null);
         alert.setContentText("You have collected the key! 5 coins have been deducted.");
         alert.show();
+        
+        // continue the game!
+        alert.setOnHidden(e -> gameLoop.start());
     }
 }
