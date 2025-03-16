@@ -165,25 +165,25 @@ public class GameScreen extends BaseScreen
                         player.setCenterY(tile_top - player_radius);
                         onPlatform = true;
                         player.stopVerticleMovement();
-                        //break;
+                        break;
                     }
                     // Collision with bottom of platform
                     else if (minOverlap == bottomOverlap && player.getVelocityY() < 0) {
                         player.setCenterY(tile_bottom + player_radius);
                         player.stopVerticleMovement();
-                        //break;
+                        break;
                     }
                     // Collision with left of platform
                     else if (minOverlap == leftOverlap && player.getVelocityX() > 0) {
                         player.setCenterX(tile_left - player_radius);
                         player.stopHorizontalMovement();
-                        //break;
+                        break;
                     }
                     // Collision with right of platform
                     else if (minOverlap == rightOverlap && player.getVelocityX() < 0) {
                         player.setCenterX(tile_right + player_radius);
                         player.stopHorizontalMovement();
-                        //break;
+                        break;
                     }
                 }
             }
