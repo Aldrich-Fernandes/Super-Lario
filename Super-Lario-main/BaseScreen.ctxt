@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=BaseScreen
+comment0.text=\r\n\ The\ opening\ Screen\ when\ the\ user\ starts\ the\ game\r\n
+comment1.params=gameManager\ width\ height
+comment1.target=BaseScreen(GameManager,\ int,\ int)
+comment2.params=
+comment2.target=javafx.scene.control.MenuBar\ makeMenuBar()
+comment3.params=
+comment3.target=void\ setContent()
+comment3.text=\r\n\ Where\ subclasses\ add\ more\ elements\ to\ the\ scene\r\n
+comment4.params=
+comment4.target=javafx.scene.Scene\ getScene()
+comment5.params=
+comment5.target=void\ showAboutDialog()
+comment6.params=
+comment6.target=void\ showControls()
+numComments=7
