@@ -13,8 +13,8 @@ public class Player extends Circle {
     // Physics 
     private static final double GRAVITY = 0.8;
     private static final double MAX_VELOCITY = 10;
-    private static final double JUMP_FORCE = -20;
-    private static final double MOVE_SPEED = 3;
+    private static final double JUMP_FORCE = -17;       // Player can jump up 4 tiles
+    private static final double MOVE_SPEED = 3.5;       // Player can jump 4 wide gaps
     
     // Movement 
     private double velocityX = 0;

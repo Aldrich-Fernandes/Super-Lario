@@ -23,7 +23,7 @@ import javafx.geometry.Insets;
  */
 public class GameScreen extends BaseScreen
 {    
-    public static final int numberOfScreens = 10;
+    public static final int numberOfScreens = 6;
     private int currentScene;
     private Player player;
     private Pane gamePane;
@@ -285,14 +285,14 @@ public class GameScreen extends BaseScreen
     private void checkKey() {
         if (key != null && !key.isCollected()) {
             // First check if player has enough coins
-            if (coinCount >= 5) {
+            if (coinCount >= key.getRequiredCoins()) {
                 // Then check collection using the original method
                 if (key.checkCollection(player)) {
                     key.collect();
                     keyCollected = true;
                     
-                    // Deduct 5 coins from the player's total
-                    coinCount -= 5;
+                    // Deduct coins from the player's total
+                    coinCount -= key.getRequiredCoins();
                     
                     // Update UI
                     updateLabels();
@@ -318,7 +318,7 @@ public class GameScreen extends BaseScreen
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Key Collected");
         alert.setHeaderText(null);
-        alert.setContentText("You have collected the key! 5 coins have been deducted.");
+        alert.setContentText("You have collected the key! Coins have been used for the purchase.");
         alert.show();
         
         // continue the game!

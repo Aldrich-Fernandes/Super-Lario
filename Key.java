@@ -7,8 +7,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class Key extends Rectangle {
     private boolean collected = false;
-    private int requiredCoins = 5;
-    
+    private int requiredCoins = 10;
     
     /**
      * Creates a new Key at the specified position with the given size.

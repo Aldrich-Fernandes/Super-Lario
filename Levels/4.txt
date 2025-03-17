@@ -1,0 +1,21 @@
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+E                            E
+E        C                   E
+E     XXXXXXXX               E
+E                      C     E
+E                            E
+E   XXXXXXX           X      E
+E                            E
+E         XXXXXXX    C       E
+E                    X       E
+E             C              E
+E      XXXXXXXX              E
+E                            E
+E              XXXXX         E
+E                            E
+E          C                 E
+E        XXXXX               E
+E   XXXXX                    E
+E                            E
+E                            E
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
