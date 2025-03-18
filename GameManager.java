@@ -16,7 +16,8 @@ public class GameManager
 {
     private Stage stage;
     private TitleScreen titleScreen;
-    private GameScreen gameScreen;      
+    private GameScreen gameScreen;    
+    private PauseScreen pauseScreen;
 
     public GameManager(Stage stage)
     {
@@ -24,21 +25,22 @@ public class GameManager
         this.stage = stage;
         stage.setTitle("SUPER LARIO");
         stage.setResizable(false); // avoid resizing the game needlessly
-        
-        
-        stage.setResizable(false);
         stage.centerOnScreen();
         
         // Other Components
         titleScreen = new TitleScreen(this, 600, 600);
         gameScreen = new GameScreen(this, 1200, 900);
+        pauseScreen = new PauseScreen(this, gameScreen, 1200, 900);
     }    
     
     public void startGame(){
+        //gameScreen.reset();
         changeScene(gameScreen.getScene());
+        gameScreen.startCountdown();
     }
     
     public void showTitleScreen(){
+        System.out.println("showing title screen");
         changeScene(titleScreen.getScene());
     }
     
@@ -46,5 +48,13 @@ public class GameManager
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
+    }
+    
+    public Stage getStage(){
+        return stage;
+    }
+    
+    public void pauseGame(){
+        pauseScreen.showPauseScreen();
     }
 }

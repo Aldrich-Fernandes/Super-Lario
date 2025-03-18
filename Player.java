@@ -106,7 +106,7 @@ public class Player extends Circle {
         this.isOnGround = onGround;
     } 
     
-    public void stopVerticleMovement(){
+    public void stopVerticleMovement(){ //guys verticle as the spelling is diabolical
         velocityY = 0.0;
     }
     public void stopHorizontalMovement(){

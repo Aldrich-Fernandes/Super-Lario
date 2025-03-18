@@ -12,8 +12,8 @@ public abstract class BaseScreen
     protected Scene scene;
     protected VBox root;
     
-    private int width;
-    private int height;
+    protected final int width;
+    protected final int height;
     
     public BaseScreen(GameManager gameManager, int width, int height)
     {
