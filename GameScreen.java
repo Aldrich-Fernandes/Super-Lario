@@ -412,6 +412,7 @@ public class GameScreen extends BaseScreen
         // pause the game and reset player input
         gameLoop.stop();
         player.resetInputState();
+        pauseCountdown();
         
         // make a alert!
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -422,7 +423,9 @@ public class GameScreen extends BaseScreen
             alert.show();
         }
         // continue the game!
-        alert.setOnHidden(e -> gameLoop.start());
+        alert.setOnHidden(e -> {gameLoop.start();
+                            resumeCountdown(); }
+                         );
     }
     
     /**
