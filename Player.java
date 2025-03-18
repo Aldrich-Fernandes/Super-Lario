@@ -131,6 +131,14 @@ public class Player extends Circle {
         velocityX = 0.0;
     }
     
+    public void applyDamage(int damage){
+        health -= damage;
+        if (health < 0){
+            health = 0;
+            isAlive = false;
+        }
+    }
+    
     /**
      * Returns a hashmap of the 4 coordinates of each pole of the player
      */

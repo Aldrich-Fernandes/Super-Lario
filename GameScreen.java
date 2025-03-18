@@ -41,6 +41,7 @@ public class GameScreen extends BaseScreen
     private Tile[][] tiles;
     private GameMap[] levelMaps;
     private List<Coin> coins;
+    private List<Trap> traps;
     private Key key;
     private Exit exit;
     
@@ -50,6 +51,7 @@ public class GameScreen extends BaseScreen
     
     private Label coinLabel;
     private Label keyLabel;
+    private Label healthLabel;
     
     private Timeline timer;
     private Label countdownLabel;
@@ -90,6 +92,11 @@ public class GameScreen extends BaseScreen
         countdownLabel.setLayoutX(1010); 
         countdownLabel.setLayoutY(-35);
         
+        healthLabel = new Label("Health: 100");
+        healthLabel.setLayoutX(10);
+        healthLabel.setLayoutY(10);
+        healthLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
+        
         // With this code:
         HBox statsBox = new HBox(20); // 20 is the spacing between elements
         statsBox.setPrefHeight(20); // Set the preferred height to exactly 40 pixels
@@ -97,24 +104,29 @@ public class GameScreen extends BaseScreen
         statsBox.setMaxHeight(20);  // Set the maximum height to 40 pixels      
         statsBox.setAlignment(Pos.CENTER_LEFT);
         statsBox.setPadding(new Insets(10));
-        statsBox.getChildren().addAll(coinLabel, keyLabel,countdownLabel);
+        statsBox.getChildren().addAll(coinLabel, keyLabel,countdownLabel, healthLabel);
         
         // Reset the coinLabel and keyLabel positions
         coinLabel.setLayoutX(0);
         coinLabel.setLayoutY(0);
         keyLabel.setLayoutX(0);
         keyLabel.setLayoutY(0);
+        healthLabel.setLayoutX(0);
+        healthLabel.setLayoutY(0);
         
         root.getChildren().add(statsBox);
         
         player = new Player(levelMaps[index].getPlayerX(), levelMaps[index].getPlayerY(), levelMaps[index].getPlayerRadius());
         tiles = levelMaps[index].getTile();
         coins = levelMaps[index].getCoins();
+        traps = levelMaps[index].getTraps();
         key = levelMaps[index].getKey();
         exit = levelMaps[index].getExit();
         
-        gamePane.getChildren().add(player);
+        //
+        healthLabel.setText("Health: "+ player.getHealth());
         
+        gamePane.getChildren().add(player);
         root.getChildren().add(gamePane);
         
         //resetTimer();

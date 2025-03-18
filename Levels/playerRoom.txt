@@ -17,5 +17,5 @@ X      X      C      X       E
 X                            E
 X           XXXXX            E
 X           X   X            E
-X      C    X   X         C  E
+X      C    X   X    S    C  E
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
