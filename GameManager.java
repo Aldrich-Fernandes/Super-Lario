@@ -44,6 +44,7 @@ public class GameManager
     
     public void changeScene(Scene scene){
         stage.setScene(scene);
+        stage.centerOnScreen();
         stage.show();
     }
 }
