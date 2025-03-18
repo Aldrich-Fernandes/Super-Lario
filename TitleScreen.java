@@ -39,6 +39,7 @@ public class TitleScreen extends BaseScreen
         btn_play = new Button("PLAY");
         btn_play.getStyleClass().add("button");
         btn_play.setOnAction(event -> gameManager.startGame());
+        //btn_play.setOnAction(event -> gameManager.showGameOverScreen()); // remove once game over is implemented
 
         btn_exit = new Button("EXIT");
         btn_exit.getStyleClass().add("button");
