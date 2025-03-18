@@ -34,6 +34,7 @@ public class GameMap {
     private List<Coin> coins;
     private List<Tile> terrainTiles;
     private Key key;
+    private Exit exit;
     
     /**
      * Creates a new GameMap and loads the specified level file.
@@ -151,6 +152,16 @@ public class GameMap {
                 mapPane.getChildren().add(key);
                 break;
                 
+            case 'A': // Exit
+                // Create an empty/background tile first
+                Tile exitBackgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
+                tiles[x][y] = exitBackgroundTile;
+                mapPane.getChildren().add(exitBackgroundTile);
+                
+                exit = new Exit(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE);
+                mapPane.getChildren().add(exit);
+                break;
+                
             default: // Empty space
                 Tile emptyTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
                 tiles[x][y] = emptyTile;
@@ -216,6 +227,13 @@ public class GameMap {
      */
     public Key getKey() {
         return key;
+    }
+    
+    /**
+     * Get the exit in the level
+     */
+    public Exit getExit() {
+        return exit;
     }
     
     /**

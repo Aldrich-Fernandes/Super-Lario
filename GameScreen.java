@@ -40,6 +40,7 @@ public class GameScreen extends BaseScreen
     private GameMap[] levelMaps;
     private List<Coin> coins;
     private Key key;
+    private Exit exit;
     
     private int coinCount = 0;
     private int index;
@@ -111,6 +112,7 @@ public class GameScreen extends BaseScreen
         tiles = levelMaps[index].getTile();
         coins = levelMaps[index].getCoins();
         key = levelMaps[index].getKey();
+        exit = levelMaps[index].getExit();
         
         gamePane.getChildren().add(player);
         
@@ -319,6 +321,7 @@ public class GameScreen extends BaseScreen
             tiles = levelMaps[index].getTile();
             coins = levelMaps[index].getCoins();
             key = levelMaps[index].getKey();
+            exit = levelMaps[index].getExit();
             gamePane.getChildren().add(player);
             root.getChildren().add(gamePane);
         } 
@@ -350,6 +353,7 @@ public class GameScreen extends BaseScreen
         checkKey();
         checkKeyCommands();
         endOfTime();
+        checkExit();
     }
     
     /**
@@ -408,6 +412,7 @@ public class GameScreen extends BaseScreen
         // pause the game and reset player input
         gameLoop.stop();
         player.resetInputState();
+        pauseCountdown();
         
         // make a alert!
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -418,6 +423,51 @@ public class GameScreen extends BaseScreen
             alert.show();
         }
         // continue the game!
-        alert.setOnHidden(e -> gameLoop.start());
+        alert.setOnHidden(e -> {gameLoop.start();
+                            resumeCountdown(); }
+                         );
+    }
+    
+    /**
+     * Check if player has reached the exit with the key
+     */
+    private void checkExit() {
+        // Only check for exit interaction if exit exists in the current level
+        if (exit != null) {
+            // Update the exit appearance based on key status
+            if (keyCollected) {
+                exit.setFill(Color.LIMEGREEN);
+                exit.setOpacity(1.0);
+            } else {
+                exit.setFill(Color.DARKGREEN);
+                exit.setOpacity(0.5);
+            }
+            
+            // Check if player interacts with exit while having key
+            if (exit.checkInteraction(player, keyCollected)) {
+                gameCompleted();
+            }
+        }
+    }
+    
+     /**
+     * Display game completion message and handle end of game
+     */
+    private void gameCompleted() {
+        // Stop game loop and reset player input
+        gameLoop.stop();
+        timer.stop();
+        player.resetInputState();
+        
+        // Show completion alert
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game Completed!");
+        
+        // Return to title screen when alert is closed
+        alert.setOnHidden(e -> {
+            gameManager.showTitleScreen();
+        });
+    
+        alert.show();   
     }
 }
