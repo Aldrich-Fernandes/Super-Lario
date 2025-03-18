@@ -54,10 +54,7 @@ public class GameScreen extends BaseScreen
     private Timeline timer;
     private Label countdownLabel;
     private int timeRemaining = 180;        // 3 minutes
-    private boolean pauseTimer = false;
-    
-    private int score;      // To be implemented (will be calculated using remaining time and extra coins)
-    
+    private boolean pauseTimer = false;    
 
     public GameScreen(GameManager gameManager, int width, int height)
     {
@@ -465,14 +462,20 @@ public class GameScreen extends BaseScreen
         player.resetInputState();
         
         // Show completion alert
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Game Completed!");
-        
-        // Return to title screen when alert is closed
-        alert.setOnHidden(e -> {
-            gameManager.showTitleScreen();
-        });
+        gameManager.showGameOverScreen(true, calculateScore());  
+    }
     
-        alert.show();   
+    /**
+     * Calculates and return a score
+     */
+    private int calculateScore(){
+        int timeBonus = timeRemaining * 10;
+        int coinBonus = coinCount * 50;
+        int healthBonus = player.getHealth() * 5;
+        
+        if (player.checkAlive()) {healthBonus += 1000;}
+        
+        int totalScore = timeBonus + coinBonus + healthBonus;
+        return totalScore;
     }
 }

@@ -17,16 +17,20 @@ public class Player extends Circle {
     private static final double JUMP_FORCE = -17;       // Player can jump up 4 tiles
     private static final double MOVE_SPEED = 3.5;       // Player can jump 4 wide gaps
     
-    // States 
+    // Movement states 
     private double velocityX = 0;
     private double velocityY = 0;
     private boolean isOnGround = true;
-    private boolean isAlive = true;
     
     // Keys
     private boolean leftPressed = false;
     private boolean rightPressed = false;
     private boolean jumpPressed = false;
+    
+    // Player Stats
+    private boolean isAlive = true;
+    private int health = 100;
+    
     
     /**
      * Creates a new player at the specified position with the given radius
@@ -112,6 +116,9 @@ public class Player extends Circle {
         return isAlive;
     }
     
+    public int getHealth(){
+        return health;
+    }
     
     public void setIsOnGround(boolean onGround) {
         this.isOnGround = onGround;

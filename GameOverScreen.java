@@ -35,10 +35,10 @@ public class GameOverScreen extends BaseScreen
         container.setAlignment(Pos.CENTER);
         container.setPadding(new Insets(50));
         
-        lbl_title = new Label("GAME OVER!");
+        lbl_title = new Label("");
         lbl_title.getStyleClass().add("title_lbl");
         
-        lbl_cause = new Label("Cause: ");
+        lbl_cause = new Label("");
         lbl_cause.getStyleClass().add("normal_lbl");
 
         btn_return = new Button("MAIN MENU");
@@ -54,10 +54,14 @@ public class GameOverScreen extends BaseScreen
         root.getChildren().addAll(container);
     } 
     
-    public void setCause(String cause){
-        if (cause == null){
-            cause = "";
+    public void displayOutcome(boolean win, int score){
+        if (win){
+            lbl_title.setText("YOU ESCAPED!");
         }
-        lbl_cause.setText("Cause: "+cause);
+        else{
+            lbl_title.setText("GAME OVER!");
+        }
+        lbl_cause.setText("Score: "+score);
     }
+
 }

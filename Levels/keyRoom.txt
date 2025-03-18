@@ -1,19 +1,19 @@
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 E                           KE
-E                          XXE
-E C           XX          X  E
+E              C           XXE
+E  C          XX          X  E
 EXXXXX          X        X   E
 E     XXX        X     X     E
 E        XXX                 E
 E                            E
 E             XXX            E
-E                X  X        E
+E                X  X   C    E
 E                    XXX     E
-E                            E
-E                         X  E
+E        C                   E
+E        X                X  E
 E                      XXX   E
 E                   XXX      E
-E                            E
+E               C            E
 E              XX            E
 E          XX                E
 E         X                  E
