@@ -49,7 +49,7 @@ public abstract class BaseScreen
     
     /**
      * Where subclasses add more elements to the scene
-     */
+     */  
     protected abstract void setContent();
     
     public Scene getScene(){

@@ -1,24 +1,26 @@
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.control.*;
+import java.util.HashMap;
+import java.util.Random;
+import javafx.util.Duration;
+
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
-import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.Scene;
-import java.util.HashMap;
-import java.util.Random;
 import javafx.scene.layout.HBox;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
+
+import javafx.animation.AnimationTimer;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
-import javafx.util.Duration;
-import javafx.animation.KeyFrame;
-import javafx.scene.input.KeyCode;
-import javafx.animation.Timeline;
-import javafx.scene.layout.HBox;
-import javafx.geometry.*;
 
 /**
  * Main screen where the game is rendered and run.
@@ -285,6 +287,9 @@ public class GameScreen extends BaseScreen
         scene.setOnKeyReleased(this::handleKeyRelease);
     }
 
+    /**
+     * Checks and updates the screen the player moves to.
+     */
     private void checkOutOfBounds() {
         if (player.getCenterX() < 0 || player.getCenterX() > (levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE)) {
             //System.out.println("CENTERX: " + player.getCenterX() + ", INDEX: " + index);
