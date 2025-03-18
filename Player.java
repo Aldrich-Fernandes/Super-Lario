@@ -13,8 +13,13 @@ public class Player extends Circle {
     // Physics 
     private static final double GRAVITY = 0.8;
     private static final double MAX_VELOCITY = 10;
+<<<<<<< HEAD
     private static final double JUMP_FORCE = -17;       // Player can jump up 4 tiles
     private static final double MOVE_SPEED = 3.5;       // Player can jump 4 wide gaps
+=======
+    private static final double JUMP_FORCE = -20;
+    private static final double MOVE_SPEED = 3;
+>>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
     
     // Movement 
     private double velocityX = 0;
@@ -106,7 +111,7 @@ public class Player extends Circle {
         this.isOnGround = onGround;
     } 
     
-    public void stopVerticleMovement(){
+    public void stopVerticleMovement(){ //guys verticle as the spelling is diabolical
         velocityY = 0.0;
     }
     public void stopHorizontalMovement(){

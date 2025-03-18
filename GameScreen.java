@@ -13,6 +13,15 @@ import java.util.Random;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
+<<<<<<< HEAD
+=======
+import javafx.util.Duration;
+import javafx.animation.KeyFrame;
+import javafx.scene.input.KeyCode;
+import javafx.animation.Timeline;
+import javafx.scene.layout.HBox;
+import javafx.geometry.*;
+>>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
 
 /**
  * Main screen where the game is rendered and run.
@@ -23,7 +32,11 @@ import javafx.geometry.Insets;
  */
 public class GameScreen extends BaseScreen
 {    
+<<<<<<< HEAD
     public static final int numberOfScreens = 6;
+=======
+    public static final int numberOfScreens = 10;
+>>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
     private int currentScene;
     private Player player;
     private Pane gamePane;
@@ -38,15 +51,30 @@ public class GameScreen extends BaseScreen
     private int coinCount = 0;
     private int index;
     private boolean keyCollected = false;
+<<<<<<< HEAD
+    
+    private Label coinLabel;
+    private Label keyLabel;
+=======
+>>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
     
     private Label coinLabel;
     private Label keyLabel;
     
+    private Timeline timer;
+    private Label countdownLabel;
+    private int timeRemaining = 30;
+    private boolean pauseTimer = false;
+    
+    private PauseScreen pauseScreen;
+    
+
     public GameScreen(GameManager gameManager, int width, int height)
     {
         super(gameManager, width, height);
         setContent();
         setGameLoop();
+        pauseScreen = new PauseScreen(gameManager,this, width, height);
     }
     
     protected void setContent(){
@@ -73,6 +101,14 @@ public class GameScreen extends BaseScreen
         keyLabel.setLayoutY(10);
         keyLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
         
+<<<<<<< HEAD
+=======
+        countdownLabel = new Label("Time remaining: " + timeRemaining);
+        countdownLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
+        countdownLabel.setLayoutX(1010); 
+        countdownLabel.setLayoutY(-35);
+        
+>>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
         // With this code:
         HBox statsBox = new HBox(20); // 20 is the spacing between elements
         statsBox.setPrefHeight(20); // Set the preferred height to exactly 40 pixels
@@ -80,7 +116,11 @@ public class GameScreen extends BaseScreen
         statsBox.setMaxHeight(20);  // Set the maximum height to 40 pixels      
         statsBox.setAlignment(Pos.CENTER_LEFT);
         statsBox.setPadding(new Insets(10));
+<<<<<<< HEAD
         statsBox.getChildren().addAll(coinLabel, keyLabel);
+=======
+        statsBox.getChildren().addAll(coinLabel, keyLabel,countdownLabel);
+>>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
         
         // Reset the coinLabel and keyLabel positions
         coinLabel.setLayoutX(0);
@@ -88,6 +128,12 @@ public class GameScreen extends BaseScreen
         keyLabel.setLayoutX(0);
         keyLabel.setLayoutY(0);
         
+<<<<<<< HEAD
+=======
+        
+        
+        
+>>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
         root.getChildren().add(statsBox);
         
         player = new Player(levelMaps[index].getPlayerX(), levelMaps[index].getPlayerY(), levelMaps[index].getPlayerRadius());
@@ -95,9 +141,16 @@ public class GameScreen extends BaseScreen
         coins = levelMaps[index].getCoins();
         key = levelMaps[index].getKey();
         
+<<<<<<< HEAD
         gamePane.getChildren().add(player);
+=======
+        gamePane.getChildren().addAll(player, countdownLabel);
+>>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
         
         root.getChildren().add(gamePane);
+        
+        //resetTimer();
+        //startCountdown();
     }
 
     @Override
@@ -192,7 +245,78 @@ public class GameScreen extends BaseScreen
         // Allows for updates both ways when player is on and off the platform
         player.setIsOnGround(onPlatform);
     }
+    
+    public void startCountdown() {
+        timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            timeRemaining--;
+            countdownLabel.setText("Time remaining: " + timeRemaining);
+    
+            if (timeRemaining <= 0) {
+                timer.stop();
+                System.out.println("Game Over");
 
+<<<<<<< HEAD
+=======
+            }
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
+    }
+    
+    //For convenience sake for PauseScreen
+    public void changePauseTimer(){
+        pauseTimer = !(pauseTimer);
+    }
+    
+    public void resetTimer(){
+        timeRemaining = 30;
+        countdownLabel.setText("Time Remaining: " + timeRemaining);
+    }
+    
+    private void pauseCountdown() {
+        if (timer != null) {
+            timer.pause();
+        }
+        player.resetInputState(); 
+    }
+    
+    public void resumeCountdown() {
+        if (timer != null) {
+            timer.play();
+        }
+    }
+    
+    public void endOfTime(){
+        if (timeRemaining == 0){
+            resetTimer();
+            gameManager.showTitleScreen();
+        }
+    }
+        
+    private void checkKeyCommands() {
+        
+        Scene scene = getScene();
+        if (scene == null) return; 
+    
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                if (!pauseTimer) {
+                    pauseCountdown();
+                    pauseTimer = true;
+                    gameManager.pauseGame();
+                } else {
+                    resumeCountdown();
+                    pauseTimer = false;
+                }
+            } else {
+                handleKeyPress(event); 
+            }
+        });
+    
+        scene.setOnKeyReleased(this::handleKeyRelease);
+    }
+
+>>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
     private void checkOutOfBounds() {
         if (player.getCenterX() < 0 || player.getCenterX() > (levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE)) {
             //System.out.println("CENTERX: " + player.getCenterX() + ", INDEX: " + index);
@@ -227,7 +351,11 @@ public class GameScreen extends BaseScreen
             tiles = levelMaps[index].getTile();
             coins = levelMaps[index].getCoins();
             key = levelMaps[index].getKey();
+<<<<<<< HEAD
             gamePane.getChildren().add(player);
+=======
+            gamePane.getChildren().addAll(player, countdownLabel);
+>>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
             root.getChildren().add(gamePane);
         } 
     }
@@ -256,6 +384,11 @@ public class GameScreen extends BaseScreen
         checkOutOfBounds();
         checkCoins();
         checkKey();
+<<<<<<< HEAD
+=======
+        checkKeyCommands();
+        endOfTime();
+>>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
     }
     
     /**
@@ -285,14 +418,23 @@ public class GameScreen extends BaseScreen
     private void checkKey() {
         if (key != null && !key.isCollected()) {
             // First check if player has enough coins
+<<<<<<< HEAD
             if (coinCount >= key.getRequiredCoins()) {
+=======
+            if (coinCount >= 5) {
+>>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
                 // Then check collection using the original method
                 if (key.checkCollection(player)) {
                     key.collect();
                     keyCollected = true;
                     
+<<<<<<< HEAD
                     // Deduct coins from the player's total
                     coinCount -= key.getRequiredCoins();
+=======
+                    // Deduct 5 coins from the player's total
+                    coinCount -= 5;
+>>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
                     
                     // Update UI
                     updateLabels();
@@ -318,7 +460,11 @@ public class GameScreen extends BaseScreen
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Key Collected");
         alert.setHeaderText(null);
+<<<<<<< HEAD
         alert.setContentText("You have collected the key! Coins have been used for the purchase.");
+=======
+        alert.setContentText("You have collected the key! 5 coins have been deducted.");
+>>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
         alert.show();
         
         // continue the game!
