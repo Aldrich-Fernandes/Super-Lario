@@ -1,21 +1,21 @@
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-X              X          C  E
-X P            X             E
-X              X             E
-XXXXXXXXX      X             E
-X              X          XX E
-X              X             E
-X      C       X       XX    E
-X     XXXXXXXXXX             E
-X     X                   C  E
-X     X           XX         E
-X     X                      E
-X     X               XXXXXXXE
-X     X                      E
-X     X                      E
-X     X  C     XXXXXXX       E
-X     XXXXX                  E
+X      X                     E
+X      X             X       E
+X      X             X       E
+X      X           C X       E
+X      X     XXXXXXXXX       E
+X      X             X       E
+X      X             X   C   E
+X      XXXXX         X       E
+X  P   X             X       E
+X      X             X       E
+X      X     XXX     X       E
+X      X             X       E
+X      X             X       E
+X      X         XXXXX       E
+X      X      C      X       E
 X                            E
-X                            E
-X                         C  E
+X           XXXXX            E
+X           X   X            E
+X      C    X   X         C  E
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
