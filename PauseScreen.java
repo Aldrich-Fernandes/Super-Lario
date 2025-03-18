@@ -8,6 +8,7 @@ import javafx.stage.StageStyle;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.input.KeyCode;
+import javafx.geometry.Pos;
 
 
 /**
@@ -43,12 +44,12 @@ public class PauseScreen extends BaseScreen
         overlayRoot.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
         overlayRoot.setPadding(new javafx.geometry.Insets(50));
         overlayRoot.setMouseTransparent(false);
+        overlayRoot.setAlignment(Pos.CENTER);
         
-        overlayScene = new Scene(overlayRoot, super.getScene().getWidth(), super.getScene().getHeight(), Color.TRANSPARENT); 
+        overlayScene = new Scene(overlayRoot, width, height, Color.TRANSPARENT); 
         
         setContent();
         
-               
         overlayScene.getStylesheets().add(getClass().getResource("/format.css").toExternalForm());
         overlayStage.setScene(overlayScene);
     }
@@ -83,15 +84,10 @@ public class PauseScreen extends BaseScreen
             
         } );
 
-        
         overlayRoot.getChildren().addAll(resumeBtn, exitBtn);
-
-        
+   
     }    
-    
-    
-    
-    
+ 
     public void showPauseScreen(){
         overlayStage.show();
     }

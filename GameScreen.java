@@ -23,7 +23,7 @@ import javafx.geometry.*;
 /**
  * Main screen where the game is rendered and run.
  * 
- * // Will pass contain other paramters such as player and worldMap
+ * // Needs to be split into GameScreen (the View) and Game (Model)
  * 
  * IT will contain the entities in order to reder them within the same screen
  */
@@ -50,18 +50,17 @@ public class GameScreen extends BaseScreen
     
     private Timeline timer;
     private Label countdownLabel;
-    private int timeRemaining = 30;
+    private int timeRemaining = 180;        // 3 minutes
     private boolean pauseTimer = false;
     
-    private PauseScreen pauseScreen;
+    private int score;      // To be implemented (will be calculated using remaining time and extra coins)
     
 
     public GameScreen(GameManager gameManager, int width, int height)
     {
         super(gameManager, width, height);
-        setContent();
+        reset();
         setGameLoop();
-        pauseScreen = new PauseScreen(gameManager,this, width, height);
     }
     
     protected void setContent(){
@@ -73,9 +72,7 @@ public class GameScreen extends BaseScreen
         levelMaps[levelManager.randomKeyRoomIndex()] = new GameMap("Levels/keyRoom.txt");
         levelMaps[numberOfScreens-1] = new GameMap("Levels/endRoom.txt");
         
-        
         gamePane = levelMaps[index].getMapGrid();
-        
         
         // Adding coin display functionality
         coinLabel = new Label("Coint Count: 0");
@@ -147,7 +144,11 @@ public class GameScreen extends BaseScreen
         player.handleKeyReleased(event.getCode());
     }
     
-    private void restart(){
+    /**
+     * Reloads the entire game from the start
+     */
+    public void reset(){
+        //gamePane.getChildren().clear();
         setContent();
     }
     
@@ -237,7 +238,7 @@ public class GameScreen extends BaseScreen
     }
     
     public void resetTimer(){
-        timeRemaining = 30;
+        timeRemaining = 180;
         countdownLabel.setText("Time Remaining: " + timeRemaining);
     }
     
@@ -377,10 +378,10 @@ public class GameScreen extends BaseScreen
      */
     private void checkKey() {
         if (key != null && !key.isCollected()) {
-            // First check if player has enough coins
-            if (coinCount >= key.getRequiredCoins()) {
-                // Then check collection using the original method
-                if (key.checkCollection(player)) {
+            // First check collection using the original method
+            if (key.checkCollection(player)) {
+                // Then check if player has enough coins
+                if (coinCount >= key.getRequiredCoins()) {
                     key.collect();
                     keyCollected = true;
                     
@@ -390,10 +391,11 @@ public class GameScreen extends BaseScreen
                     // Update UI
                     updateLabels();
                     
-                    // Optional: Show a notification or play a sound
-                    showKeyCollectedMessage();
-                    
-                    
+                    // Collection Feedback - Change so that it is a label
+                    showKeyCollectedMessage(true);
+                }
+                else{
+                    showKeyCollectedMessage(false);
                 }
             }
         }
@@ -402,18 +404,19 @@ public class GameScreen extends BaseScreen
     /**
      * Show a message when the key is collected
      */
-    private void showKeyCollectedMessage() {
+    private void showKeyCollectedMessage(boolean collected) {
         // pause the game and reset player input
         gameLoop.stop();
         player.resetInputState();
         
         // make a alert!
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Key Collected");
         alert.setHeaderText(null);
-        alert.setContentText("You have collected the key! Coins have been used for the purchase.");
-        alert.show();
-        
+        if (collected){
+            alert.setTitle("Key Collected");
+            alert.setContentText("You have collected the key! Coins have been used for the purchase.");
+            alert.show();
+        }
         // continue the game!
         alert.setOnHidden(e -> gameLoop.start());
     }

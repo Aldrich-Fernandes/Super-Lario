@@ -1,5 +1,7 @@
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.animation.*;
+import javafx.util.Duration;
 
 /**
  * Coin class represents a collectible coin in the game.
@@ -38,7 +40,23 @@ public class Coin extends Circle {
      */
     public void collect() {
         collected = true;
-        setVisible(false);
+        collectionAnimation();
+    }
+    
+    private void collectionAnimation(){
+        TranslateTransition ascend = new TranslateTransition(Duration.millis(300), this);
+        TranslateTransition fall = new TranslateTransition(Duration.millis(300), this);
+        FadeTransition fade = new FadeTransition(Duration.millis(300), this);
+        ParallelTransition fadeOut = new ParallelTransition(fall, fade);
+        
+        ascend.setByY(-20);
+        fall.setByY(30);
+        fade.setFromValue(1);
+        fade.setToValue(0);
+        
+        SequentialTransition transition = new SequentialTransition(ascend,fadeOut);
+        transition.setOnFinished(event -> setVisible(false));
+        transition.play();
     }
     
     /**

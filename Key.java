@@ -1,6 +1,7 @@
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
+import javafx.animation.*;
+import javafx.util.Duration;
 /**
  * Key class represents a key that can be collected in the game.
  * It is represented by a simple rectangle with a key-like shape.
@@ -45,8 +46,25 @@ public class Key extends Rectangle {
      */
     public void collect() {
         collected = true;
-        setVisible(false);
+        collectionAnimation();
     }
+    
+    private void collectionAnimation(){
+        TranslateTransition ascend = new TranslateTransition(Duration.millis(300), this);
+        TranslateTransition fall = new TranslateTransition(Duration.millis(300), this);
+        FadeTransition fade = new FadeTransition(Duration.millis(300), this);
+        ParallelTransition fadeOut = new ParallelTransition(fall, fade);
+        
+        ascend.setByY(-20);
+        fall.setByY(30);
+        fade.setFromValue(1);
+        fade.setToValue(0);
+        
+        SequentialTransition transition = new SequentialTransition(ascend,fadeOut);
+        transition.setOnFinished(event -> setVisible(false));
+        transition.play();
+    }
+
     
     /**
      * Returns the amount of coins necessary to pickup the key!

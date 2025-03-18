@@ -12,7 +12,6 @@ import javafx.stage.Stage;
  */
 public class Main extends Application
 {
-
     /**
      * The start method is the main entry point for every JavaFX application. 
      * It is called after the init() method has returned and after 
@@ -23,8 +22,8 @@ public class Main extends Application
     @Override
     public void start(Stage stage)
     {
-       GameManager gameManager = new GameManager(stage);
-       gameManager.showTitleScreen();
+        GameManager gameManager = new GameManager(stage);
+        gameManager.showTitleScreen();
     }
 
     public static void main(String[] args){
