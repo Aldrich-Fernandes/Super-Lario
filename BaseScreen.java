@@ -39,7 +39,9 @@ public abstract class BaseScreen
         aboutOpt.setOnAction(event -> showAboutDialog());
         MenuItem controlOpt = new MenuItem("Controls");
         controlOpt.setOnAction(event -> showControls());
-        helpMenu.getItems().addAll(aboutOpt, controlOpt);
+        MenuItem guideOpt = new MenuItem("Guide");
+        guideOpt.setOnAction(event -> showGuideDialog());
+        helpMenu.getItems().addAll(aboutOpt, controlOpt, guideOpt);
         
         menuBar.getMenus().addAll(fileMenu, helpMenu);
         return menuBar;
@@ -72,6 +74,14 @@ public abstract class BaseScreen
         alert.setTitle("Controls");
         alert.setHeaderText(null);
         alert.setContentText("  D   - Move right\n"+"  A   - Move left\n"+"SPACE - Jump\n");
+        alert.showAndWait();
+    }
+    
+    private void showGuideDialog(){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Guide");
+        alert.setHeaderText(null);
+        alert.setContentText("Goals: \n 1). Locate the Key \n 2). Collect Coins \n 3). Escape ");
         alert.showAndWait();
     }
 }
