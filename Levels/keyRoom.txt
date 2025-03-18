@@ -1,5 +1,4 @@
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-<<<<<<< HEAD
 E                           KE
 E                          XXE
 E C           XX          X  E
@@ -19,25 +18,4 @@ E              XX            E
 E          XX                E
 E         X                  E
 E    XX                      E
-=======
-E                            E
-E                            E
-E                            E
-E  XXXXXXXXXX       CC       E
-E                 XXXXXX     E
-E                            E
-E            CCC             E
-E           XXXXX            E
-E        C                   E
-E       XXXX                 E
-E                            E
-E                CCC         E
-E               XXXXXX       E
-E                            E
-E         CCC                E
-E       XXXXX                E
-E             C        K     E
-E                XXX         E
-E                            E
->>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

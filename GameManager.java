@@ -33,10 +33,7 @@ public class GameManager
         // Other Components
         titleScreen = new TitleScreen(this, 600, 600);
         gameScreen = new GameScreen(this, 1200, 900);
-<<<<<<< HEAD
-=======
         pauseScreen = new PauseScreen(this,gameScreen, 600, 600);
->>>>>>> 6b1658a3ea8bbefffb1f17c12274911fc4d0fd86
     }    
     
     public void startGame(){
