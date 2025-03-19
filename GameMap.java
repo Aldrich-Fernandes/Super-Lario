@@ -158,7 +158,7 @@ public class GameMap {
                 
             case 'A': // Exit
                 // Create an empty/background tile first
-                Tile exit = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "EXIT");
+                exit = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "EXIT");
                 tiles[x][y] = exit;
                 mapPane.getChildren().add(exit);
                 showSprite(exit, x, y);

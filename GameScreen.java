@@ -446,13 +446,10 @@ public class GameScreen extends BaseScreen
      */
     private void checkExit() {
         // Only check for exit interaction if exit exists in the current level
-        if (exit != null) {
+        if (exit != null && keyCollected) {
             // Update the exit appearance based on key status
-            if (keyCollected) {
-                exit.setFill(Color.LIMEGREEN);
-                exit.setOpacity(1.0);
-            }
-            
+            exit.setFill(Color.LIMEGREEN);
+            exit.setOpacity(1.0);
             // Check if player interacts with exit while having key
             if (player.getBoundsInParent().intersects(exit.getBoundsInParent())) {
                 gameCompleted();

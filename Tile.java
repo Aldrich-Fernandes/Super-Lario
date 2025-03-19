@@ -56,7 +56,7 @@ public class Tile extends Rectangle {
                 
             case "EXIT":
                 loadSprite("Sprites/dngn_closed_door.png");
-                isPassable = false;
+                isPassable = true;
                 break;
                 
             default:
