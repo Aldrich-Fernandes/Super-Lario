@@ -15,7 +15,7 @@ import javafx.scene.image.ImageView;
  */
 public class GameMap {
     // Constants for tile dimensions
-    public static final int TILE_SIZE = 40;
+    public static final int TILE_SIZE = 30;
     
     // The main container for all tiles
     private Pane mapPane;
