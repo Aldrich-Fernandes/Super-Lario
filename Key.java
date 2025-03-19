@@ -65,7 +65,6 @@ public class Key extends Rectangle {
         transition.play();
     }
 
-    
     /**
      * Returns the amount of coins necessary to pickup the key!
      */

@@ -63,6 +63,7 @@ public class LevelManager
     public GameMap generateRandomRoom() {
         int randIndex = rand.nextInt(levelPaths.size());
         GameMap newMap = new GameMap(levelPaths.get(randIndex));
+        levelPaths.remove(randIndex);
         return newMap;
     }
     

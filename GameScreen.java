@@ -43,7 +43,7 @@ public class GameScreen extends BaseScreen
     private GameMap[] levelMaps;
     private List<Coin> coins;
     private Key key;
-    private Exit exit;
+    private Tile exit;
     
     private int coinCount = 0;
     private int index;
@@ -285,7 +285,7 @@ public class GameScreen extends BaseScreen
     private void checkOutOfBounds() {
         if (player.getCenterX() < 0 || player.getCenterX() > (levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE)) {
             //System.out.println("CENTERX: " + player.getCenterX() + ", INDEX: " + index);
-            GameMap newRoom = levelManager.generateRandomRoom();
+            GameMap newRoom;
             
             gamePane.getChildren().remove(player);
             root.getChildren().remove(gamePane);
@@ -295,16 +295,18 @@ public class GameScreen extends BaseScreen
                     newRoom = levelMaps[index-1];
                 }
                 else {
+                    newRoom = levelManager.generateRandomRoom();
                     levelMaps[index-1] = newRoom;
                 }
                 index--;
                 player.setCenterX((newRoom.getWidth() * newRoom.TILE_SIZE) + player.getCenterX());
             }
-            else if (player.getCenterX() > (levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE)) {
+            else {
                 if (levelMaps[index + 1] != null) {
                     newRoom = levelMaps[index+1];
                 }
                 else {
+                    newRoom = levelManager.generateRandomRoom();
                     levelMaps[index+1] = newRoom;
                 }
                 index++;
@@ -449,13 +451,10 @@ public class GameScreen extends BaseScreen
             if (keyCollected) {
                 exit.setFill(Color.LIMEGREEN);
                 exit.setOpacity(1.0);
-            } else {
-                exit.setFill(Color.DARKGREEN);
-                exit.setOpacity(0.5);
             }
             
             // Check if player interacts with exit while having key
-            if (exit.checkInteraction(player, keyCollected)) {
+            if (player.getBoundsInParent().intersects(exit.getBoundsInParent())) {
                 gameCompleted();
             }
         }
