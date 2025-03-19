@@ -123,9 +123,6 @@ public class GameScreen extends BaseScreen
         key = levelMaps[index].getKey();
         exit = levelMaps[index].getExit();
         
-        //
-        healthLabel.setText("Health: "+ player.getHealth());
-        
         gamePane.getChildren().add(player);
         root.getChildren().add(gamePane);
         
@@ -237,7 +234,7 @@ public class GameScreen extends BaseScreen
     
             if (timeRemaining <= 0) {
                 timer.stop();
-                System.out.println("Game Over");
+                //System.out.println("Game Over");
 
             }
         }));
@@ -334,6 +331,7 @@ public class GameScreen extends BaseScreen
             gamePane = levelMaps[index].getMapGrid();
             tiles = levelMaps[index].getTile();
             coins = levelMaps[index].getCoins();
+            traps = levelMaps[index].getTraps();
             key = levelMaps[index].getKey();
             exit = levelMaps[index].getExit();
             gamePane.getChildren().add(player);
@@ -366,6 +364,7 @@ public class GameScreen extends BaseScreen
         checkCoins();
         checkKey();
         checkKeyCommands();
+        updateLabels();
         endOfTime();
         checkExit();
     }
@@ -376,6 +375,7 @@ public class GameScreen extends BaseScreen
     private void updateLabels() {
         coinLabel.setText("Coins: " + coinCount);
         keyLabel.setText("Key Collected: " + keyCollected);
+        healthLabel.setText("Health: "+ player.getHealth());
     }
     
     /**
@@ -386,7 +386,6 @@ public class GameScreen extends BaseScreen
             if (!coin.isCollected() && coin.checkCollection(player)) {
                 coin.collect();
                 coinCount++;
-                updateLabels();
             }
         }
     }
@@ -406,14 +405,8 @@ public class GameScreen extends BaseScreen
                     // Deduct coins from the player's total
                     coinCount -= key.getRequiredCoins();
                     
-                    // Update UI
-                    updateLabels();
-                    
                     // Collection Feedback - Change so that it is a label
                     showKeyCollectedMessage(true);
-                }
-                else{
-                    showKeyCollectedMessage(false);
                 }
             }
         }

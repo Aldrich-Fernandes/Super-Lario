@@ -9,8 +9,8 @@ E                            E
 E             XXX            E
 E                X  X   C    E
 E                    XXX     E
-E        C                   E
-E        X                X  E
+E           C                E
+E           X            X   E
 E                      XXX   E
 E                   XXX      E
 E               C            E

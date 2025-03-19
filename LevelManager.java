@@ -48,12 +48,12 @@ public class LevelManager
                     // Only add .txt files
                     if (file.isFile() && file.getName().toLowerCase().endsWith(".txt") && !file.getName().equals("playerRoom.txt") && !file.getName().equals("keyRoom.txt") && !file.getName().equals("endRoom.txt")) {
                         levelPaths.add(file.getPath());
-                        System.out.println("Found level: " + file.getPath());
+                        //System.out.println("Found level: " + file.getPath());
                     }
                 }
             }
             
-            System.out.println("Total levels found: " + levelPaths.size());
+            //System.out.println("Total levels found: " + levelPaths.size());
         } catch (Exception e) {
             System.err.println("Error loading levels: " + e.getMessage());
             e.printStackTrace();
