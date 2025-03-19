@@ -411,10 +411,7 @@ public class GameScreen extends BaseScreen
                     updateLabels();
                     
                     // Collection Feedback - Change so that it is a label
-                    showKeyCollectedMessage(true);
-                }
-                else{
-                    showKeyCollectedMessage(false);
+                    showKeyCollectedMessage();
                 }
             }
         }
@@ -423,7 +420,7 @@ public class GameScreen extends BaseScreen
     /**
      * Show a message when the key is collected
      */
-    private void showKeyCollectedMessage(boolean collected) {
+    private void showKeyCollectedMessage() {
         // pause the game and reset player input
         gameLoop.stop();
         player.resetInputState();
@@ -432,11 +429,10 @@ public class GameScreen extends BaseScreen
         // make a alert!
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
-        if (collected){
-            alert.setTitle("Key Collected");
-            alert.setContentText("You have collected the key! Coins have been used for the purchase.");
-            alert.show();
-        }
+        alert.setTitle("Key Collected");
+        alert.setContentText("You have collected the key! Coins have been used for the purchase.");
+        alert.show();
+        
         // continue the game!
         alert.setOnHidden(e -> {gameLoop.start();
                             resumeCountdown(); }
