@@ -1,8 +1,9 @@
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 import javafx.animation.*;
 import javafx.util.Duration;
-import javafx.scene.shape.Circle;
 
 public abstract class Item {
     private boolean collected = false;
@@ -60,36 +61,21 @@ public abstract class Item {
     }
     
     private void collectionAnimation(){
-        if (type.equals("KEY")) {
-            TranslateTransition ascend = new TranslateTransition(Duration.millis(300), key);
-            TranslateTransition fall = new TranslateTransition(Duration.millis(300), key);
-            FadeTransition fade = new FadeTransition(Duration.millis(300), key);
-            ParallelTransition fadeOut = new ParallelTransition(fall, fade); 
-            
-            ascend.setByY(-20);
-            fall.setByY(30);
-            fade.setFromValue(1);
-            fade.setToValue(0);
-            
-            SequentialTransition transition = new SequentialTransition(ascend,fadeOut);
-            transition.setOnFinished(event -> key.setVisible(false));
-            transition.play();
-        }
-        else {
-            TranslateTransition ascend = new TranslateTransition(Duration.millis(300), coin);
-            TranslateTransition fall = new TranslateTransition(Duration.millis(300), coin);
-            FadeTransition fade = new FadeTransition(Duration.millis(300), coin);
-            ParallelTransition fadeOut = new ParallelTransition(fall, fade); 
-            
-            ascend.setByY(-20);
-            fall.setByY(30);
-            fade.setFromValue(1);
-            fade.setToValue(0);
-            
-            SequentialTransition transition = new SequentialTransition(ascend,fadeOut);
-            transition.setOnFinished(event -> coin.setVisible(false));
-            transition.play();
-        }
+        final Shape item = (type.equals("KEY")) ? key : coin;
+        
+        TranslateTransition ascend = new TranslateTransition(Duration.millis(300), item);
+        TranslateTransition fall = new TranslateTransition(Duration.millis(300), item);
+        FadeTransition fade = new FadeTransition(Duration.millis(300), item);
+        ParallelTransition fadeOut = new ParallelTransition(fall, fade); 
+        
+        ascend.setByY(-20);
+        fall.setByY(30);
+        fade.setFromValue(1);
+        fade.setToValue(0);
+        
+        SequentialTransition transition = new SequentialTransition(ascend,fadeOut);
+        transition.setOnFinished(event -> item.setVisible(false));
+        transition.play();
     }
     
     public abstract boolean checkCollection(Player player);
