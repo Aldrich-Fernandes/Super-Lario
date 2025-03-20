@@ -67,8 +67,19 @@ public class LevelManager
         return newMap;
     }
     
-    public int randomKeyRoomIndex(int numberOfScreens) {
-        return rand.nextInt(1, numberOfScreens-1);
+    public GameMap[] generateLevel() {
+        GameMap[] levelMaps = new GameMap[Game.numberOfScreens];
+        levelMaps[0] = new GameMap("Levels/playerRoom.txt");
+        levelMaps[rand.nextInt(1, Game.numberOfScreens-1)] = new GameMap("Levels/keyRoom.txt");
+        levelMaps[Game.numberOfScreens-1] = new GameMap("Levels/endRoom.txt");
+        
+        for (int i = 0; i < Game.numberOfScreens; i++) {
+            if (levelMaps[i] == null) {
+                levelMaps[i] = generateRandomRoom();
+            }
+        }
+        
+        return levelMaps;
     }
     
 }

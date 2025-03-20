@@ -139,9 +139,9 @@ public class GameMap {
                 showSprite(coinBackgroundTile, x, y);
                 
                 // Create coin at this position
-                Coin coin = new Coin(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE/3);
+                Coin coin = new Coin(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2);
                 coins.add(coin);
-                mapPane.getChildren().add(coin);
+                mapPane.getChildren().add(coin.getCoin());
                 break;
                 
             case 'K': // Key (from level file, adding support for it)
@@ -152,8 +152,8 @@ public class GameMap {
                 showSprite(keyBackgroundTile, x, y);
                 
                 // Create a key object (you would need to implement this class)
-                key = new Key(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE/2);
-                mapPane.getChildren().add(key);
+                key = new Key(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2);
+                mapPane.getChildren().add(key.getKey());
                 
                 break;
                 
