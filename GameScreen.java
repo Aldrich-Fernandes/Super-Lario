@@ -284,7 +284,8 @@ public class GameScreen extends BaseScreen
 
     private void checkOutOfBounds() {
         if (player.getCenterX() < 0 || player.getCenterX() > (levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE)) {
-            //System.out.println("CENTERX: " + player.getCenterX() + ", INDEX: " + index);
+            System.out.println("CENTERX: " + player.getCenterX() + ", INDEX: " + index);
+            System.out.println("CENTERY: " + player.getCenterY());
             GameMap newRoom;
             
             gamePane.getChildren().remove(player);
@@ -312,7 +313,8 @@ public class GameScreen extends BaseScreen
                 index++;
                 player.setCenterX((player.getCenterX() - (newRoom.getWidth() * newRoom.TILE_SIZE)));
             }
-            //System.out.println("CENTERX: " + player.getCenterX() + ", INDEX: " + index);
+            System.out.println("CENTERX: " + player.getCenterX() + ", INDEX: " + index);
+            System.out.println("CENTERY: " + player.getCenterY());
             
             gamePane = levelMaps[index].getMapGrid();
             tiles = levelMaps[index].getTile();
