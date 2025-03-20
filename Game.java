@@ -41,17 +41,12 @@ public class Game {
      */
     public void reset() {
         levelManager = new LevelManager();
-        levelMaps = new GameMap[numberOfScreens];
+        levelMaps = levelManager.generateLevel();
         index = 0;
         coinCount = 0;
         keyCollected = false;
         timeRemaining = 180;
         isPaused = false;
-        
-        // Initialize the level maps
-        levelMaps[index] = new GameMap("Levels/playerRoom.txt");
-        levelMaps[levelManager.randomKeyRoomIndex(numberOfScreens)] = new GameMap("Levels/keyRoom.txt");
-        levelMaps[numberOfScreens-1] = new GameMap("Levels/endRoom.txt");
         
         // Initialize player and current level elements
         updateCurrentLevelElements();
@@ -155,29 +150,14 @@ public class Game {
      */
     private void checkOutOfBounds() {
         if (player.getCenterX() < 0 || player.getCenterX() > (levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE)) {
-            GameMap newRoom;
             
             if (player.getCenterX() < 0) {
-                if (index > 0 && levelMaps[index - 1] != null) {
-                    newRoom = levelMaps[index-1];
-                }
-                else {
-                    newRoom = levelManager.generateRandomRoom();
-                    levelMaps[index-1] = newRoom;
-                }
                 index--;
-                player.setCenterX((newRoom.getWidth() * newRoom.TILE_SIZE) + player.getCenterX());
+                player.setCenterX((levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE) + player.getCenterX());
             }
             else {
-                if (index < numberOfScreens - 1 && levelMaps[index + 1] != null) {
-                    newRoom = levelMaps[index+1];
-                }
-                else {
-                    newRoom = levelManager.generateRandomRoom();
-                    levelMaps[index+1] = newRoom;
-                }
                 index++;
-                player.setCenterX((player.getCenterX() - (newRoom.getWidth() * newRoom.TILE_SIZE)));
+                player.setCenterX((player.getCenterX() - (levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE)));
             }
             
             updateCurrentLevelElements();
