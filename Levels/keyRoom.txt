@@ -1,12 +1,12 @@
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 E                           KE
 E              C           XXE
-E  C          XX          X  E
+ES C          XX          X  E
 EXXXXX          X        X   E
-E     XXX        X     X     E
+E     XXXS       X     X     E
 E        XXX                 E
-E                            E
-E             XXX            E
+E             S              E
+E             XXXS           E
 E                X  X   C    E
 E                    XXX     E
 E           C                E
@@ -15,7 +15,7 @@ E                      XXX   E
 E                   XXX      E
 E               C            E
 E              XX            E
-E          XX                E
+E         SXX                E
 E         X                  E
-E    XX                      E
+E    XX           SS         E
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

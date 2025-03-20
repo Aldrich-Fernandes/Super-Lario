@@ -5,17 +5,17 @@ X      X             X       E
 X      X           C X       E
 X      X     XXXXXXXXX       E
 X      X             X       E
-X      X             X   C   E
+X      XS            X   C   E
 X      XXXXX         X       E
 X  P   X             X       E
 X      X             X       E
 X      X     XXX     X       E
 X      X             X       E
-X      X             X       E
+X      X            SX       E
 X      X         XXXXX       E
 X      X      C      X       E
 X                            E
 X           XXXXX            E
 X           X   X            E
-X      C    X   X    S    C  E
+XS     C    X   X      SS  C E
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

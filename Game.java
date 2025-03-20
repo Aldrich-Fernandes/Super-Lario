@@ -16,7 +16,7 @@ public class Game {
     private int coinCount = 0;
     private int index;
     private boolean keyCollected = false;
-    private int timeRemaining = 180; // 3 minutes
+    private int timeRemaining = 120; // 2 minutes
     private boolean isPaused = false;
     
     // References to current level elements
@@ -45,7 +45,7 @@ public class Game {
         index = 0;
         coinCount = 0;
         keyCollected = false;
-        timeRemaining = 180;
+        timeRemaining = 120;
         isPaused = false;
         
         // Initialize player and current level elements
@@ -198,7 +198,6 @@ public class Game {
     private void checkTraps() {
         for (Trap trap : traps) {
             if (!player.checkAlive()){
-                
                 continue;
             }
             
