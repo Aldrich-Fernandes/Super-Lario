@@ -47,8 +47,8 @@ public class GameManager
         changeScene(titleScreen.getScene());
     }
     
-    public void showGameOverScreen(boolean win, int score){
-        gameOverScreen.displayOutcome(win, score);
+    public void showGameOverScreen(boolean win, int score, String comment){
+        gameOverScreen.displayOutcome(win, score, comment);
         changeScene(gameOverScreen.getScene());
     }
     

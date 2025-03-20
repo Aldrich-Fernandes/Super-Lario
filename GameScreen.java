@@ -11,6 +11,7 @@ import javafx.animation.KeyFrame;
 import javafx.scene.input.KeyCode;
 import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
+import javafx.geometry.Bounds;
 
 /**
  * GameScreen is responsible for rendering the game and handling UI components.
@@ -28,6 +29,7 @@ public class GameScreen extends BaseScreen {
     private Label coinLabel;
     private Label keyLabel;
     private Label fpsLabel;
+    private Label healthLabel;
     
     private Label countdownLabel;
     private Timeline timer;
@@ -71,6 +73,9 @@ public class GameScreen extends BaseScreen {
         keyLabel = new Label("Key Collected: false");
         keyLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
         
+        healthLabel= new Label("Health: 100");
+        healthLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
+        
         // Countdown timer label
         countdownLabel = new Label("Time remaining: " + game.getTimeRemaining());
         countdownLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
@@ -86,7 +91,7 @@ public class GameScreen extends BaseScreen {
         statsBox.setMaxHeight(20);      
         statsBox.setAlignment(Pos.CENTER_LEFT);
         statsBox.setPadding(new Insets(10));
-        statsBox.getChildren().addAll(coinLabel, keyLabel, countdownLabel, fpsLabel);
+        statsBox.getChildren().addAll(coinLabel, keyLabel, healthLabel, countdownLabel, fpsLabel);
         
         root.getChildren().add(statsBox);
     }
@@ -106,6 +111,7 @@ public class GameScreen extends BaseScreen {
         coinLabel.setText("Coin Count: " + game.getCoinCount());
         keyLabel.setText("Key Collected: " + game.isKeyCollected());
         countdownLabel.setText("Time remaining: " + game.getTimeRemaining());
+        healthLabel.setText("Health: "+ game.getPlayerHealth());
         
         // Update exit appearance based on key status
         Tile exit = game.getExit();
@@ -231,13 +237,16 @@ public class GameScreen extends BaseScreen {
         gameLoop.stop();
         timer.stop();
         
-        int score = game.calculateScore();
-        if (score == 0) {gameManager.showGameOverScreen(false, score);}
-        else            {gameManager.showGameOverScreen(true, score);}
+        int score = 0;
+        String comment = "";
+        
+        if (!game.getPlayer().checkAlive())     {comment="You've developed a rather deadly attraction to spikes.";}
+        else if (game.getTimeRemaining() <= 0)  {comment="The clock strikes zero, and so does your chance of survival. Better luck next time!";}
+        else                                    {score = game.calculateScore();}
+        if (score == 0) {gameManager.showGameOverScreen(false, score, comment);}
+        else            {gameManager.showGameOverScreen(true, score, comment);}
              
     }
-    
-    
     
     /**
      * Set up the game loop animation timer
@@ -259,10 +268,16 @@ public class GameScreen extends BaseScreen {
                     handleSceneChange();
                     updateUI();
                     
-                    // Check for game completion
-                    if (game.getExit() != null && game.isKeyCollected() && 
-                        game.getPlayer().getBoundsInParent().intersects(game.getExit().getBoundsInParent())) {
+                    // Check for game completion (if player is dead or end is reached)
+                    if (!game.getPlayer().checkAlive()){
                         gameCompleted();
+                    }
+                    else if (game.getExit() != null && game.isKeyCollected()) {
+                        Bounds playerBounds = game.getPlayer().getBoundsInParent();
+                        Bounds exitBounds = game.getExit().getBoundsInParent();
+                        if (playerBounds.intersects(exitBounds)){
+                            gameCompleted();
+                        }
                     }
                 }
                 
