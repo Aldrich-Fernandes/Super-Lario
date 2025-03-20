@@ -89,6 +89,7 @@ public class PauseScreen extends BaseScreen
     }    
  
     public void showPauseScreen(){
+        // overlayOverMainWindow();
         overlayStage.show();
     }
     
@@ -96,4 +97,9 @@ public class PauseScreen extends BaseScreen
         overlayStage.hide();
     }
     
+    private void overlayOverMainWindow() {
+        Stage mainStage = gameManager.getStage();
+        overlayStage.setX(mainStage.getX());
+        overlayStage.setY(mainStage.getY());
+    } 
 }
