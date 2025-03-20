@@ -67,8 +67,8 @@ public class LevelManager
         return newMap;
     }
     
-    public int randomKeyRoomIndex() {
-        return rand.nextInt(1, GameScreen.numberOfScreens-1);
+    public int randomKeyRoomIndex(int numberOfScreens) {
+        return rand.nextInt(1, numberOfScreens-1);
     }
     
 }
