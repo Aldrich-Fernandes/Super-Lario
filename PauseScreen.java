@@ -89,7 +89,7 @@ public class PauseScreen extends BaseScreen
     }    
  
     public void showPauseScreen(){
-        // overlayOverMainWindow();
+        overlayOverMainWindow();
         overlayStage.show();
     }
     
