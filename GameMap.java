@@ -15,7 +15,7 @@ import javafx.scene.image.ImageView;
  */
 public class GameMap {
     // Constants for tile dimensions
-    public static final int TILE_SIZE = 40;
+    public static final int TILE_SIZE = 30;
     
     // The main container for all tiles
     private Pane mapPane;
@@ -35,7 +35,7 @@ public class GameMap {
     private List<Tile> terrainTiles;
     private List<Trap> traps;
     private Key key;
-    private Exit exit;
+    private Tile exit;
     
     /**
      * Creates a new GameMap and loads the specified level file.
@@ -123,6 +123,7 @@ public class GameMap {
                 Tile backgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
                 tiles[x][y] = backgroundTile;
                 mapPane.getChildren().add(backgroundTile);
+                showSprite(backgroundTile, x, y);
                 
                 playerX = x * TILE_SIZE + TILE_SIZE/2;
                 playerY = y * TILE_SIZE + TILE_SIZE/2;
@@ -135,6 +136,7 @@ public class GameMap {
                 Tile coinBackgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
                 tiles[x][y] = coinBackgroundTile;
                 mapPane.getChildren().add(coinBackgroundTile);
+                showSprite(coinBackgroundTile, x, y);
                 
                 // Create coin at this position
                 Coin coin = new Coin(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE/3);
@@ -147,20 +149,21 @@ public class GameMap {
                 Tile keyBackgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
                 tiles[x][y] = keyBackgroundTile;
                 mapPane.getChildren().add(keyBackgroundTile);
+                showSprite(keyBackgroundTile, x, y);
                 
                 // Create a key object (you would need to implement this class)
                 key = new Key(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE/2);
                 mapPane.getChildren().add(key);
+                
                 break;
                 
             case 'A': // Exit
                 // Create an empty/background tile first
-                Tile exitBackgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
-                tiles[x][y] = exitBackgroundTile;
-                mapPane.getChildren().add(exitBackgroundTile);
-                
-                exit = new Exit(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE);
+                exit = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "EXIT");
+                tiles[x][y] = exit;
                 mapPane.getChildren().add(exit);
+                showSprite(exit, x, y);
+                
                 break;
             
             case 'S':
@@ -252,7 +255,7 @@ public class GameMap {
     /**
      * Get the exit in the level
      */
-    public Exit getExit() {
+    public Tile getExit() {
         return exit;
     }
     

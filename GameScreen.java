@@ -36,6 +36,9 @@ public class GameScreen extends BaseScreen
     private Player player;
     private Pane gamePane;
     private AnimationTimer gameLoop;
+    private long lastUpdateTime = 0;
+    private int frameCount = 0;
+    private long lastFpsUpdateTime = 0;
     private LevelManager levelManager;
     
     private Tile[][] tiles;
@@ -43,7 +46,7 @@ public class GameScreen extends BaseScreen
     private List<Coin> coins;
     private List<Trap> traps;
     private Key key;
-    private Exit exit;
+    private Tile exit;
     
     private int coinCount = 0;
     private int index;
@@ -51,6 +54,7 @@ public class GameScreen extends BaseScreen
     
     private Label coinLabel;
     private Label keyLabel;
+    private Label fpsLabel;
     private Label healthLabel;
     
     private Timeline timer;
@@ -78,19 +82,16 @@ public class GameScreen extends BaseScreen
         
         // Adding coin display functionality
         coinLabel = new Label("Coint Count: 0");
-        coinLabel.setLayoutX(10);
-        coinLabel.setLayoutY(10);
         coinLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
         
         keyLabel = new Label("Key Collected: false");
-        keyLabel.setLayoutX(10);
-        keyLabel.setLayoutY(10);
         keyLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
         
         countdownLabel = new Label("Time remaining: " + timeRemaining);
         countdownLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
-        countdownLabel.setLayoutX(1010); 
-        countdownLabel.setLayoutY(-35);
+        
+        fpsLabel = new Label("FPS: 0");
+        fpsLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
         
         healthLabel = new Label("Health: 100");
         healthLabel.setLayoutX(10);
@@ -104,15 +105,7 @@ public class GameScreen extends BaseScreen
         statsBox.setMaxHeight(20);  // Set the maximum height to 40 pixels      
         statsBox.setAlignment(Pos.CENTER_LEFT);
         statsBox.setPadding(new Insets(10));
-        statsBox.getChildren().addAll(coinLabel, keyLabel,countdownLabel, healthLabel);
-        
-        // Reset the coinLabel and keyLabel positions
-        coinLabel.setLayoutX(0);
-        coinLabel.setLayoutY(0);
-        keyLabel.setLayoutX(0);
-        keyLabel.setLayoutY(0);
-        healthLabel.setLayoutX(0);
-        healthLabel.setLayoutY(0);
+        statsBox.getChildren().addAll(coinLabel, keyLabel, countdownLabel, fpsLabel);
         
         root.getChildren().add(statsBox);
         
@@ -301,7 +294,7 @@ public class GameScreen extends BaseScreen
     private void checkOutOfBounds() {
         if (player.getCenterX() < 0 || player.getCenterX() > (levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE)) {
             //System.out.println("CENTERX: " + player.getCenterX() + ", INDEX: " + index);
-            GameMap newRoom = levelManager.generateRandomRoom();
+            GameMap newRoom;
             
             gamePane.getChildren().remove(player);
             root.getChildren().remove(gamePane);
@@ -311,16 +304,18 @@ public class GameScreen extends BaseScreen
                     newRoom = levelMaps[index-1];
                 }
                 else {
+                    newRoom = levelManager.generateRandomRoom();
                     levelMaps[index-1] = newRoom;
                 }
                 index--;
                 player.setCenterX((newRoom.getWidth() * newRoom.TILE_SIZE) + player.getCenterX());
             }
-            else if (player.getCenterX() > (levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE)) {
+            else {
                 if (levelMaps[index + 1] != null) {
                     newRoom = levelMaps[index+1];
                 }
                 else {
+                    newRoom = levelManager.generateRandomRoom();
                     levelMaps[index+1] = newRoom;
                 }
                 index++;
@@ -339,26 +334,46 @@ public class GameScreen extends BaseScreen
         } 
     }
     
-    /**
-     * Set up game loop with AnimationTimer
-     * check this: https://stackoverflow.com/questions/73326895/javafx-animationtimer-and-events
-     * ^ I'm not sure if we want to keep the game at 60fps or if you got something else in mind.
+        /**
+     * Set up game loop with AnimationTimer for uncapped FPS
      */
     private void setGameLoop() {
+        lastUpdateTime = System.nanoTime();
+        lastFpsUpdateTime = System.nanoTime();
+        frameCount = 0;
+        
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                updateGameState();
+                // Calculate delta time in seconds
+                double deltaTime = (now - lastUpdateTime) / 1_000_000_000.0;
+                
+                // Update game state
+                updateGameState(deltaTime);
+                
+                // Store time for next frame
+                lastUpdateTime = now;
+                
+                // FPS counter logic
+                frameCount++;
+                long elapsedNanos = now - lastFpsUpdateTime;
+                if (elapsedNanos > 1_000_000_000) { // Update FPS display once per second
+                    double actualFps = frameCount / (elapsedNanos / 1_000_000_000.0);
+                    fpsLabel.setText(String.format("FPS: %.1f", actualFps));
+                    frameCount = 0;
+                    lastFpsUpdateTime = now;
+                }
             }
         };
+        
         gameLoop.start();
     }
 
     /**
      * Main game update method - might be a good idea to take it to game manager?
      */
-    private void updateGameState() {
-        player.update();
+    private void updateGameState(double deltaTime) {
+        player.update(deltaTime);
         checkCollisions();
         checkOutOfBounds();
         checkCoins();
@@ -406,7 +421,7 @@ public class GameScreen extends BaseScreen
                     coinCount -= key.getRequiredCoins();
                     
                     // Collection Feedback - Change so that it is a label
-                    showKeyCollectedMessage(true);
+                    showKeyCollectedMessage();
                 }
             }
         }
@@ -415,7 +430,7 @@ public class GameScreen extends BaseScreen
     /**
      * Show a message when the key is collected
      */
-    private void showKeyCollectedMessage(boolean collected) {
+    private void showKeyCollectedMessage() {
         // pause the game and reset player input
         gameLoop.stop();
         player.resetInputState();
@@ -424,11 +439,10 @@ public class GameScreen extends BaseScreen
         // make a alert!
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
-        if (collected){
-            alert.setTitle("Key Collected");
-            alert.setContentText("You have collected the key! Coins have been used for the purchase.");
-            alert.show();
-        }
+        alert.setTitle("Key Collected");
+        alert.setContentText("You have collected the key! Coins have been used for the purchase.");
+        alert.show();
+        
         // continue the game!
         alert.setOnHidden(e -> {gameLoop.start();
                             resumeCountdown(); }
@@ -440,18 +454,12 @@ public class GameScreen extends BaseScreen
      */
     private void checkExit() {
         // Only check for exit interaction if exit exists in the current level
-        if (exit != null) {
+        if (exit != null && keyCollected) {
             // Update the exit appearance based on key status
-            if (keyCollected) {
-                exit.setFill(Color.LIMEGREEN);
-                exit.setOpacity(1.0);
-            } else {
-                exit.setFill(Color.DARKGREEN);
-                exit.setOpacity(0.5);
-            }
-            
+            exit.setFill(Color.LIMEGREEN);
+            exit.setOpacity(1.0);
             // Check if player interacts with exit while having key
-            if (exit.checkInteraction(player, keyCollected)) {
+            if (player.getBoundsInParent().intersects(exit.getBoundsInParent())) {
                 gameCompleted();
             }
         }

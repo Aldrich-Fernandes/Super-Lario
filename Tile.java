@@ -39,28 +39,23 @@ public class Tile extends Rectangle {
     private void configureTileProperties() {
         switch (type) {
             case "TERRAIN":
-                //loadSprite("Sprites/stone_brick12.png");
-                setFill(Color.DARKGRAY);
-                setStroke(Color.BLACK);
-                setStrokeWidth(1);
+                loadSprite("Sprites/stone_brick12.png");
                 isPassable = false;
                 break;
                 
             case "BACKGROUND":
-                //loadSprite("Sprites/shadow_w.png");
+                loadSprite("Sprites/brick_dark2.png");
                 setOpacity(0.3); // Semi-transparent
                 isPassable = true;
                 break;
                 
             case "KEY":
-                //loadSprite("Sprites/key.png");
-                setOpacity(0.3); // Semi-transparent
+                loadSprite("Sprites/key.png");
                 isPassable = true;
                 break;
                 
-            case "COIN":
-                setFill(Color.LIGHTBLUE);
-                setOpacity(0.3); // Semi-transparent
+            case "EXIT":
+                loadSprite("Sprites/dngn_closed_door.png");
                 isPassable = true;
                 break;
                 

@@ -67,7 +67,7 @@ public class Player extends Circle {
     /**
      * Updates player position and velocity based on input and physics
      */
-    public void update() {
+    public void update(double deltaTime) {
         if (!isAlive){
             return;
         }
@@ -85,13 +85,15 @@ public class Player extends Circle {
         
         // Apply gravity
         if(!isOnGround) 
-            velocityY += GRAVITY;
+            velocityY += GRAVITY * deltaTime * 60;
             if (velocityY > MAX_VELOCITY){
                 velocityY = MAX_VELOCITY;
             }
             
-        setCenterX(getCenterX() + velocityX);
-        setCenterY(getCenterY() + velocityY);  
+        setCenterX(getCenterX() + velocityX * deltaTime * 60);
+        setCenterY(getCenterY() + velocityY * deltaTime * 60);
+        
+        
     }
     
     /**
