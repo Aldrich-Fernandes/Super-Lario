@@ -2,20 +2,20 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 E                            E
 E                            E
 E             C              E
-E                            E
+E                      S     E
 E        XXXXX       XXX     E
 E            XXXX   X        E
 E  C         X               E
-E  XX        X           C   E
+E  XX        X        S  C   E
 E  XXX                XXXXX  E
-E  XXXX                 X    E
+E  XXXX                XX    E
 E  XXXXX        C       X    E
 E  XXXXXX   X           X    E
 E   X  X        X       X    E
 E   X  X                X    E
 E   X       XX               E
 E            X               E
-E      C     X               E
+E      C     X      S        E
 E     XXXXX       XXXXX      E
-E      X X         X X       E
+E    SSX X  SSSSS  X X       E
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

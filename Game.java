@@ -16,13 +16,13 @@ public class Game {
     private int coinCount = 0;
     private int index;
     private boolean keyCollected = false;
-    private int timeRemaining = 180; // 3 minutes
+    private int timeRemaining = 120; // 2 minutes
     private boolean isPaused = false;
-    private int score;
     
     // References to current level elements
     private Tile[][] tiles;
     private List<Coin> coins;
+    private List<Trap> traps;
     private Key key;
     private Tile exit;
     
@@ -45,7 +45,7 @@ public class Game {
         index = 0;
         coinCount = 0;
         keyCollected = false;
-        timeRemaining = 180;
+        timeRemaining = 120;
         isPaused = false;
         
         // Initialize player and current level elements
@@ -59,6 +59,7 @@ public class Game {
     private void updateCurrentLevelElements() {
         tiles = levelMaps[index].getTile();
         coins = levelMaps[index].getCoins();
+        traps = levelMaps[index].getTraps();
         key = levelMaps[index].getKey();
         exit = levelMaps[index].getExit();
     }
@@ -75,7 +76,7 @@ public class Game {
         checkOutOfBounds();
         checkCoins();
         checkKey();
-        checkExit();
+        checkTraps();
     }
     
     /**
@@ -192,14 +193,32 @@ public class Game {
     }
     
     /**
-     * Check if player has reached the exit
+     * Check if player has collected the key
      */
-    private void checkExit() {
-        if (exit != null && keyCollected) {
-            if (player.getBoundsInParent().intersects(exit.getBoundsInParent())) {
-                // Game completed logic
+    private void checkTraps() {
+        for (Trap trap : traps) {
+            if (!player.checkAlive()){
+                continue;
             }
+            
+            trap.checkInteraction(player);
         }
+    }
+    
+    /**
+     * Calculated score
+     */
+    public int calculateScore(){
+        if (!player.checkAlive() || (timeRemaining <= 0)){
+            return 0;
+        }
+        int timeBonus = timeRemaining * 10;
+        int coinBonus = coinCount * 50;
+        int healthBonus = player.getHealth() * 5;
+        
+        
+        int totalScore = timeBonus + coinBonus + healthBonus;
+        return totalScore;
     }
     
     /**
@@ -219,6 +238,10 @@ public class Game {
         return player;
     }
     
+    public int getPlayerHealth(){
+        return player.getHealth();
+    }
+    
     public GameMap getCurrentMap() {
         return levelMaps[index];
     }
@@ -229,6 +252,10 @@ public class Game {
     
     public List<Coin> getCoins() {
         return coins;
+    }
+    
+    public List<Trap> getTraps() {
+        return traps;
     }
     
     public Key getKey() {

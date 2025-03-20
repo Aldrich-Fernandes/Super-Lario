@@ -2,6 +2,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.input.KeyCode;
+
 import java.util.List;
 import java.util.HashMap;
 
@@ -16,7 +17,7 @@ public class Player extends Circle {
     private static final double JUMP_FORCE = -17;       // Player can jump up 4 tiles
     private static final double MOVE_SPEED = 3.5;       // Player can jump 4 wide gaps
     
-    // Movement 
+    // Movement states 
     private double velocityX = 0;
     private double velocityY = 0;
     private boolean isOnGround = true;
@@ -25,6 +26,10 @@ public class Player extends Circle {
     private boolean leftPressed = false;
     private boolean rightPressed = false;
     private boolean jumpPressed = false;
+    
+    // Player Stats
+    private boolean isAlive = true;
+    private int health = 100;
     
     
     /**
@@ -63,6 +68,10 @@ public class Player extends Circle {
      * Updates player position and velocity based on input and physics
      */
     public void update(double deltaTime) {
+        if (!isAlive){
+            return;
+        }
+        
         // Apply horizontal movement
         if      (leftPressed)       velocityX = -MOVE_SPEED;
         else if (rightPressed)      velocityX = MOVE_SPEED;
@@ -102,6 +111,17 @@ public class Player extends Circle {
         return isOnGround;
     }
     
+    /**
+     * Return if the player is still alive
+     */
+    public boolean checkAlive(){
+        return isAlive;
+    }
+    
+    public int getHealth(){
+        return health;
+    }
+    
     public void setIsOnGround(boolean onGround) {
         this.isOnGround = onGround;
     } 
@@ -111,6 +131,14 @@ public class Player extends Circle {
     }
     public void stopHorizontalMovement(){
         velocityX = 0.0;
+    }
+    
+    public void applyDamage(int damage){
+        health -= damage;
+        if (health < 0){
+            health = 0;
+            isAlive = false;
+        }
     }
     
     /**

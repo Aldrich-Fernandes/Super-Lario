@@ -49,7 +49,7 @@ public abstract class BaseScreen
     
     /**
      * Where subclasses add more elements to the scene
-     */
+     */  
     protected abstract void setContent();
     
     public Scene getScene(){
@@ -73,7 +73,7 @@ public abstract class BaseScreen
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Controls");
         alert.setHeaderText(null);
-        alert.setContentText("  D   - Move right\n"+"  A   - Move left\n"+"SPACE - Jump\n");
+        alert.setContentText("  D   - Move right\n"+"  A   - Move left\n"+"SPACE - Jump\n"+"ESC - Pause\n");
         alert.showAndWait();
     }
     

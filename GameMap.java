@@ -33,6 +33,7 @@ public class GameMap {
     private Player player;
     private List<Coin> coins;
     private List<Tile> terrainTiles;
+    private List<Trap> traps;
     private Key key;
     private Tile exit;
     
@@ -46,6 +47,7 @@ public class GameMap {
         
         coins = new ArrayList<>();
         terrainTiles = new ArrayList<>();
+        traps = new ArrayList<>();
         
         loadLevelFromFile(levelFilePath);
     }
@@ -164,6 +166,18 @@ public class GameMap {
                 showSprite(exit, x, y);
                 
                 break;
+            
+            case 'S':
+                // Create an empty/background tile first
+                Tile trapBackgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
+                tiles[x][y] = trapBackgroundTile;
+                mapPane.getChildren().add(trapBackgroundTile);
+                showSprite(trapBackgroundTile, x, y);    
+                
+                Spike spike = new Spike(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE);
+                traps.add(spike);
+                mapPane.getChildren().add(spike);
+                break;
                 
             default: // Empty space
                 Tile emptyTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
@@ -221,6 +235,15 @@ public class GameMap {
      */
     public List<Coin> getCoins() {
         return coins;
+    }
+    
+    /**
+     * Get all Traps in the level
+     * 
+     * @return List of traps
+     */
+    public List<Trap> getTraps() {
+        return traps;
     }
     
     /**

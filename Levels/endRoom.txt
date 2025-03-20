@@ -2,7 +2,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 E                            X
 E      XXXXX      XXXXX      X
 E      X   X      X   X      X
-E      X   X      X   X      X
+E      X  SX      XS  X      X
 E      X  XX      XX  X      X
 E      XXXXX      XXXXX      X
 E                            X
@@ -11,11 +11,11 @@ E                            X
 E                            X
 E              A             X
 E              X             X
-E            XXXXX           X
-E        XXXXXXXXXXXXX       X
+E           SXXXXXS          X
+E       SXXXXXXXXXXXXXS      X
 E       XXXXXXXXXXXXXXX      X
 E      XXXXXXXXXXXXXXXXX     X
-E     XXXXXXXXXXXXXXXXXXX    X
+E    SXXXXXXXXXXXXXXXXXXXS   X
 E    XXXXXXXXXXXXXXXXXXXXX   X
 E   XXXXXXXXXXXXXXXXXXXXXXX  X
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

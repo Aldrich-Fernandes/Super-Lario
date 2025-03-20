@@ -1,8 +1,10 @@
 import javafx.application.Application;
+import javafx.geometry.Insets;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+
 import javafx.scene.Scene;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -18,6 +20,7 @@ public class GameManager
     private TitleScreen titleScreen;
     private GameScreen gameScreen;    
     private PauseScreen pauseScreen;
+    private GameOverScreen gameOverScreen;
 
     public GameManager(Stage stage)
     {
@@ -29,6 +32,7 @@ public class GameManager
         
         // Other Components
         titleScreen = new TitleScreen(this, 600, 600);
+        gameOverScreen = new GameOverScreen(this, 600, 600);
         gameScreen = new GameScreen(this, 900, 690);
         pauseScreen = new PauseScreen(this, gameScreen, 900, 690);
     }    
@@ -40,8 +44,12 @@ public class GameManager
     }
     
     public void showTitleScreen(){
-        System.out.println("showing title screen");
         changeScene(titleScreen.getScene());
+    }
+    
+    public void showGameOverScreen(boolean win, int score, String comment){
+        gameOverScreen.displayOutcome(win, score, comment);
+        changeScene(gameOverScreen.getScene());
     }
     
     public void changeScene(Scene scene){
