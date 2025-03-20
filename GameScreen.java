@@ -94,8 +94,6 @@ public class GameScreen extends BaseScreen
         fpsLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
         
         healthLabel = new Label("Health: 100");
-        healthLabel.setLayoutX(10);
-        healthLabel.setLayoutY(10);
         healthLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
         
         // With this code:
