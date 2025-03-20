@@ -306,33 +306,4 @@ public class GameScreen extends BaseScreen {
         
         gameLoop.start();
     }
-
-    /**
-     * Show a message when key is collected
-     */
-    private void showKeyCollectedMessage() {
-        // Pause the game
-        gameLoop.stop();
-        game.setPaused(true);
-        if (timer != null) {
-            timer.pause();
-        }
-        
-        // Show alert
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(null);
-        alert.setTitle("Key Collected");
-        alert.setContentText("You have collected the key! Coins have been used for the purchase.");
-        
-        // Resume when alert is closed
-        alert.setOnHidden(e -> {
-            gameLoop.start();
-            game.setPaused(false);
-            if (timer != null) {
-                timer.play();
-            }
-        });
-        
-        alert.show();
-    }
 }
