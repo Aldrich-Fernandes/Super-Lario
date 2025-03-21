@@ -41,6 +41,7 @@ public class GameManager
     
     public void startGame(boolean resume){
         if (resume == false) {
+            //gameScreen.reset();
             gameScreen = new GameScreen(this, 900, 690);
             pauseScreen = new PauseScreen(this, gameScreen, 900, 690);
             gameScene = gameScreen.getScene();

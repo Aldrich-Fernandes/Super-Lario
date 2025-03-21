@@ -50,6 +50,9 @@ public class GameScreen extends BaseScreen {
      */
     protected void setContent() {
         // Main game pane where game objects are rendered
+        if (gamePane != null){
+            gamePane.getChildren().clear();
+        }
         gamePane = game.getCurrentMap().getMapGrid();
         
         // Add UI elements
@@ -68,22 +71,22 @@ public class GameScreen extends BaseScreen {
     private void setupUIElements() {
         // Coin counter label
         coinLabel = new Label("Coin Count: 0");
-        coinLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
+        coinLabel.getStyleClass().add("ui_lbl");
         
         // Key collected status label
         keyLabel = new Label("Key Collected: false");
-        keyLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
+        keyLabel.getStyleClass().add("ui_lbl");
         
         healthLabel= new Label("Health: 100");
-        healthLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
+        healthLabel.getStyleClass().add("ui_lbl");
         
         // Countdown timer label
         countdownLabel = new Label("Time remaining: " + game.getTimeRemaining());
-        countdownLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
+        countdownLabel.getStyleClass().add("ui_lbl");
         
         // FPS counter label
         fpsLabel = new Label("FPS: 0");
-        fpsLabel.setStyle("-fx-font-size: 20px; -fx-text-fill: black;");
+        fpsLabel.getStyleClass().add("ui_lbl");
         
         // Stats container
         statsBox = new HBox(20);
@@ -172,12 +175,22 @@ public class GameScreen extends BaseScreen {
      * Reset the game to its initial state (DOESNT WORK YET PLEASE FIX PRETTY PLEASE)
      */
     public void reset() {
-        gamePane.getChildren().remove(game.getPlayer());
-        root.getChildren().removeAll(gamePane, statsBox);
-        game = new Game();
+        // Terminates any ongoing timers and game loops from previous game.
+        if (timer != null){
+            timer.stop();
+        }
+        if (gameLoop != null){
+            gameLoop.stop();
+        }
+        
+        game.reset();
+        
+        root.getChildren().clear();
+        root.getChildren().add(makeMenuBar());
+        
         setupView();
         setGameLoop();
-        setContent();
+        
     }
     
     /**
@@ -244,9 +257,10 @@ public class GameScreen extends BaseScreen {
         int score = 0;
         String comment = "";
         
-        if (!game.getPlayer().checkAlive())     {comment="You've developed a rather deadly attraction to spikes.";}
-        else if (game.getTimeRemaining() <= 0)  {comment="The clock strikes zero, and so does your chance of survival. Better luck next time!";}
-        else                                    {score = game.calculateScore();}
+        if (!game.getPlayer().checkAlive())                 {comment="You've developed a rather deadly attraction to spikes.";}
+        else if (game.getTimeRemaining() <= 0)              {comment="The clock strikes zero, and so does your chance of survival. Better luck next time!";}
+        else if (game.isCheating())                         {comment="Cheater Cheater, Pumpkin Eater";}
+        else                                                {score = game.calculateScore();}
         if (score == 0) {gameManager.showGameOverScreen(false, score, comment);}
         else            {gameManager.showGameOverScreen(true, score, comment);}
              
@@ -272,7 +286,7 @@ public class GameScreen extends BaseScreen {
                     handleSceneChange();
                     updateUI();
                     
-                    // Check for game completion (if player is dead or end is reached)
+                    // Check for game completion states (if player is dead, end is reached or player caught cheating)
                     if (!game.getPlayer().checkAlive()){
                         gameCompleted();
                     }
@@ -283,7 +297,10 @@ public class GameScreen extends BaseScreen {
                             gameCompleted();
                         }
                     }
-                }   
+                    else if(game.CheckOutOfWorldBounds(height, width)){
+                        gameCompleted();
+                    }
+                }
                 
                 // Update FPS counter
                 frameCount++;

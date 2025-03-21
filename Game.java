@@ -16,8 +16,10 @@ public class Game {
     private int coinCount = 0;
     private int index;
     private boolean keyCollected = false;
-    private int timeRemaining = 120; // 2 minutes
+    private static final int initialTime = 120;
+    private int timeRemaining = initialTime; // 2 minutes
     private boolean isPaused = false;
+    private boolean cheating = false;
     
     // References to current level elements
     private Tile[][] tiles;
@@ -45,12 +47,13 @@ public class Game {
         index = 0;
         coinCount = 0;
         keyCollected = false;
-        timeRemaining = 120;
+        timeRemaining = initialTime;
         isPaused = false;
         
         // Initialize player and current level elements
         updateCurrentLevelElements();
         player = new Player(levelMaps[index].getPlayerX(), levelMaps[index].getPlayerY(), levelMaps[index].getPlayerRadius());
+        setPaused(false);
     }
     
     /**
@@ -84,6 +87,7 @@ public class Game {
      */
     private void checkCollisions() {
         boolean onPlatform = false;
+        boolean collision = false;
         
         // Player edges
         HashMap<String, Double> playerEdges = player.getEdges();
@@ -118,32 +122,35 @@ public class Game {
                         player.setCenterY(tile_top - player_radius);
                         onPlatform = true;
                         player.stopVerticleMovement();
-                        break;
+                        collision = true;
                     }
                     // Collision with bottom of platform
                     else if (minOverlap == bottomOverlap && player.getVelocityY() < 0) {
                         player.setCenterY(tile_bottom + player_radius);
                         player.stopVerticleMovement();
-                        break;
+                        collision = true;
                     }
                     // Collision with left of platform
                     else if (minOverlap == leftOverlap && player.getVelocityX() > 0) {
                         player.setCenterX(tile_left - player_radius);
                         player.stopHorizontalMovement();
-                        break;
+                        collision = true;
                     }
                     // Collision with right of platform
                     else if (minOverlap == rightOverlap && player.getVelocityX() < 0) {
                         player.setCenterX(tile_right + player_radius);
                         player.stopHorizontalMovement();
+                        collision = true;
+                    } 
+
+                    if (collision){
                         break;
                     }
                 }
-            }
-        }
-        
+            }     
         // Update player ground state
         player.setIsOnGround(onPlatform);
+        }
     }
     
     /**
@@ -163,6 +170,20 @@ public class Game {
             
             updateCurrentLevelElements();
         }
+    }
+    
+    public boolean CheckOutOfWorldBounds(int verticleLimit, int horizontalLimit){
+        boolean state = false;
+        // Checks if player has fallen through the world or avoid the ceiling
+        if (player.getCenterY() < 0 || player.getCenterY() > verticleLimit){
+            state = true;
+        }
+        else if ((player.getCenterX() < 0 && index==0) || (player.getCenterX() > horizontalLimit && index==numberOfScreens-1)){
+            state = true;
+        }
+        
+        cheating = state;
+        return state;
     }
     
     /**
@@ -276,6 +297,14 @@ public class Game {
     
     public int getTimeRemaining() {
         return timeRemaining;
+    }
+    
+    public int getInitialTime(){
+        return initialTime;
+    }
+    
+    public boolean isCheating(){
+        return cheating;
     }
     
     public void setPaused(boolean paused) {
