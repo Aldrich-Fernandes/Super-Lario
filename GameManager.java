@@ -21,6 +21,8 @@ public class GameManager
     private GameScreen gameScreen;    
     private PauseScreen pauseScreen;
     private GameOverScreen gameOverScreen;
+    private Scene gameScene;
+    
 
     public GameManager(Stage stage)
     {
@@ -37,10 +39,20 @@ public class GameManager
         pauseScreen = new PauseScreen(this, gameScreen, 900, 690);
     }    
     
-    public void startGame(){
-        gameScreen.reset();
-        changeScene(gameScreen.getScene());
-        gameScreen.startCountdown();
+    public void startGame(boolean resume){
+        if (resume == false) {
+            //gameScreen.reset();
+            gameScreen = new GameScreen(this, 900, 690);
+            pauseScreen = new PauseScreen(this, gameScreen, 900, 690);
+            gameScene = gameScreen.getScene();
+            changeScene(gameScene);
+            gameScreen.startCountdown();
+        }
+        else if (resume == true) {
+            gameScreen.changePauseTimer();
+            gameScreen.resumeCountdown();
+            changeScene(gameScene); 
+        }
     }
     
     public void showTitleScreen(){

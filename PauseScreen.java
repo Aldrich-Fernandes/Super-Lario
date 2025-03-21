@@ -59,13 +59,13 @@ public class PauseScreen extends BaseScreen
         
         //the buttons
         resumeBtn = new Button("Resume");
-        exitBtn = new Button("Exit");
+        exitBtn = new Button("Main Menu");
         
         //dealing with button/escape from inside this stage
         resumeBtn.setOnAction(event -> {
-            gameScreen.resumeCountdown();
             hidePauseScreen();
             gameScreen.changePauseTimer();
+            gameScreen.resumeCountdown();
         });
         
         overlayScene.setOnKeyPressed(event -> {
@@ -73,15 +73,12 @@ public class PauseScreen extends BaseScreen
                     hidePauseScreen();
                     gameScreen.changePauseTimer();
                     gameScreen.resumeCountdown();
-                    
                 }
         });
         
         exitBtn.setOnAction(event -> {
             hidePauseScreen();
-            gameScreen.resetTimer();
             gameManager.showTitleScreen();
-            
         } );
 
         overlayRoot.getChildren().addAll(resumeBtn, exitBtn);
@@ -99,6 +96,7 @@ public class PauseScreen extends BaseScreen
     
     private void overlayOverMainWindow() {
         Stage mainStage = gameManager.getStage();
+        System.out.println(mainStage.getX());
         overlayStage.setX(mainStage.getX());
         overlayStage.setY(mainStage.getY());
     } 

@@ -26,6 +26,7 @@ public class GameScreen extends BaseScreen {
     private long lastFpsUpdateTime = 0;
     
     // UI components
+    private HBox statsBox;
     private Label coinLabel;
     private Label keyLabel;
     private Label fpsLabel;
@@ -88,7 +89,7 @@ public class GameScreen extends BaseScreen {
         fpsLabel.getStyleClass().add("ui_lbl");
         
         // Stats container
-        HBox statsBox = new HBox(20);
+        statsBox = new HBox(20);
         statsBox.setPrefHeight(20);
         statsBox.setMinHeight(20);
         statsBox.setMaxHeight(20);      
@@ -171,7 +172,7 @@ public class GameScreen extends BaseScreen {
     }
     
     /**
-     * Reset the game to its initial state
+     * Reset the game to its initial state (DOESNT WORK YET PLEASE FIX PRETTY PLEASE)
      */
     public void reset() {
         // Terminates any ongoing timers and game loops from previous game.
