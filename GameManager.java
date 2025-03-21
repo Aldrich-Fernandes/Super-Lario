@@ -32,10 +32,8 @@ public class GameManager
     }    
     
     public void startGame(boolean resume){
-        if (resume == false) {
-            //gameScreen.reset();
-            gameScreen = new GameScreen(this, 900, 690);
-            pauseScreen = new PauseScreen(this, gameScreen, 900, 690);
+        if (resume == false || (resume == true && gameScreen.isCompleted())) {
+            gameScreen.reset();
             gameScene = gameScreen.getScene();
             changeScene(gameScene);
             gameScreen.startCountdown();
