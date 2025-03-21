@@ -38,7 +38,7 @@ public class GameManager
     }    
     
     public void startGame(){
-        //gameScreen.reset();
+        gameScreen.reset();
         changeScene(gameScreen.getScene());
         gameScreen.startCountdown();
     }

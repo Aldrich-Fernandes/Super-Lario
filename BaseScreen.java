@@ -25,7 +25,7 @@ public abstract class BaseScreen
         root.getChildren().add(makeMenuBar());
     }
     
-    private MenuBar makeMenuBar(){        
+    protected MenuBar makeMenuBar(){        
         MenuBar menuBar = new MenuBar();
         
         Menu fileMenu = new Menu("File");
@@ -81,7 +81,7 @@ public abstract class BaseScreen
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Guide");
         alert.setHeaderText(null);
-        alert.setContentText("Goals: \n 1). Locate the Key \n 2). Collect Coins \n 3). Escape ");
+        alert.setContentText("Goals: \n 1). Locate the Key \n 2). Collect Coins  \n 4). Don't Die \n 3). Escape ");
         alert.showAndWait();
     }
 }

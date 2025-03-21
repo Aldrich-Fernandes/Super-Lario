@@ -16,8 +16,10 @@ public class Game {
     private int coinCount = 0;
     private int index;
     private boolean keyCollected = false;
-    private int timeRemaining = 120; // 2 minutes
+    private static final int initialTime = 120;
+    private int timeRemaining = initialTime; // 2 minutes
     private boolean isPaused = false;
+    private boolean cheating = false;
     
     // References to current level elements
     private Tile[][] tiles;
@@ -45,12 +47,13 @@ public class Game {
         index = 0;
         coinCount = 0;
         keyCollected = false;
-        timeRemaining = 120;
+        timeRemaining = initialTime;
         isPaused = false;
         
         // Initialize player and current level elements
         updateCurrentLevelElements();
         player = new Player(levelMaps[index].getPlayerX(), levelMaps[index].getPlayerY(), levelMaps[index].getPlayerRadius());
+        setPaused(false);
     }
     
     /**
@@ -165,6 +168,20 @@ public class Game {
         }
     }
     
+    public boolean CheckOutOfWorldBounds(int verticleLimit, int horizontalLimit){
+        boolean state = false;
+        // Checks if player has fallen through the world or avoid the ceiling
+        if (player.getCenterY() < 0 || player.getCenterY() > verticleLimit){
+            state = true;
+        }
+        else if ((player.getCenterX() < 0 && index==0) || (player.getCenterX() > horizontalLimit && index==numberOfScreens-1)){
+            state = true;
+        }
+        
+        cheating = state;
+        return state;
+    }
+    
     /**
      * Check if player has collected any coins
      */
@@ -276,6 +293,14 @@ public class Game {
     
     public int getTimeRemaining() {
         return timeRemaining;
+    }
+    
+    public int getInitialTime(){
+        return initialTime;
+    }
+    
+    public boolean isCheating(){
+        return cheating;
     }
     
     public void setPaused(boolean paused) {
