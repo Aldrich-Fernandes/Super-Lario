@@ -1,11 +1,6 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -17,7 +12,7 @@ import java.util.Random;
 public class LevelManager
 {
     private List<String> levelPaths;
-    private Random rand;
+    private final Random rand;
     
     public LevelManager() {
         loadLevelPaths();

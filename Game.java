@@ -7,17 +7,16 @@ import java.util.HashMap;
  */
 public class Game {
     // Constants
-    public static final int numberOfScreens = 6;
+    public static final int NO_OF_SCREENS = 6;
+    private static final int INITIAL_TIME = 120;
     
     // Game state
     private Player player;
-    private int currentScene;
     private GameMap[] levelMaps;
     private int coinCount = 0;
     private int index;
     private boolean keyCollected = false;
-    private static final int initialTime = 120;
-    private int timeRemaining = initialTime; // 2 minutes
+    private int timeRemaining = INITIAL_TIME; // 2 minutes
     private boolean isPaused = false;
     private boolean cheating = false;
     
@@ -47,7 +46,7 @@ public class Game {
         index = 0;
         coinCount = 0;
         keyCollected = false;
-        timeRemaining = initialTime;
+        timeRemaining = INITIAL_TIME;
         isPaused = false;
         
         // Initialize player and current level elements
@@ -178,7 +177,7 @@ public class Game {
         if (player.getCenterY() < 0 || player.getCenterY() > verticleLimit){
             state = true;
         }
-        else if ((player.getCenterX() < 0 && index==0) || (player.getCenterX() > horizontalLimit && index==numberOfScreens-1)){
+        else if ((player.getCenterX() < 0 && index==0) || (player.getCenterX() > horizontalLimit && index==NO_OF_SCREENS-1)){
             state = true;
         }
         
@@ -299,8 +298,8 @@ public class Game {
         return timeRemaining;
     }
     
-    public int getInitialTime(){
-        return initialTime;
+    public int getINITIAL_TIME(){
+        return INITIAL_TIME;
     }
     
     public boolean isCheating(){

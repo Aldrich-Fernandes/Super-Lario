@@ -1,10 +1,6 @@
 import javafx.geometry.*;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 /**

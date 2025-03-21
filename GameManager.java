@@ -1,13 +1,4 @@
-import javafx.application.Application;
-import javafx.geometry.Insets;
-
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 /**
@@ -16,11 +7,12 @@ import javafx.stage.Stage;
  */
 public class GameManager
 {
-    private Stage stage;
-    private TitleScreen titleScreen;
+    private final Stage stage;
+    private final TitleScreen titleScreen;
+    private final GameOverScreen gameOverScreen;
+    
     private GameScreen gameScreen;    
     private PauseScreen pauseScreen;
-    private GameOverScreen gameOverScreen;
     private Scene gameScene;
     
 

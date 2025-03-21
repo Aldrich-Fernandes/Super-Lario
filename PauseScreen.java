@@ -1,6 +1,5 @@
 import java.awt.GraphicsDevice.WindowTranslucency.*;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;

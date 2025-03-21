@@ -1,14 +1,12 @@
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.animation.*;
-import javafx.util.Duration;
 
 /**
  * Key class represents a key that can be collected in the game.
  * It is represented by a simple rectangle with a key-like shape.
  */
 public class Key extends Item {
-    private int requiredCoins = 10;
+    private final int REQUIRED_COINS = 10;
     
     /**
      * Creates a new Key at the specified position with the given size.
@@ -25,7 +23,7 @@ public class Key extends Item {
      * Returns the amount of coins necessary to pickup the key!
      */
     public int getRequiredCoins() {
-        return requiredCoins;
+        return REQUIRED_COINS;
     }
     
     /**

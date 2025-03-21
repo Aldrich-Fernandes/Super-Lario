@@ -1,9 +1,7 @@
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.input.KeyCode;
 
-import java.util.List;
 import java.util.HashMap;
 
 /**
@@ -85,11 +83,12 @@ public class Player extends Circle {
         }
         
         // Apply gravity
-        if(!isOnGround) 
+        if(!isOnGround) {
             velocityY += GRAVITY * deltaTime * 60;
             if (velocityY > MAX_VELOCITY){
                 velocityY = MAX_VELOCITY;
             }
+        }
             
         setCenterX(getCenterX() + velocityX * deltaTime * 60);
         setCenterY(getCenterY() + velocityY * deltaTime * 60);
