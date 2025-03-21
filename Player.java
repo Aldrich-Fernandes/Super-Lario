@@ -81,6 +81,7 @@ public class Player extends Circle {
         if (jumpPressed && isOnGround) {
             velocityY = JUMP_FORCE;
             isOnGround = false;
+            //jumpPressed = false;
         }
         
         // Apply gravity
