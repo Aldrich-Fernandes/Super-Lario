@@ -1,11 +1,6 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -17,7 +12,7 @@ import java.util.Random;
 public class LevelManager
 {
     private List<String> levelPaths;
-    private Random rand;
+    private final Random rand;
     
     public LevelManager() {
         loadLevelPaths();
@@ -68,12 +63,12 @@ public class LevelManager
     }
     
     public GameMap[] generateLevel() {
-        GameMap[] levelMaps = new GameMap[Game.numberOfScreens];
+        GameMap[] levelMaps = new GameMap[Game.NO_OF_SCREENS];
         levelMaps[0] = new GameMap("Levels/playerRoom.txt");
-        levelMaps[rand.nextInt(1, Game.numberOfScreens-1)] = new GameMap("Levels/keyRoom.txt");
-        levelMaps[Game.numberOfScreens-1] = new GameMap("Levels/endRoom.txt");
+        levelMaps[rand.nextInt(1, Game.NO_OF_SCREENS-1)] = new GameMap("Levels/keyRoom.txt");
+        levelMaps[Game.NO_OF_SCREENS-1] = new GameMap("Levels/endRoom.txt");
         
-        for (int i = 0; i < Game.numberOfScreens; i++) {
+        for (int i = 0; i < Game.NO_OF_SCREENS; i++) {
             if (levelMaps[i] == null) {
                 levelMaps[i] = generateRandomRoom();
             }

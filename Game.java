@@ -7,19 +7,17 @@ import java.util.HashMap;
  */
 public class Game {
     // Constants
-    public static final int numberOfScreens = 6;
+    public static final int NO_OF_SCREENS = 6;
+    private static final int INITIAL_TIME = 120;
     
     // Game state
     private Player player;
-    private int currentScene;
     private GameMap[] levelMaps;
     private int coinCount = 0;
     private int index;
     private boolean keyCollected = false;
-    private static final int initialTime = 120;
-    private int timeRemaining = initialTime; // 2 minutes
+    private int timeRemaining = INITIAL_TIME; // 2 minutes
     private boolean isPaused = false;
-    private boolean cheating = false;
     
     // References to current level elements
     private Tile[][] tiles;
@@ -47,7 +45,7 @@ public class Game {
         index = 0;
         coinCount = 0;
         keyCollected = false;
-        timeRemaining = initialTime;
+        timeRemaining = INITIAL_TIME;
         isPaused = false;
         
         // Initialize player and current level elements
@@ -153,33 +151,38 @@ public class Game {
      * Check if player is going out of bounds and handle room transitions
      */
     private void checkOutOfBounds() {
-        if (player.getCenterX() < 0 || player.getCenterX() > (levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE)) {
+        int tileSize = levelMaps[index].TILE_SIZE;
+        int levelWidth =  levelMaps[index].getWidth() * tileSize;
+        int levelHeight = levelMaps[index].getHeight() * tileSize;
+        
+        // Checking if player has gliched out of the world
+        if (player.getCenterY() < 0){
+            player.setCenterY(tileSize + player.getRadius());
+        }
+        else if (player.getCenterY() > levelHeight){
+            player.setCenterY(levelHeight - tileSize - player.getRadius());
+        }
+        if ((player.getCenterX() < 0 && index==0)){
+            player.setCenterX(tileSize + player.getRadius());
+        }
+        else if (player.getCenterX() > levelWidth && index==NO_OF_SCREENS-1){
+            player.setCenterY(levelWidth - tileSize - player.getRadius());
+        }
+        
+        // Checks for transition of game scene
+        if (player.getCenterX() < 0 || player.getCenterX() > (levelWidth)) {
             
             if (player.getCenterX() < 0) {
                 index--;
-                player.setCenterX((levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE) + player.getCenterX());
+                player.setCenterX((levelWidth) + player.getCenterX());
             }
             else {
                 index++;
-                player.setCenterX((player.getCenterX() - (levelMaps[index].getWidth() * levelMaps[index].TILE_SIZE)));
+                player.setCenterX((player.getCenterX() - (levelWidth)));
             }
             
             updateCurrentLevelElements();
         }
-    }
-    
-    public boolean CheckOutOfWorldBounds(int verticleLimit, int horizontalLimit){
-        boolean state = false;
-        // Checks if player has fallen through the world or avoid the ceiling
-        if (player.getCenterY() < 0 || player.getCenterY() > verticleLimit){
-            state = true;
-        }
-        else if ((player.getCenterX() < 0 && index==0) || (player.getCenterX() > horizontalLimit && index==numberOfScreens-1)){
-            state = true;
-        }
-        
-        cheating = state;
-        return state;
     }
     
     /**
@@ -295,12 +298,8 @@ public class Game {
         return timeRemaining;
     }
     
-    public int getInitialTime(){
-        return initialTime;
-    }
-    
-    public boolean isCheating(){
-        return cheating;
+    public int getINITIAL_TIME(){
+        return INITIAL_TIME;
     }
     
     public void setPaused(boolean paused) {

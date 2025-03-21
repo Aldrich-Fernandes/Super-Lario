@@ -263,7 +263,7 @@ public class GameScreen extends BaseScreen {
         
         if (!game.getPlayer().checkAlive())                 {comment="You've developed a rather deadly affliction to spikes.";}
         else if (game.getTimeRemaining() <= 0)              {comment="The clock strikes zero, and so does your chance of survival. Better luck next time!";}
-        else if (game.isCheating())                         {comment="Cheater Cheater, Pumpkin Eater";}
+        //else if (game.isCheating())                         {comment="Cheater Cheater, Pumpkin Eater";}
         else                                                {score = game.calculateScore();}
         if (score == 0) {gameManager.showGameOverScreen(false, score, comment);}
         else            {gameManager.showGameOverScreen(true, score, comment);}
@@ -306,10 +306,6 @@ public class GameScreen extends BaseScreen {
                             gameCompleted = true;
                             gameCompleted();
                         }
-                    }
-                    else if(game.CheckOutOfWorldBounds(height, width)){
-                        gameCompleted = true;
-                        gameCompleted();
                     }
                 }
                 

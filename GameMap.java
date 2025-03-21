@@ -1,12 +1,9 @@
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
@@ -18,7 +15,7 @@ public class GameMap {
     public static final int TILE_SIZE = 30;
     
     // The main container for all tiles
-    private Pane mapPane;
+    private final Pane mapPane;
     
     // Map dimensions
     private int width;

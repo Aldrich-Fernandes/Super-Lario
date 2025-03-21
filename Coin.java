@@ -1,7 +1,5 @@
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.animation.*;
-import javafx.util.Duration;
 
 /**
  * Coin class represents a collectible coin in the game.
@@ -26,6 +24,7 @@ public class Coin extends Item {
      * @param player The player to check against
      * @return true if the coin should be collected, false otherwise
      */
+    @Override
     public boolean checkCollection(Player player) {
         if (super.isCollected()) return false;
         
