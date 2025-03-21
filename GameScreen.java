@@ -20,6 +20,8 @@ import javafx.geometry.Bounds;
 public class GameScreen extends BaseScreen {    
     private Game game;
     private Pane gamePane;
+    private boolean gameCompleted;
+    
     private AnimationTimer gameLoop;
     private long lastUpdateTime = 0;
     private int frameCount = 0;
@@ -40,6 +42,7 @@ public class GameScreen extends BaseScreen {
      */
     public GameScreen(GameManager gameManager, int width, int height) {
         super(gameManager, width, height);
+        gameCompleted = false;
         game = new Game();
         setupView();
         setGameLoop();
@@ -188,6 +191,7 @@ public class GameScreen extends BaseScreen {
         root.getChildren().clear();
         root.getChildren().add(makeMenuBar());
         
+        gameCompleted = false;
         setupView();
         setGameLoop();
         
@@ -257,13 +261,17 @@ public class GameScreen extends BaseScreen {
         int score = 0;
         String comment = "";
         
-        if (!game.getPlayer().checkAlive())                 {comment="You've developed a rather deadly attraction to spikes.";}
+        if (!game.getPlayer().checkAlive())                 {comment="You've developed a rather deadly affliction to spikes.";}
         else if (game.getTimeRemaining() <= 0)              {comment="The clock strikes zero, and so does your chance of survival. Better luck next time!";}
         else if (game.isCheating())                         {comment="Cheater Cheater, Pumpkin Eater";}
         else                                                {score = game.calculateScore();}
         if (score == 0) {gameManager.showGameOverScreen(false, score, comment);}
         else            {gameManager.showGameOverScreen(true, score, comment);}
              
+    }
+    
+    public boolean isCompleted() {
+        return gameCompleted;
     }
     
     /**
@@ -288,16 +296,19 @@ public class GameScreen extends BaseScreen {
                     
                     // Check for game completion states (if player is dead, end is reached or player caught cheating)
                     if (!game.getPlayer().checkAlive()){
+                        gameCompleted = true;
                         gameCompleted();
                     }
                     else if (game.getExit() != null && game.isKeyCollected()) {
                         Bounds playerBounds = game.getPlayer().getBoundsInParent();
                         Bounds exitBounds = game.getExit().getBoundsInParent();
                         if (playerBounds.intersects(exitBounds)){
+                            gameCompleted = true;
                             gameCompleted();
                         }
                     }
                     else if(game.CheckOutOfWorldBounds(height, width)){
+                        gameCompleted = true;
                         gameCompleted();
                     }
                 }
