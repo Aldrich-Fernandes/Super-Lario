@@ -25,6 +25,7 @@ public class Game {
     private List<Trap> traps;
     private Key key;
     private Tile exit;
+    private List<Enemy> enemies;
     
     // Level management
     private LevelManager levelManager;
@@ -52,6 +53,10 @@ public class Game {
         updateCurrentLevelElements();
         player = new Player(levelMaps[index].getPlayerX(), levelMaps[index].getPlayerY(), levelMaps[index].getPlayerRadius());
         setPaused(false);
+        for (Enemy enemy : enemies) {
+        // Set this Game instance as the enemy's game reference
+        enemy.setGame(this);
+        }
     }
     
     /**
@@ -63,6 +68,7 @@ public class Game {
         traps = levelMaps[index].getTraps();
         key = levelMaps[index].getKey();
         exit = levelMaps[index].getExit();
+        enemies = levelMaps[index].getEnemies();
     }
     
     /**
@@ -73,11 +79,13 @@ public class Game {
         if (isPaused) return;
         
         player.update(deltaTime);
+        updateEnemies(deltaTime); 
         checkCollisions();
         checkOutOfBounds();
         checkCoins();
         checkKey();
         checkTraps();
+        checkEnemies();
     }
     
     /**
@@ -213,7 +221,7 @@ public class Game {
     }
     
     /**
-     * Check if player has collected the key
+     * Check if player has been hit by a trap.
      */
     private void checkTraps() {
         for (Trap trap : traps) {
@@ -250,6 +258,55 @@ public class Game {
         
         timeRemaining--;
         return timeRemaining > 0;
+    }
+    
+    /**
+     * Checks if an enemy can walk forward in its current direction
+     * 
+     * @param enemy The enemy to check
+     * @param direction The direction (1 for right, -1 for left)
+     * @return true if the enemy can walk forward, false otherwise
+     */
+    public boolean canEnemyWalkForward(Enemy enemy, int direction) {
+        int tileSize = GameMap.TILE_SIZE;
+        
+        // Calculate the position to check based on direction
+        double checkX = (direction > 0) ? 
+                         enemy.getX() + enemy.getWidth() + 5 : // Look ahead to the right
+                         enemy.getX() - 5;                     // Look ahead to the left
+        
+        // Get tile coordinates for the position ahead
+        int tileX = (int)(checkX / tileSize);
+        
+        // Get the tile coordinates for the ground position (one tile below feet)
+        int groundTileY = (int)((enemy.getY() + enemy.getHeight() + 5) / tileSize);
+        
+        // Get the current map
+        GameMap currentMap = getCurrentMap();
+        
+        // Get the tile at ground level ahead
+        Tile groundTile = currentMap.getTileAt(tileX, groundTileY);
+        
+        // Get the tile at body level ahead
+        Tile bodyTile = currentMap.getTileAt(tileX, (int)(enemy.getY() / tileSize));
+        
+        // Enemy can walk forward if there's ground ahead AND there's no wall ahead
+        boolean groundAhead = (groundTile != null && !groundTile.isPassable());
+        boolean noWallAhead = (bodyTile == null || bodyTile.isPassable());
+        
+        return groundAhead && noWallAhead;
+    }
+    
+    public void updateEnemies(double deltaTime) {
+        for (Enemy enemy : enemies) {
+            enemy.update(deltaTime);
+        }
+    }
+    
+    public void checkEnemies() {
+        for (Enemy enemy : enemies) {
+            enemy.checkInteraction(player);
+        }
     }
     
     // Getters and setters

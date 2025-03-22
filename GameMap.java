@@ -33,6 +33,7 @@ public class GameMap {
     private List<Trap> traps;
     private Key key;
     private Tile exit;
+    private List<Enemy> enemies;
     
     /**
      * Creates a new GameMap and loads the specified level file.
@@ -45,6 +46,7 @@ public class GameMap {
         coins = new ArrayList<>();
         terrainTiles = new ArrayList<>();
         traps = new ArrayList<>();
+        enemies = new ArrayList<>();
         
         loadLevelFromFile(levelFilePath);
     }
@@ -175,6 +177,17 @@ public class GameMap {
                 traps.add(spike);
                 mapPane.getChildren().add(spike);
                 break;
+            
+            case 'M':
+                Tile enemyBackgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
+                tiles[x][y] = enemyBackgroundTile;
+                mapPane.getChildren().add(enemyBackgroundTile);
+                showSprite(enemyBackgroundTile, x, y); 
+                
+                Enemy enemy = new Enemy(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, null);
+                enemies.add(enemy);
+                mapPane.getChildren().add(enemy);
+                break;
                 
             default: // Empty space
                 Tile emptyTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
@@ -302,5 +315,14 @@ public class GameMap {
             return tiles[x][y];
         }
         return null;
+    }
+    
+    /**
+     * Get all enemies in the level
+     * 
+     * @return List of enemies
+     */
+    public List<Enemy> getEnemies() {
+        return enemies;
     }
 }
