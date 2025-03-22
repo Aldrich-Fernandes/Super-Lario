@@ -271,9 +271,7 @@ public class Game {
         int tileSize = GameMap.TILE_SIZE;
         
         // Calculate the position to check based on direction
-        double checkX = (direction > 0) ? 
-                         enemy.getX() + enemy.getWidth() + 5 : // Look ahead to the right
-                         enemy.getX() - 5;                     // Look ahead to the left
+        double checkX = (direction > 0) ? enemy.getX() + enemy.getWidth() + 5 : enemy.getX() - 5;        
         
         // Get tile coordinates for the position ahead
         int tileX = (int)(checkX / tileSize);
@@ -307,7 +305,7 @@ public class Game {
         for (Enemy enemy : enemies) {
             enemy.checkInteraction(player);
         }
-    }
+    } 
     
     // Getters and setters
     
