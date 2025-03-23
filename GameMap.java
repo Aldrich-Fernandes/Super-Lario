@@ -33,7 +33,7 @@ public class GameMap {
     private List<Trap> traps;
     private Key key;
     private Tile exit;
-    private List<Enemy> enemies;
+    private List<Tile> turns;
     
     /**
      * Creates a new GameMap and loads the specified level file.
@@ -46,7 +46,7 @@ public class GameMap {
         coins = new ArrayList<>();
         terrainTiles = new ArrayList<>();
         traps = new ArrayList<>();
-        enemies = new ArrayList<>();
+        turns = new ArrayList<>();
         
         loadLevelFromFile(levelFilePath);
     }
@@ -120,10 +120,7 @@ public class GameMap {
                 
             case 'P': // Player
                 // Create an empty/background tile first
-                Tile backgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
-                tiles[x][y] = backgroundTile;
-                mapPane.getChildren().add(backgroundTile);
-                showSprite(backgroundTile, x, y);
+                addBackgroundTile(x, y);
                 
                 playerX = x * TILE_SIZE + TILE_SIZE/2;
                 playerY = y * TILE_SIZE + TILE_SIZE/2;
@@ -133,10 +130,7 @@ public class GameMap {
                 
             case 'C': // Coin
                 // Create an empty/background tile first
-                Tile coinBackgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
-                tiles[x][y] = coinBackgroundTile;
-                mapPane.getChildren().add(coinBackgroundTile);
-                showSprite(coinBackgroundTile, x, y);
+                addBackgroundTile(x, y);
                 
                 // Create coin at this position
                 Coin coin = new Coin(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2);
@@ -146,10 +140,7 @@ public class GameMap {
                 
             case 'K': // Key (from level file, adding support for it)
                 // Create an empty/background tile first
-                Tile keyBackgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
-                tiles[x][y] = keyBackgroundTile;
-                mapPane.getChildren().add(keyBackgroundTile);
-                showSprite(keyBackgroundTile, x, y);
+                addBackgroundTile(x, y);
                 
                 // Create a key object (you would need to implement this class)
                 key = new Key(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2);
@@ -166,27 +157,30 @@ public class GameMap {
                 
                 break;
             
-            case 'S':
+            case 'S': // Spike trap
                 // Create an empty/background tile first
-                Tile trapBackgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
-                tiles[x][y] = trapBackgroundTile;
-                mapPane.getChildren().add(trapBackgroundTile);
-                showSprite(trapBackgroundTile, x, y);    
+                addBackgroundTile(x, y);   
                 
                 Spike spike = new Spike(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE);
                 traps.add(spike);
                 mapPane.getChildren().add(spike);
                 break;
-            
-            case 'M':
-                Tile enemyBackgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
-                tiles[x][y] = enemyBackgroundTile;
-                mapPane.getChildren().add(enemyBackgroundTile);
-                showSprite(enemyBackgroundTile, x, y); 
+
+            case 'M': // Moving spike trap
+                // Create an empty/background tile first
+                addBackgroundTile(x, y);   
                 
-                Enemy enemy = new Enemy(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, null);
-                enemies.add(enemy);
-                mapPane.getChildren().add(enemy);
+                MovingSpike movingSpike = new MovingSpike(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, TILE_SIZE);
+                traps.add(movingSpike);
+                mapPane.getChildren().add(movingSpike);
+                break;
+                
+            case 'T':   // Points where moving traps will turn
+                addBackgroundTile(x, y); 
+                
+                Tile turn = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "TURN");
+                turns.add(turn);
+                mapPane.getChildren().add(turn);
                 break;
                 
             default: // Empty space
@@ -210,6 +204,13 @@ public class GameMap {
                 
             mapPane.getChildren().add(imageView);
         }
+    }
+    
+    private void addBackgroundTile(int x, int y){
+        Tile backgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
+        tiles[x][y] = backgroundTile;
+        mapPane.getChildren().add(backgroundTile);
+        showSprite(backgroundTile, x, y);
     }
     
     /**
@@ -254,6 +255,10 @@ public class GameMap {
      */
     public List<Trap> getTraps() {
         return traps;
+    }
+    
+    public List<Tile> getTurns(){
+        return turns;
     }
     
     /**
@@ -315,14 +320,5 @@ public class GameMap {
             return tiles[x][y];
         }
         return null;
-    }
-    
-    /**
-     * Get all enemies in the level
-     * 
-     * @return List of enemies
-     */
-    public List<Enemy> getEnemies() {
-        return enemies;
     }
 }

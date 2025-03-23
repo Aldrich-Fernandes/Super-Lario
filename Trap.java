@@ -7,9 +7,11 @@ import javafx.scene.shape.Polygon;
 
 public abstract class Trap extends Polygon {
     protected final int damage;
+    protected final double damageCooldown = 1.0; // 1 second cooldown
+    protected double lastDamageTime = 0.0;
     
-    // Used in collision calculation
-    protected final double baseCenterX;
+    // Trap properties
+    protected double baseCenterX;
     protected final double baseCenterY;
     protected final double size;
     
@@ -18,16 +20,13 @@ public abstract class Trap extends Polygon {
      */
     public Trap(double x, double y, double size, int damage, Color color) {        
         // Triangle that faces up by default
-        getPoints().addAll( // From center
-            x-(size/2), y+(size/2),     // Bottom left
-            x+(size/2), y+(size/2),     // Bottom right
-            x, y-(size/2)      // Top point            
-        );
         
         baseCenterX = x;
         baseCenterY = y;
         this.size = size;
         this.damage = damage;
+        
+        drawTriangle();
         
         // Coloring the trap in
         setFill(color);
@@ -35,8 +34,51 @@ public abstract class Trap extends Polygon {
         setStrokeWidth(2);
     }
     
+    protected void drawTriangle(){
+        this.getPoints().clear();
+        this.getPoints().addAll( // From center
+            baseCenterX-(size/2), baseCenterY+(size/2),     // Bottom left
+            baseCenterX+(size/2), baseCenterY+(size/2),     // Bottom right
+            baseCenterX         , baseCenterY-(size/2)      // Top point            
+        );
+    }
+    
     /**
      * Check if player has interacted with the exit.
      */
-    public abstract void checkInteraction(Player player);
+    private void checkInteraction(Player player){
+        if (checkCollision(player) && lastDamageTime >= damageCooldown){
+            player.applyDamage(damage);
+            lastDamageTime = 0;
+        }
+    }
+    
+    /**
+     * Uses trigonometry to calculated roughly if the player is colliding with the trap.
+     * 
+     * This is because collsion with bounds uses a rectangle hence, doesn't work well with triangles.
+     */
+    private boolean checkCollision(Player player){      
+        // Measurements from triangle center base to circle's center
+        double adjacent = Math.abs(player.getCenterX() - baseCenterX);
+        double opposite = Math.abs(baseCenterY - player.getCenterY());
+        
+        double theta = Math.atan(opposite / adjacent);
+        double dist_baseToCircleEdge = Math.hypot(opposite, adjacent) - player.getRadius(); 
+
+        // Angles in triangle
+        double alpha = Math.toRadians(63.44);       // Roughly the base angle of side of any trap 
+        double beta = Math.PI - (alpha + theta);    // Angles in a triangle add to 180 (pi)
+        
+        double dist_baseToTriangleEdge = (size/2) * (Math.sin(alpha) / Math.sin(beta));
+        
+        return dist_baseToCircleEdge <= dist_baseToTriangleEdge;
+    }
+    
+    // Move using the translateXProperty
+    
+    public void update(Player player, double deltaTime){
+        this.checkInteraction(player);
+        lastDamageTime += deltaTime;
+    }
 }

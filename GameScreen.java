@@ -12,6 +12,9 @@ import javafx.scene.input.KeyCode;
 import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
 import javafx.geometry.Bounds;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.VBox;
+
 
 /**
  * GameScreen is responsible for rendering the game and handling UI components.
@@ -20,7 +23,7 @@ import javafx.geometry.Bounds;
 public class GameScreen extends BaseScreen {    
     private Game game;
     private Pane gamePane;
-    private boolean gameCompleted;
+    private boolean gameOver;
     
     private AnimationTimer gameLoop;
     private long lastUpdateTime = 0;
@@ -32,9 +35,12 @@ public class GameScreen extends BaseScreen {
     private Label coinLabel;
     private Label keyLabel;
     private Label fpsLabel;
+    
     private Label healthLabel;
+    private ProgressBar healthBar;
     
     private Label countdownLabel;
+    private ProgressBar timeBar;
     private Timeline timer;
     
     /**
@@ -42,7 +48,7 @@ public class GameScreen extends BaseScreen {
      */
     public GameScreen(GameManager gameManager, int width, int height) {
         super(gameManager, width, height);
-        gameCompleted = false;
+        gameOver = false;
         game = new Game();
         setupView();
         setGameLoop();
@@ -74,22 +80,31 @@ public class GameScreen extends BaseScreen {
     private void setupUIElements() {
         // Coin counter label
         coinLabel = new Label("Coin Count: 0");
-        coinLabel.getStyleClass().add("ui_lbl");
+        coinLabel.getStyleClass().add("ui_text_lbl");
         
         // Key collected status label
         keyLabel = new Label("Key Collected: false");
-        keyLabel.getStyleClass().add("ui_lbl");
+        keyLabel.getStyleClass().add("ui_text_lbl");
         
-        healthLabel= new Label("Health: 100");
-        healthLabel.getStyleClass().add("ui_lbl");
+        // Health box
+        HBox health = new HBox(2);
+        healthLabel= new Label("Health");
+        healthLabel.getStyleClass().add("ui_text_lbl");
+        healthBar = new ProgressBar(1.0);
+        healthBar.setId("health_bar");
+        health.getChildren().addAll(healthLabel, healthBar);
         
         // Countdown timer label
-        countdownLabel = new Label("Time remaining: " + game.getTimeRemaining());
-        countdownLabel.getStyleClass().add("ui_lbl");
+        HBox timer = new HBox(2);
+        countdownLabel = new Label("Time remaining");
+        countdownLabel.getStyleClass().add("ui_text_lbl");
+        timeBar = new ProgressBar(1.0);
+        timeBar.setId("timer");
+        timer.getChildren().addAll(countdownLabel, timeBar);
         
         // FPS counter label
         fpsLabel = new Label("FPS: 0");
-        fpsLabel.getStyleClass().add("ui_lbl");
+        fpsLabel.getStyleClass().add("ui_text_lbl");
         
         // Stats container
         statsBox = new HBox(20);
@@ -98,7 +113,7 @@ public class GameScreen extends BaseScreen {
         statsBox.setMaxHeight(20);      
         statsBox.setAlignment(Pos.CENTER_LEFT);
         statsBox.setPadding(new Insets(10));
-        statsBox.getChildren().addAll(coinLabel, keyLabel, healthLabel, countdownLabel, fpsLabel);
+        statsBox.getChildren().addAll(health, coinLabel, fpsLabel, keyLabel, timer);
         
         root.getChildren().add(statsBox);
     }
@@ -115,17 +130,11 @@ public class GameScreen extends BaseScreen {
      * Update all UI elements to reflect current game state
      */
     private void updateUI() {
-        coinLabel.setText("Coin Count: " + game.getCoinCount());
-        keyLabel.setText("Key Collected: " + game.isKeyCollected());
-        countdownLabel.setText("Time remaining: " + game.getTimeRemaining());
-        healthLabel.setText("Health: "+ game.getPlayerHealth());
-        
-        // Update exit appearance based on key status
-        Tile exit = game.getExit();
-        if (exit != null && game.isKeyCollected()) {
-            exit.setFill(Color.LIMEGREEN);
-            exit.setOpacity(1.0);
-        }
+        healthBar.setProgress(((double)game.getPlayerHealth()) / 100);
+        timeBar.setProgress((double) game.getTimeRemaining() / (double)game.getINITIAL_TIME());
+        coinLabel.setText("Coins " + game.getCoinCount());
+        countdownLabel.setText("Time: " + game.getTimeRemaining());
+        keyLabel.setText("Collected: "+ game.isKeyCollected());
     }
     
     /**
@@ -191,7 +200,7 @@ public class GameScreen extends BaseScreen {
         root.getChildren().clear();
         root.getChildren().add(makeMenuBar());
         
-        gameCompleted = false;
+        gameOver = false;
         setupView();
         setGameLoop();
         
@@ -257,21 +266,34 @@ public class GameScreen extends BaseScreen {
         // Stop game loop and timer
         gameLoop.stop();
         timer.stop();
+        gameOver = true;
         
         int score = 0;
         String comment = "";
         
-        if (!game.getPlayer().checkAlive())                 {comment="You've developed a rather deadly affliction to spikes.";}
-        else if (game.getTimeRemaining() <= 0)              {comment="The clock strikes zero, and so does your chance of survival. Better luck next time!";}
-        //else if (game.isCheating())                         {comment="Cheater Cheater, Pumpkin Eater";}
-        else                                                {score = game.calculateScore();}
-        if (score == 0) {gameManager.showGameOverScreen(false, score, comment);}
-        else            {gameManager.showGameOverScreen(true, score, comment);}
+        if (!game.getPlayer().checkAlive()){
+            comment="You've developed a rather deadly affliction to spikes.";
+        }
+        else if (game.getTimeRemaining() <= 0){
+            comment="The clock strikes zero, and so does your chance of survival. Better luck next time!";
+        }
+        else {
+            score = game.calculateScore();
+        }
+        
+        game.reset();
+        
+        if (score == 0) {
+            gameManager.showGameOverScreen(false, score, comment);
+        }
+        else {
+            gameManager.showGameOverScreen(true, score, comment);
+        }
              
     }
     
     public boolean isCompleted() {
-        return gameCompleted;
+        return gameOver;
     }
     
     /**
@@ -296,14 +318,12 @@ public class GameScreen extends BaseScreen {
                     
                     // Check for game completion states (if player is dead, end is reached or player caught cheating)
                     if (!game.getPlayer().checkAlive()){
-                        gameCompleted = true;
                         gameCompleted();
                     }
                     else if (game.getExit() != null && game.isKeyCollected()) {
                         Bounds playerBounds = game.getPlayer().getBoundsInParent();
                         Bounds exitBounds = game.getExit().getBoundsInParent();
                         if (playerBounds.intersects(exitBounds)){
-                            gameCompleted = true;
                             gameCompleted();
                         }
                     }

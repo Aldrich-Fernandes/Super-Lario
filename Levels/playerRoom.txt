@@ -2,7 +2,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 X      X                     E
 X      X             X       E
 X      X             X       E
-X      X           C X       E
+X      X    T   C  MTX       E
 X      X     XXXXXXXXX       E
 X      X             X       E
 X      XS            X   C   E
@@ -14,7 +14,7 @@ X      X             X       E
 X      X            SX       E
 X      X         XXXXX       E
 X      X      C      X       E
-X             M              E
+X                            E
 X           XXXXX            E
 X           X   X            E
 XS     C    X   X      SS  C E
