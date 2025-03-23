@@ -11,6 +11,8 @@ import java.lang.Math;
 public class Spike extends Trap
 {
     private boolean damageApplied = false;
+    private double lastDamageTime = 0;
+    private final double damageCooldown = 1000; // 1 second cooldown
     /**
      * Constructor for objects of class Spike
      */
@@ -20,15 +22,19 @@ public class Spike extends Trap
     }
 
     public void checkInteraction(Player player){
+        double currentTime = System.currentTimeMillis();
         if (checkCollision(player)){
             // Prevents damage from being applied to the player constantly
             if (! damageApplied){
                 player.applyDamage(damage);
                 damageApplied = true;
+                lastDamageTime = currentTime;
             }
         }
         else{
-            damageApplied = false;
+            if ((currentTime - lastDamageTime) > damageCooldown/2){
+               damageApplied = false;
+            }
         }
     }
     
