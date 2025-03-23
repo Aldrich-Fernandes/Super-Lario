@@ -45,7 +45,7 @@ public class Tile extends Rectangle {
                 
             case "BACKGROUND":
                 loadSprite("Sprites/brick_dark2.png");
-                setOpacity(0.3); // Semi-transparent
+                //setOpacity(0.3); // Semi-transparent
                 isPassable = true;
                 break;
                 
@@ -56,6 +56,11 @@ public class Tile extends Rectangle {
                 
             case "EXIT":
                 loadSprite("Sprites/dngn_closed_door.png");
+                isPassable = true;
+                break;
+            
+            case "TURN":
+                loadSprite("Sprites/brick_dark2.png");
                 isPassable = true;
                 break;
                 

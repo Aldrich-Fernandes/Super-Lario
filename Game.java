@@ -23,8 +23,10 @@ public class Game {
     private Tile[][] tiles;
     private List<Coin> coins;
     private List<Trap> traps;
+    private List<Tile> turns;
     private Key key;
     private Tile exit;
+    
     
     // Level management
     private LevelManager levelManager;
@@ -61,6 +63,7 @@ public class Game {
         tiles = levelMaps[index].getTile();
         coins = levelMaps[index].getCoins();
         traps = levelMaps[index].getTraps();
+        turns = levelMaps[index].getTurns();
         key = levelMaps[index].getKey();
         exit = levelMaps[index].getExit();
     }
@@ -73,11 +76,11 @@ public class Game {
         if (isPaused) return;
         
         player.update(deltaTime);
+        checkTraps(deltaTime); 
         checkCollisions();
         checkOutOfBounds();
         checkCoins();
         checkKey();
-        checkTraps();
     }
     
     /**
@@ -213,15 +216,25 @@ public class Game {
     }
     
     /**
-     * Check if player has collected the key
+     * Check if player has been hit by a trap.
      */
-    private void checkTraps() {
+    private void checkTraps(double deltaTime) {
         for (Trap trap : traps) {
             if (!player.checkAlive()){
-                continue;
+                return;
             }
             
-            trap.checkInteraction(player);
+            if (trap instanceof MovingSpike){
+                for (Tile point: turns){
+                    MovingSpike movingSpike = (MovingSpike) trap;
+                    if (movingSpike.getBoundsInParent().intersects(point.getBoundsInParent())){
+                        movingSpike.turn();
+                        break;
+                    }
+                }
+            }
+            
+            trap.update(player, deltaTime);
         }
     }
     

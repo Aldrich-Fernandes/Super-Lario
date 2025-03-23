@@ -23,7 +23,7 @@ import javafx.scene.layout.VBox;
 public class GameScreen extends BaseScreen {    
     private Game game;
     private Pane gamePane;
-    private boolean gameCompleted;
+    private boolean gameOver;
     
     private AnimationTimer gameLoop;
     private long lastUpdateTime = 0;
@@ -48,7 +48,7 @@ public class GameScreen extends BaseScreen {
      */
     public GameScreen(GameManager gameManager, int width, int height) {
         super(gameManager, width, height);
-        gameCompleted = false;
+        gameOver = false;
         game = new Game();
         setupView();
         setGameLoop();
@@ -200,7 +200,7 @@ public class GameScreen extends BaseScreen {
         root.getChildren().clear();
         root.getChildren().add(makeMenuBar());
         
-        gameCompleted = false;
+        gameOver = false;
         setupView();
         setGameLoop();
         
@@ -266,6 +266,7 @@ public class GameScreen extends BaseScreen {
         // Stop game loop and timer
         gameLoop.stop();
         timer.stop();
+        gameOver = true;
         
         int score = 0;
         String comment = "";
@@ -292,7 +293,7 @@ public class GameScreen extends BaseScreen {
     }
     
     public boolean isCompleted() {
-        return gameCompleted;
+        return gameOver;
     }
     
     /**
@@ -317,14 +318,12 @@ public class GameScreen extends BaseScreen {
                     
                     // Check for game completion states (if player is dead, end is reached or player caught cheating)
                     if (!game.getPlayer().checkAlive()){
-                        gameCompleted = true;
                         gameCompleted();
                     }
                     else if (game.getExit() != null && game.isKeyCollected()) {
                         Bounds playerBounds = game.getPlayer().getBoundsInParent();
                         Bounds exitBounds = game.getExit().getBoundsInParent();
                         if (playerBounds.intersects(exitBounds)){
-                            gameCompleted = true;
                             gameCompleted();
                         }
                     }
