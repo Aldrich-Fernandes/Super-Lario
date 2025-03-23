@@ -20,11 +20,6 @@
     -fx-text-alignment: center;
 }
 
-.ui_lbl {
-    -fx-font-size: 20px; 
-    -fx-text-fill: black;
-}
-
 .button {
     -fx-font-family: "Arial", sans-serif;
     -fx-font-size: 20px;
@@ -41,4 +36,27 @@
 
 .root {
     -fx-background-color: #e0e0e0;
+}
+
+
+.ui_text_lbl {
+    -fx-font-family: "Lucida Console", monospace;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000000;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 2, 0, 1, 1);
+}
+
+#health_bar {
+    -fx-pref-width: 120px;
+    -fx-pref-height: 18px;
+    -fx-accent: #22cc22;  
+    -fx-control-inner-background: #444444;
+}
+
+#timer {
+    -fx-pref-width: 120px;
+    -fx-pref-height: 18px;
+    -fx-accent: #0041C2;  
+    -fx-control-inner-background: #444444;
 }
