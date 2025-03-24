@@ -3,13 +3,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 /**
- * Write a description of class TitleScreen here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * Main title scene that will display menu options.
  */
-public class TitleScreen extends BaseScreen
-{
+public class TitleScreen extends BaseScreen {
    
     private Label lbl_title;
     private Button btn_play;
@@ -17,14 +13,17 @@ public class TitleScreen extends BaseScreen
     private Button btn_resume;
 
     /**
-     * Constructor for objects of class TitleScreen
+     * Creates the title screen with a play, resume and exit option.
      */
-    public TitleScreen(GameManager gameManager, int width, int height)
-    {
+    public TitleScreen(GameManager gameManager, int width, int height) {
         super(gameManager, width, height);
         setContent();
     }
     
+    
+    /**
+     * Sets up UI components and event handlers.
+     */
     @Override
     protected void setContent(){
         VBox container = new VBox(20);

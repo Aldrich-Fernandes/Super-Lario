@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 /**
  * Tile class represents a single tile in the game world.
- * It extends Rectangle to provide visual representation and collision detection.
+ * Able to represent terrain, background or special objects (i.e keys, coins and spikes).
  */
 public class Tile extends Rectangle {
     private String type;
@@ -45,7 +45,6 @@ public class Tile extends Rectangle {
                 
             case "BACKGROUND":
                 loadSprite("Sprites/brick_dark2.png");
-                //setOpacity(0.3); // Semi-transparent
                 isPassable = true;
                 break;
                 
@@ -78,19 +77,17 @@ public class Tile extends Rectangle {
      */
     private void loadSprite(String imagePath) {
         try {
-            // Load the image
+            // Load image
             Image image = new Image(imagePath);
             
-            // Create an ImageView with the same size as the tile
+            // Create ImageView with same size as the tile
             imageView = new ImageView(image);
             imageView.setFitWidth(getWidth());
             imageView.setFitHeight(getHeight());
             
-            // Make the rectangle transparent since we're showing an image
+            // rectangle transparent since we're showing an image
             setFill(Color.TRANSPARENT);
             
-            // You'll need to add this imageView to your Pane in GameMap
-            // We'll return it via a getter method
         } catch (Exception e) {
             // If image loading fails, use a default color
             System.err.println("Failed to load image: " + imagePath);
@@ -119,7 +116,7 @@ public class Tile extends Rectangle {
     }
     
     /**
-     * Checks if this tile can be passed through by the player.
+     * Checks player can move through a tile.
      * 
      * @return true if the tile is passable, false otherwise
      */
@@ -128,7 +125,7 @@ public class Tile extends Rectangle {
     }
     
     /**
-     * Gets the type of this tile.
+     * Gets the tile's type (i.e Terrain, Background ...).
      * 
      * @return The tile type
      */

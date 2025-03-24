@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * GameScreen is responsible for rendering the game and handling UI components.
- * It acts as the View component of the MVC pattern.
+ * View component of the MVC pattern.
  */
 public class GameScreen extends BaseScreen {    
     private Game game;
@@ -30,7 +30,6 @@ public class GameScreen extends BaseScreen {
     private int frameCount = 0;
     private long lastFpsUpdateTime = 0;
     
-    // UI components
     private HBox statsBox;
     private Label coinLabel;
     private Label keyLabel;
@@ -44,7 +43,7 @@ public class GameScreen extends BaseScreen {
     private Timeline timer;
     
     /**
-     * Constructor initializes the game screen
+     * Create a new game screen and initialize game components.
      */
     public GameScreen(GameManager gameManager, int width, int height) {
         super(gameManager, width, height);
@@ -55,10 +54,10 @@ public class GameScreen extends BaseScreen {
     }
     
     /**
-     * Set up the UI components
+     * Set up the UI components and the game pane
      */
     protected void setContent() {
-        // Main game pane where game objects are rendered
+        // game pane where game objects are rendered
         if (gamePane != null){
             gamePane.getChildren().clear();
         }
@@ -70,12 +69,11 @@ public class GameScreen extends BaseScreen {
         // Add the player to the game pane
         gamePane.getChildren().add(game.getPlayer());
         
-        // Add game pane to the root container
         root.getChildren().add(gamePane);
     }
     
     /**
-     * Set up UI elements like labels
+     * Create and add UI elements (coins, key, health, countdown,fps and stats).
      */
     private void setupUIElements() {
         // Coin counter label
@@ -127,9 +125,10 @@ public class GameScreen extends BaseScreen {
     }
     
     /**
-     * Update all UI elements to reflect current game state
+     * Update all UI elements with current game state
      */
     private void updateUI() {
+        
         healthBar.setProgress(((double)game.getPlayerHealth()) / 100);
         timeBar.setProgress((double) game.getTimeRemaining() / (double)game.getINITIAL_TIME());
         coinLabel.setText("Coins " + game.getCoinCount());
@@ -138,10 +137,11 @@ public class GameScreen extends BaseScreen {
     }
     
     /**
-     * Handle scene changes when player moves to a different room
+     * update scene when player moves to a different room
      */
     private void handleSceneChange() {
         if (game.getCurrentMap().getMapGrid() != gamePane) {
+            
             // Remove player from current pane
             gamePane.getChildren().remove(game.getPlayer());
             root.getChildren().remove(gamePane);
@@ -155,6 +155,9 @@ public class GameScreen extends BaseScreen {
         }
     }
     
+    /**
+     * Add event handles to the scene
+     */
     @Override
     public Scene getScene() {
         Scene scene = super.getScene();
@@ -164,7 +167,7 @@ public class GameScreen extends BaseScreen {
     }
     
     /**
-     * Forward key press events to the player
+     * Handles key input events to the player (movement and pause).
      */
     private void handleKeyPress(KeyEvent event) {
         if (event.getCode() == KeyCode.ESCAPE) {
@@ -177,14 +180,14 @@ public class GameScreen extends BaseScreen {
     }
     
     /**
-     * Forward key release events to the player
+     * Handles key release events to the player for movement.
      */
     private void handleKeyRelease(KeyEvent event) {
         game.getPlayer().handleKeyReleased(event.getCode());
     }
     
     /**
-     * Reset the game to its initial state (DOESNT WORK YET PLEASE FIX PRETTY PLEASE)
+     * Reset the game to its initial state.
      */
     public void reset() {
         // Terminates any ongoing timers and game loops from previous game.
@@ -207,7 +210,7 @@ public class GameScreen extends BaseScreen {
     }
     
     /**
-     * Start the countdown timer
+     * Start the countdown timer.
      */
     public void startCountdown() {
         timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
@@ -224,7 +227,7 @@ public class GameScreen extends BaseScreen {
     }
     
     /**
-     * Pause the game
+     * Pause the game and displays pause scene.
      */
     public void pauseGame() {
         game.setPaused(true);
@@ -235,7 +238,7 @@ public class GameScreen extends BaseScreen {
     }
     
     /**
-     * Resume the game after pause
+     * Resume the game after pause.
      */
     public void resumeCountdown() {
         game.setPaused(false);
@@ -245,14 +248,14 @@ public class GameScreen extends BaseScreen {
     }
     
     /**
-     * Toggle pause state
+     * Toggle pause state.
      */
     public void changePauseTimer() {
         game.setPaused(!game.isPaused());
     }
     
     /**
-     * Reset the timer to initial value
+     * Reset the timer to initial value.
      */
     public void resetTimer() {
         game.reset();
@@ -260,7 +263,7 @@ public class GameScreen extends BaseScreen {
     }
     
     /**
-     * Handle game completion event
+     * Handle end of game completion event.
      */
     private void gameCompleted() {
         // Stop game loop and timer
@@ -292,12 +295,15 @@ public class GameScreen extends BaseScreen {
              
     }
     
+    /**
+     * Returns whether the game has ended.
+     */
     public boolean isCompleted() {
         return gameOver;
     }
     
     /**
-     * Set up the game loop animation timer
+     * Set up the game loop animation timer which handles updates and collisions.
      */
     private void setGameLoop() {
         lastUpdateTime = System.nanoTime();
@@ -307,8 +313,8 @@ public class GameScreen extends BaseScreen {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                // Calculate delta time in seconds
-                double deltaTime = (now - lastUpdateTime) / 1_000_000_000.0;
+                
+                double deltaTime = (now - lastUpdateTime) / 1_000_000_000.0; // Calculate delta time in seconds
                 
                 // Update game state
                 if (!game.isPaused()) {
@@ -316,7 +322,7 @@ public class GameScreen extends BaseScreen {
                     handleSceneChange();
                     updateUI();
                     
-                    // Check for game completion states (if player is dead, end is reached or player caught cheating)
+                    // Check game completion states (if player is dead, end is reached or player caught cheating)
                     if (!game.getPlayer().checkAlive()){
                         gameCompleted();
                     }
