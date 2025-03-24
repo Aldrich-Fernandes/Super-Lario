@@ -122,13 +122,13 @@ public class Game {
                     if (minOverlap == topOverlap && player.getVelocityY() >= 0) {
                         player.setCenterY(tile_top - player_radius);
                         onPlatform = true;
-                        player.stopVerticleMovement();
+                        player.stopVerticalMovement();
                         break;
                     }
                     // Collision with bottom of platform
                     else if (minOverlap == bottomOverlap && player.getVelocityY() < 0) {
                         player.setCenterY(tile_bottom + player_radius);
-                        player.stopVerticleMovement();
+                        player.stopVerticalMovement();
                         break;
                     }
                     // Collision with left of platform
