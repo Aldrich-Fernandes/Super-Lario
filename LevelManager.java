@@ -4,16 +4,15 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Write a description of class LevelManager here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * Handles level generation and management for the game.
  */
-public class LevelManager
-{
+public class LevelManager {
     private List<String> levelPaths;
     private final Random rand;
     
+    /**
+     * Creates a level manager that loads available levels.
+     */
     public LevelManager() {
         loadLevelPaths();
         rand = new Random();
@@ -55,6 +54,9 @@ public class LevelManager
         }
     }
     
+    /**
+     * Create a random room for available level files.
+     */
     public GameMap generateRandomRoom() {
         int randIndex = rand.nextInt(levelPaths.size());
         GameMap newMap = new GameMap(levelPaths.get(randIndex));
@@ -62,6 +64,9 @@ public class LevelManager
         return newMap;
     }
     
+    /**
+     * Generate a complete game level ( includes player start, key and exit rooms).
+     */
     public GameMap[] generateLevel() {
         GameMap[] levelMaps = new GameMap[Game.NO_OF_SCREENS];
         levelMaps[0] = new GameMap("Levels/playerRoom.txt");

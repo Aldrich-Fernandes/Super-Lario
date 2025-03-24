@@ -2,9 +2,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
 /**
- * Exit class, represents the completion of the game by the player!
+ * Abstract class for all the traps that can damage the player.
  */
-
 public abstract class Trap extends Polygon {
     protected final int damage;
     protected final double damageCooldown = 1.0; // 1 second cooldown
@@ -16,7 +15,7 @@ public abstract class Trap extends Polygon {
     protected final double size;
     
     /**
-     * Create a new Exit with a given position and size
+     * Create a triangular trap with specified properties.
      */
     public Trap(double x, double y, double size, int damage, Color color) {        
         // Triangle that faces up by default
@@ -34,6 +33,9 @@ public abstract class Trap extends Polygon {
         setStrokeWidth(2);
     }
     
+    /**
+     * Update the triangle vertices based on current position.
+     */
     protected void drawTriangle(){
         this.getPoints().clear();
         this.getPoints().addAll( // From center
@@ -44,7 +46,7 @@ public abstract class Trap extends Polygon {
     }
     
     /**
-     * Check if player has interacted with the exit.
+     * Applies damage to player when collision occurs and cooldown has passed.
      */
     private void checkInteraction(Player player){
         if (checkCollision(player) && lastDamageTime >= damageCooldown){
@@ -75,8 +77,9 @@ public abstract class Trap extends Polygon {
         return dist_baseToCircleEdge <= dist_baseToTriangleEdge;
     }
     
-    // Move using the translateXProperty
-    
+    /**
+     * Updates trap state and checks for player interaction.
+     */
     public void update(Player player, double deltaTime){
         this.checkInteraction(player);
         lastDamageTime += deltaTime;
