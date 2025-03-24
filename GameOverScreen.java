@@ -1,16 +1,11 @@
 import javafx.geometry.*;
-
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 /**
- * Write a description of class TitleScreen here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * Scene displayed when the game ends.
  */
-public class GameOverScreen extends BaseScreen
-{
+public class GameOverScreen extends BaseScreen {
     private Label lbl_title;
     private Label lbl_score;
     private Label lbl_comment;
@@ -18,7 +13,7 @@ public class GameOverScreen extends BaseScreen
     private Button btn_exit;
 
     /**
-     * Constructor for objects of class TitleScreen
+     * Creates a new gameover scene.
      */
     public GameOverScreen(GameManager gameManager, int width, int height)
     {
@@ -26,6 +21,9 @@ public class GameOverScreen extends BaseScreen
         setContent();
     }
     
+    /**
+     * Initializes UI components.
+     */
     @Override
     protected void setContent(){
         VBox container = new VBox(20);
@@ -56,6 +54,9 @@ public class GameOverScreen extends BaseScreen
         root.getChildren().addAll(container);
     } 
     
+    /**
+     * Updates scene with game outcome, score and a comment.
+     */
     public void displayOutcome(boolean win, int score, String comment){
         if (win){
             lbl_title.setText("YOU ESCAPED!");
@@ -67,5 +68,4 @@ public class GameOverScreen extends BaseScreen
         lbl_score.setText("Score: "+score);
         lbl_comment.setText(comment);
     }
-
 }

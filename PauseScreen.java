@@ -11,11 +11,9 @@ import javafx.geometry.Pos;
 
 
 /**
- * The pause screen that occurs when a player presses esc during the game
+ * Overlay scene that occurs when a player presses esc (pauses) during the game.
  */
-
-public class PauseScreen extends BaseScreen
-{
+public class PauseScreen extends BaseScreen {
     
     private Stage overlayStage;
     private Button resumeBtn;
@@ -23,13 +21,16 @@ public class PauseScreen extends BaseScreen
     private VBox overlayRoot;
     private Scene overlayScene;
     private GameScreen gameScreen;
-
-    public PauseScreen(GameManager gameManager, GameScreen gameScreen, int width, int height)
-    {
+    
+    /**
+     * Create a semi-transparent pause overlay with resume and exit option.
+     */
+    public PauseScreen(GameManager gameManager, GameScreen gameScreen, int width, int height) {
         super(gameManager, width, height);
         this.gameScreen = gameScreen;
         overlay();
     }
+    
     
     private void overlay(){
         overlayStage = new Stage();
