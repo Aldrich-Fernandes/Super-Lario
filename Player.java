@@ -5,8 +5,7 @@ import javafx.scene.input.KeyCode;
 import java.util.HashMap;
 
 /**
- * Player class for a tile-based platformer game.
- * Represents the player as a red circle that can move left/right and jump.
+ * Player class which is represented by a circle and can interact with the environment surrouding it!.
  */
 public class Player extends Circle {
     // Physics 
@@ -35,7 +34,6 @@ public class Player extends Circle {
      */
     public Player(double centerX, double centerY, double radius) {
         super(centerX, centerY, radius, Color.RED);
-        //this.isOnGround = false; // REMOVE WHEN COLLISIONS ARE WORKING!!
     }
     
     /**
@@ -71,15 +69,20 @@ public class Player extends Circle {
         }
         
         // Apply horizontal movement
-        if      (leftPressed)       velocityX = -MOVE_SPEED;
-        else if (rightPressed)      velocityX = MOVE_SPEED;
-        else                        velocityX = 0;
+        if(leftPressed) {      
+            velocityX = -MOVE_SPEED;
+        }
+        else if (rightPressed) {
+            velocityX = MOVE_SPEED;
+        }
+        else {
+            velocityX = 0;
+        }
         
         // Apply jump if on ground
         if (jumpPressed && isOnGround) {
             velocityY = JUMP_FORCE;
             isOnGround = false;
-            //jumpPressed = false;
         }
         
         // Apply gravity
@@ -118,15 +121,21 @@ public class Player extends Circle {
         return isAlive;
     }
     
+    /**
+     * Returns player's health.
+     */
     public int getHealth(){
         return health;
     }
     
+    /**
+     * Will set the player flag to be on the ground (mainly for collisions).
+     */
     public void setIsOnGround(boolean onGround) {
         this.isOnGround = onGround;
     } 
     
-    public void stopVerticleMovement(){ //guys verticle as the spelling is diabolical
+    public void stopVerticalMovement() { 
         velocityY = 0.0;
     }
     public void stopHorizontalMovement(){
@@ -162,7 +171,7 @@ public class Player extends Circle {
         rightPressed = false;
         jumpPressed = false;
         
-        // Reset velocity (optional, depending on your preference)
+        // Reset velocity
         velocityX = 0;
         velocityY = 0;
     }

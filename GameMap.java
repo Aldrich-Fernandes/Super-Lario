@@ -36,7 +36,7 @@ public class GameMap {
     private List<Tile> turns;
     
     /**
-     * Creates a new GameMap and loads the specified level file.
+     * Creates a new GameMap and loads from the specified level file.
      * 
      * @param levelFilePath Path to the level definition file
      */
@@ -138,11 +138,11 @@ public class GameMap {
                 mapPane.getChildren().add(coin.getCoin());
                 break;
                 
-            case 'K': // Key (from level file, adding support for it)
+            case 'K': // Key 
                 // Create an empty/background tile first
                 addBackgroundTile(x, y);
                 
-                // Create a key object (you would need to implement this class)
+                // Create a key object
                 key = new Key(x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2);
                 mapPane.getChildren().add(key.getKey());
                 
@@ -193,6 +193,9 @@ public class GameMap {
         }
     }
     
+    /**
+     * Adds a sprite image to the map pane if the tile has one.
+     */
     private void showSprite(Tile tile, int x, int y) {
         // Add the sprite image if the tile has one
         if (tile.hasSprite()) {
@@ -206,6 +209,9 @@ public class GameMap {
         }
     }
     
+    /**
+     * Adds a background tile at the specified position.
+     */
     private void addBackgroundTile(int x, int y){
         Tile backgroundTile = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "BACKGROUND");
         tiles[x][y] = backgroundTile;
@@ -223,18 +229,22 @@ public class GameMap {
     }
     
     /**
-     * Get the player object
-     * 
-     * @return The player
+     * Return the player's starting X position.
      */
     public int getPlayerX() {
         return playerX;
     }
     
+    /**
+     * Return the player's starting Y position.
+     */
     public int getPlayerY() {
         return playerY;
     }
     
+    /**
+     * Return the player's radius ( for collsion detection).
+     */
     public int getPlayerRadius() {
         return playerRadius;
     }
@@ -257,6 +267,9 @@ public class GameMap {
         return traps;
     }
     
+    /**
+     * Return all turn points for moving traps.
+     */
     public List<Tile> getTurns(){
         return turns;
     }
@@ -304,6 +317,9 @@ public class GameMap {
         return height;
     }
     
+    /**
+     * Return a 2D array of all tiles.
+     */
     public Tile[][] getTile() {
         return tiles;
     }

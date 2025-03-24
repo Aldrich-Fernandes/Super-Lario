@@ -5,17 +5,26 @@ import javafx.scene.shape.Shape;
 import javafx.animation.*;
 import javafx.util.Duration;
 
+/**
+ * Abstract class for the collectivle game items (coins and the key).
+ */
 public abstract class Item {
     private boolean collected = false;
     private String type;
     private Rectangle key;
     private Circle coin;
     
+    /**
+     * Create a new item of the specified type at a given position.
+     */
     public Item(String type, double x, double y) {
         this.type = type;
         setType(x, y);
     }
     
+    /**
+     * Set up visual representation based on item type.
+     */
     private void setType(double x, double y) {
         switch (type) {
             case "KEY":
@@ -53,13 +62,16 @@ public abstract class Item {
     }
     
     /**
-     * Collects this key, making it invisible.
+     * Collects this key and plays collection animation.
      */
     public void collect() {
         collected = true;
         collectionAnimation();
     }
     
+    /**
+     * Plays animation when the item is collected.
+     */
     private void collectionAnimation(){
         final Shape item = (type.equals("KEY")) ? key : coin;
         
@@ -78,12 +90,21 @@ public abstract class Item {
         transition.play();
     }
     
+    /**
+     * Check if the player has collected this item.
+     */
     public abstract boolean checkCollection(Player player);
     
+    /**
+     * Return the key for rendering.
+     */
     protected Rectangle getKey() {
         return key;
     }
     
+    /**
+     * Return the coin for rendering.
+     */
     protected Circle getCoin() {
         return coin;
     }

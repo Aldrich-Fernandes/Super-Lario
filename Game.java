@@ -32,7 +32,7 @@ public class Game {
     private LevelManager levelManager;
     
     /**
-     * Constructor initializes the game state
+     * Creates a new game with as it's initial state.
      */
     public Game() {
         reset();
@@ -239,7 +239,7 @@ public class Game {
     }
     
     /**
-     * Calculated score
+     * Calculate score (based on time, coins and health).
      */
     public int calculateScore(){
         if (!player.checkAlive() || (timeRemaining <= 0)){
@@ -259,7 +259,9 @@ public class Game {
      * @return true if time remains, false if time is up
      */
     public boolean decrementTimer() {
-        if (isPaused) return true;
+        if (isPaused) {
+            return true;
+        }
         
         timeRemaining--;
         return timeRemaining > 0;
@@ -267,54 +269,93 @@ public class Game {
     
     // Getters and setters
     
+    /**
+     * Player object.
+     */
     public Player getPlayer() {
         return player;
     }
     
+    /**
+     * Player's health
+     */
     public int getPlayerHealth(){
         return player.getHealth();
     }
     
+    /**
+     * Current gmae map.
+     */
     public GameMap getCurrentMap() {
         return levelMaps[index];
     }
     
+    /**
+     * All tiles in current level.
+     */
     public Tile[][] getTiles() {
         return tiles;
     }
     
+    /**
+     * All coins in current level.
+     */
     public List<Coin> getCoins() {
         return coins;
     }
     
+    /**
+     * All traps in current level.
+     */
     public List<Trap> getTraps() {
         return traps;
     }
     
+    /**
+     * Key in current level.
+     */
     public Key getKey() {
         return key;
     }
     
+    /**
+     * Exit tile in current level.
+     */
     public Tile getExit() {
         return exit;
     }
     
+    /**
+     * Total coin amount.
+     */
     public int getCoinCount() {
         return coinCount;
     }
     
+    /**
+     * Whether the key has been collected or not.
+     */
     public boolean isKeyCollected() {
         return keyCollected;
     }
     
+    /**
+     * Remaining time (in seconds).
+     */
     public int getTimeRemaining() {
         return timeRemaining;
     }
     
+    /**
+     * Initial time limit.
+     */
     public int getINITIAL_TIME(){
         return INITIAL_TIME;
     }
     
+    /**
+     * Sets game paused state.
+     */
     public void setPaused(boolean paused) {
         this.isPaused = paused;
         if (paused) {
@@ -322,10 +363,16 @@ public class Game {
         }
     }
     
+    /**
+     * Whether game is paused.
+     */
     public boolean isPaused() {
         return isPaused;
     }
     
+    /**
+     * Current level index.
+     */
     public int getIndex() {
         return index;
     }

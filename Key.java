@@ -3,7 +3,6 @@ import javafx.animation.*;
 
 /**
  * Key class represents a key that can be collected in the game.
- * It is represented by a simple rectangle with a key-like shape.
  */
 public class Key extends Item {
     private final int REQUIRED_COINS = 10;

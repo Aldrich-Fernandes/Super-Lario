@@ -1,17 +1,13 @@
 import javafx.scene.paint.Color;
-
 import java.lang.Math;
 
 /**
- * A static trap which when the player makes contact with applies some damage
- *
- * @author (your name)
- * @version (a version number or a date)
+ * A stationary trap that applies damage on the player on contact.
  */
 public class Spike extends Trap
 {
     /**
-     * Constructor for objects of class Spike
+     * Create a new spike trap at the specified position.
      */
     public Spike(double x, double y, double size)
     {

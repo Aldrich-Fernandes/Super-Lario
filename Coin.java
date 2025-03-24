@@ -3,7 +3,6 @@ import javafx.animation.*;
 
 /**
  * Coin class represents a collectible coin in the game.
- * It extends Circle to provide visual representation.
  */
 public class Coin extends Item {
     
