@@ -4,7 +4,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 
 /**
- * The opening Screen when the user starts the game
+ * Base Screen for all game scenes with common UI elements.
  */
 public abstract class BaseScreen
 {
@@ -15,8 +15,10 @@ public abstract class BaseScreen
     protected final int width;
     protected final int height;
     
-    public BaseScreen(GameManager gameManager, int width, int height)
-    {
+    /**
+     * Creates base scene with standard menu bar.
+     */
+    public BaseScreen(GameManager gameManager, int width, int height) {
         this.gameManager = gameManager;
         this.width = width;
         this.height = height;
@@ -25,7 +27,10 @@ public abstract class BaseScreen
         root.getChildren().add(makeMenuBar());
     }
     
-    protected MenuBar makeMenuBar(){        
+    /**
+     * Creates the menu bar with File and Help options.
+     */
+    protected MenuBar makeMenuBar() {        
         MenuBar menuBar = new MenuBar();
         
         Menu fileMenu = new Menu("File");
@@ -48,10 +53,13 @@ public abstract class BaseScreen
     }   
     
     /**
-     * Where subclasses add more elements to the scene
+     * Where subclasses implement their specific UI elements.
      */  
     protected abstract void setContent();
     
+    /**
+     * Returns the scene, creates it if null.
+     */
     public Scene getScene(){
         // Prevents having to reload a new screen each time it is called.
         if (scene == null){
@@ -61,6 +69,9 @@ public abstract class BaseScreen
         return scene;
     }
     
+    /**
+     * Show about dialog with authors.
+     */
     private void showAboutDialog(){
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("About");
@@ -69,6 +80,9 @@ public abstract class BaseScreen
         alert.showAndWait();
     }
     
+    /**
+     * Shows the controls dialog with different key usages.
+     */
     private void showControls(){
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Controls");
@@ -77,6 +91,9 @@ public abstract class BaseScreen
         alert.showAndWait();
     }
     
+    /**
+     * Shows the game guide with objectives.
+     */
     private void showGuideDialog(){
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Guide");

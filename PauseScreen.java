@@ -31,14 +31,15 @@ public class PauseScreen extends BaseScreen {
         overlay();
     }
     
-    
+    /**
+     * Sets up a transparent overlay stage.
+     */
     private void overlay(){
+        
         overlayStage = new Stage();
         overlayStage.initStyle(StageStyle.TRANSPARENT); 
-        //hides input on game stage
-        overlayStage.initModality(Modality.APPLICATION_MODAL); 
-        //sets the parent of the pause screen to be the main game screen
-        overlayStage.initOwner(gameManager.getStage());
+        overlayStage.initModality(Modality.APPLICATION_MODAL); //hides input on game stage 
+        overlayStage.initOwner(gameManager.getStage()); //sets the parent of the pause screen to be the main game screen
         
         overlayRoot = new VBox(10);
         overlayRoot.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
@@ -54,10 +55,12 @@ public class PauseScreen extends BaseScreen {
         overlayStage.setScene(overlayScene);
     }
     
+    /**
+     * Adds buttons + event handlers.
+     */
     @Override
     protected void setContent(){
         
-        //the buttons
         resumeBtn = new Button("Resume");
         exitBtn = new Button("Main Menu");
         
@@ -85,15 +88,24 @@ public class PauseScreen extends BaseScreen {
    
     }    
  
+    /**
+     * Displays the pause overlay.
+     */
     public void showPauseScreen(){
         overlayOverMainWindow();
         overlayStage.show();
     }
     
+    /**
+     * Hides the pause overlay.
+     */
     private void hidePauseScreen(){
         overlayStage.hide();
     }
     
+    /**
+     * Positions the overlay to match with the game window.
+     */
     private void overlayOverMainWindow() {
         Stage mainStage = gameManager.getStage();
         System.out.println(mainStage.getX());
