@@ -10,8 +10,8 @@ public abstract class Trap extends Polygon {
     protected double lastDamageTime = 0.0;
     
     // Trap properties
-    protected double baseCenterX;
-    protected final double baseCenterY;
+    protected double centerX;
+    protected final double centerY;
     protected final double size;
     
     /**
@@ -19,13 +19,12 @@ public abstract class Trap extends Polygon {
      */
     public Trap(double x, double y, double size, int damage, Color color) {        
         // Triangle that faces up by default
-        
-        baseCenterX = x;
-        baseCenterY = y;
+        centerX = x;
+        centerY = y;
         this.size = size;
         this.damage = damage;
         
-        drawTriangle();
+        this.drawTriangle();
         
         // Coloring the trap in
         setFill(color);
@@ -39,9 +38,9 @@ public abstract class Trap extends Polygon {
     protected void drawTriangle(){
         this.getPoints().clear();
         this.getPoints().addAll( // From center
-            baseCenterX-(size/2), baseCenterY+(size/2),     // Bottom left
-            baseCenterX+(size/2), baseCenterY+(size/2),     // Bottom right
-            baseCenterX         , baseCenterY-(size/2)      // Top point            
+            centerX-(size/2), centerY+(size/2),     // Bottom left
+            centerX+(size/2), centerY+(size/2),     // Bottom right
+            centerX         , centerY-(size/2)      // Top point            
         );
     }
     
@@ -60,10 +59,13 @@ public abstract class Trap extends Polygon {
      * 
      * This is because collsion with bounds uses a rectangle hence, doesn't work well with triangles.
      */
-    private boolean checkCollision(Player player){      
+    private boolean checkCollision(Player player){
+        if (player == null){
+            return false;
+        }
         // Measurements from triangle center base to circle's center
-        double adjacent = Math.abs(player.getCenterX() - baseCenterX);
-        double opposite = Math.abs(baseCenterY - player.getCenterY());
+        double adjacent = Math.abs(player.getCenterX() - centerX);
+        double opposite = Math.abs((centerY + size/2) - player.getCenterY());
         
         double theta = Math.atan(opposite / adjacent);
         double dist_baseToCircleEdge = Math.hypot(opposite, adjacent) - player.getRadius(); 

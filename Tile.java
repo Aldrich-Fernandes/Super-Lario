@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
  * Able to represent terrain, background or special objects (i.e keys, coins and spikes).
  */
 public class Tile extends Rectangle {
-    private String type;
+    private final String TYPE;
     private boolean isPassable;
     private ImageView imageView;
     
@@ -23,7 +23,7 @@ public class Tile extends Rectangle {
      */
     public Tile(double x, double y, double width, double height, String type) {
         super(width, height);
-        this.type = type;
+        this.TYPE = type;
         
         // Set position
         setTranslateX(x);
@@ -37,7 +37,7 @@ public class Tile extends Rectangle {
      * Configures the visual appearance and game properties of the tile based on its type.
      */
     private void configureTileProperties() {
-        switch (type) {
+        switch (TYPE) {
             case "TERRAIN":
                 loadSprite("Sprites/stone_brick12.png");
                 isPassable = false;
@@ -130,6 +130,6 @@ public class Tile extends Rectangle {
      * @return The tile type
      */
     public String getType() {
-        return type;
+        return TYPE;
     }
 }

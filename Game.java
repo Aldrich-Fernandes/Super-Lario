@@ -13,7 +13,7 @@ public class Game {
     // Game state
     private Player player;
     private GameMap[] levelMaps;
-    private int coinCount = 0;
+    private int coinCount;
     private int index;
     private boolean keyCollected = false;
     private int timeRemaining = INITIAL_TIME; // 2 minutes
@@ -88,7 +88,6 @@ public class Game {
      */
     private void checkCollisions() {
         boolean onPlatform = false;
-        boolean collision = false;
         
         // Player edges
         HashMap<String, Double> playerEdges = player.getEdges();
@@ -107,13 +106,13 @@ public class Game {
                     double tile_left = tile.getBoundsInParent().getMinX();
                     double tile_right = tile.getBoundsInParent().getMaxX();
                     
-                    // Finds overlaps with platform
+                    // Finds overlaps with the platform
                     double topOverlap = player_bottom - tile_top;
                     double bottomOverlap = tile_bottom - player_top;
                     double leftOverlap = player_right - tile_left;
                     double rightOverlap = tile_right - player_left;
                     
-                    // the side with lowest overlap is the one which had been collided with
+                    // Checks which side is being colided with
                     double minOverlap = Math.min(
                         Math.min(topOverlap, bottomOverlap),
                         Math.min(leftOverlap, rightOverlap));

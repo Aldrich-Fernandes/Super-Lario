@@ -8,9 +8,9 @@ public class GameManager {
     private final Stage stage;
     private final TitleScreen titleScreen;
     private final GameOverScreen gameOverScreen;
+    private final GameScreen gameScreen;    
+    private final PauseScreen pauseScreen;
     
-    private GameScreen gameScreen;    
-    private PauseScreen pauseScreen;
     private Scene gameScene;
     
     
