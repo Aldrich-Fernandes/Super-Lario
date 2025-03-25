@@ -259,7 +259,7 @@ public class GameScreen extends BaseScreen {
      */
     public void resetTimer() {
         game.reset();
-        countdownLabel.setText("Time Remaining: " + game.getTimeRemaining());
+        countdownLabel.setText("Time ReshowTitleScreenmaining: " + game.getTimeRemaining());
     }
     
     /**
