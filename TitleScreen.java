@@ -40,6 +40,7 @@ public class TitleScreen extends BaseScreen {
         btn_resume = new Button("RESUME");
         btn_resume.getStyleClass().add("button");
         btn_resume.setOnAction(event -> gameManager.startGame(true));
+        btn_resume.setDisable(true);
         
         btn_exit = new Button("EXIT");
         btn_exit.getStyleClass().add("button");
@@ -48,5 +49,10 @@ public class TitleScreen extends BaseScreen {
         container.getChildren().addAll(lbl_title, btn_play, btn_resume, btn_exit);
         
         root.getChildren().addAll(container);
-    }    
+    }  
+    
+    public void setResumeDisable(boolean disabled) {
+        btn_resume.setDisable(disabled);
+    }
+    
 }

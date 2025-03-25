@@ -81,7 +81,7 @@ public class PauseScreen extends BaseScreen {
         
         exitBtn.setOnAction(event -> {
             hidePauseScreen();
-            gameManager.showTitleScreen();
+            gameManager.showTitleScreen(false);
         } );
 
         overlayRoot.getChildren().addAll(resumeBtn, exitBtn);

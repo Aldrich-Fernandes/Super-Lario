@@ -56,6 +56,14 @@ public class GameManager {
     }
     
     /**
+     * Displays the title scene. ( Overloaded method that includes a boolean for whether the resume button is disabled).
+     */
+    public void showTitleScreen(boolean resumeDisabled){
+        titleScreen.setResumeDisable(resumeDisabled);
+        changeScene(titleScreen.getScene());
+    }
+    
+    /**
      * Will display a scene of when the game has ended (will include win/loss status and score in the winning case).
      */
     public void showGameOverScreen(boolean win, int score, String comment){
