@@ -60,7 +60,7 @@ public abstract class Trap extends Polygon {
      * This is because collsion with bounds uses a rectangle hence, doesn't work well with triangles.
      */
     private boolean checkCollision(Player player){
-        if (player == null){
+        if (player == null || (player.getCenterY() >= (centerY + size/2))){
             return false;
         }
         // Measurements from triangle center base to circle's center

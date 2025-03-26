@@ -1,6 +1,5 @@
 import javafx.scene.shape.Circle;
 import javafx.animation.*;
-
 /**
  * Coin class represents a collectible coin in the game.
  */

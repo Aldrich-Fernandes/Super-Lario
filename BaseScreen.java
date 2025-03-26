@@ -37,8 +37,7 @@ public abstract class BaseScreen
         MenuItem quitOpt = new MenuItem("Quit");
         quitOpt.setOnAction(event -> System.exit(0));
         fileMenu.getItems().add(quitOpt);
-        
-        
+                
         Menu helpMenu = new Menu("Help");
         MenuItem aboutOpt = new MenuItem("About");
         aboutOpt.setOnAction(event -> showAboutDialog());
@@ -98,7 +97,7 @@ public abstract class BaseScreen
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Guide");
         alert.setHeaderText(null);
-        alert.setContentText("Goals: \n 1). Locate the Key \n 2). Collect Coins  \n 4). Don't Die \n 3). Escape ");
+        alert.setContentText("Goals: \n 1). Collect Coins \n 2). Locate the Key \n 3). Buy the Key (10 Coins) \n 4). Don't Die \n 5). Escape ");
         alert.showAndWait();
     }
 }

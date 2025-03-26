@@ -52,7 +52,7 @@ public class Game {
         
         // Initialize player and current level elements
         updateCurrentLevelElements();
-        player = new Player(levelMaps[index].getPlayerX(), levelMaps[index].getPlayerY(), levelMaps[index].getPlayerRadius());
+        player = new Player(levelMaps[index].getPlayerX(), levelMaps[index].getPlayerY(), levelMaps[index].getPlayerRadius()*0.9);
         setPaused(false);
     }
     

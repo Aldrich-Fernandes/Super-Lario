@@ -23,6 +23,7 @@ public class GameScreen extends BaseScreen {
     private Pane gamePane;
     private boolean gameOver;
     
+    // UI 
     private AnimationTimer gameLoop;
     private long lastUpdateTime = 0;
     private int frameCount = 0;
@@ -203,7 +204,7 @@ public class GameScreen extends BaseScreen {
         game.reset();
         
         root.getChildren().clear();
-        root.getChildren().add(makeMenuBar());
+        root.getChildren().add(super.makeMenuBar());
         
         gameOver = false;
         setupView();
