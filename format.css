@@ -88,3 +88,18 @@
 .menu-item:hover {
     -fx-background-color: #e0e0e0;
 }
+
+.key-checkbox {
+    -fx-opacity: 1.0; 
+    -fx-background-color: transparent; 
+}
+
+.key-checkbox .box, .key-checkbox:disabled .box {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}
+
+.key-checkbox:selected .mark, .key-checkbox:disabled:selected .mark {
+    -fx-background-color: #00cc00;
+}

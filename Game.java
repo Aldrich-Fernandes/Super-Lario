@@ -83,70 +83,61 @@ public class Game {
         checkKey();
     }
     
-    /**
-     * Check for collisions between the player and level elements
-     */
     private void checkCollisions() {
         boolean onPlatform = false;
         
-        // Player edges
-        HashMap<String, Double> playerEdges = player.getEdges();
-        double player_top = playerEdges.get("top");
-        double player_bottom = playerEdges.get("bottom");
-        double player_left = playerEdges.get("left");
-        double player_right = playerEdges.get("right");
-        double player_radius = player.getRadius();
+        List<Tile> collisionTiles = levelMaps[index].getTerrainTiles();
         
-        for (Tile[] tileRow: tiles) {
-            for (Tile tile: tileRow) {
-                if (!tile.isPassable() && player.getBoundsInParent().intersects(tile.getBoundsInParent())) {
-                    // Tile borders
-                    double tile_top = tile.getBoundsInParent().getMinY();
-                    double tile_bottom = tile.getBoundsInParent().getMaxY();
-                    double tile_left = tile.getBoundsInParent().getMinX();
-                    double tile_right = tile.getBoundsInParent().getMaxX();
-                    
-                    // Finds overlaps with the platform
-                    double topOverlap = player_bottom - tile_top;
-                    double bottomOverlap = tile_bottom - player_top;
-                    double leftOverlap = player_right - tile_left;
-                    double rightOverlap = tile_right - player_left;
-                    
-                    // Checks which side is being colided with
-                    double minOverlap = Math.min(
-                        Math.min(topOverlap, bottomOverlap),
-                        Math.min(leftOverlap, rightOverlap));
-                    
-                    // Collision with bottom of platform
-                    if (minOverlap == bottomOverlap && player.getVelocityY() < 0) {
-                        player.setCenterY(tile_bottom + player_radius);
-                        player.stopVerticalMovement();
-                        break;
+        for (Tile terrain : collisionTiles) {
+            // Use bounds intersection for initial broad-phase collision check
+            if (player.getBoundsInParent().intersects(terrain.getBoundsInParent())) {
+                // Compute precise overlap
+                double overlapLeft = Math.min(
+                    player.getBoundsInParent().getMaxX(), 
+                    terrain.getBoundsInParent().getMaxX()
+                ) - Math.max(
+                    player.getBoundsInParent().getMinX(), 
+                    terrain.getBoundsInParent().getMinX()
+                );
+                
+                double overlapTop = Math.min(
+                    player.getBoundsInParent().getMaxY(), 
+                    terrain.getBoundsInParent().getMaxY()
+                ) - Math.max(
+                    player.getBoundsInParent().getMinY(), 
+                    terrain.getBoundsInParent().getMinY()
+                );
+                
+                // Determine collision direction based on smallest overlap
+                if (overlapLeft < overlapTop) {
+                    // Horizontal collision
+                    if (player.getCenterX() < terrain.getBoundsInParent().getCenterX()) {
+                        // Collision from left
+                        player.setCenterX(terrain.getBoundsInParent().getMinX() - player.getRadius());
+                        player.stopHorizontalMovement();
+                    } else {
+                        // Collision from right
+                        player.setCenterX(terrain.getBoundsInParent().getMaxX() + player.getRadius());
+                        player.stopHorizontalMovement();
                     }
-                    // Collision with top of platform
-                    else if (minOverlap == topOverlap && player.getVelocityY() >= 0) {
-                        player.setCenterY(tile_top - player_radius);
+                } else {
+                    // Vertical collision
+                    if (player.getCenterY() < terrain.getBoundsInParent().getCenterY()) {
+                        // Collision from top
+                        player.setCenterY(terrain.getBoundsInParent().getMinY() - player.getRadius());
+                        player.stopVerticalMovement();
                         onPlatform = true;
+                    } else {
+                        // Collision from bottom
+                        player.setCenterY(terrain.getBoundsInParent().getMaxY() + player.getRadius());
                         player.stopVerticalMovement();
-                        break;
                     }
-                    // Collision with left of platform
-                    else if (minOverlap == leftOverlap && player.getVelocityX() > 0) {
-                        player.setCenterX(tile_left - player_radius);
-                        player.stopHorizontalMovement();
-                        break;
-                    }
-                    // Collision with right of platform
-                    else if (minOverlap == rightOverlap && player.getVelocityX() < 0) {
-                        player.setCenterX(tile_right + player_radius);
-                        player.stopHorizontalMovement();
-                        break;
-                    } 
                 }
-            }     
-        // Update player ground state
-        player.setIsOnGround(onPlatform);
+            }
         }
+        
+        // Ensure player's ground state is accurately set
+        player.setIsOnGround(onPlatform);
     }
     
     /**

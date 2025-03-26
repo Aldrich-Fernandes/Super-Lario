@@ -60,9 +60,6 @@ public class Player extends Circle {
             jumpPressed = false;
     }
     
-    /**
-     * Updates player position and velocity based on input and physics
-     */
     public void update(double deltaTime) {
         if (!isAlive){
             return;
@@ -86,17 +83,13 @@ public class Player extends Circle {
         }
         
         // Apply gravity
-        if(!isOnGround) {
-            velocityY += GRAVITY * deltaTime * 60;
-            if (velocityY > MAX_VELOCITY){
-                velocityY = MAX_VELOCITY;
-            }
+        velocityY += GRAVITY * deltaTime * 60;
+        if (velocityY > MAX_VELOCITY){
+            velocityY = MAX_VELOCITY;
         }
             
         setCenterX(getCenterX() + velocityX * deltaTime * 60);
         setCenterY(getCenterY() + velocityY * deltaTime * 60);
-        
-        
     }
     
     /**
@@ -155,10 +148,10 @@ public class Player extends Circle {
      */
     public HashMap<String, Double> getEdges(){
         HashMap<String, Double> edges = new HashMap<>();
-        edges.put("top", this.getBoundsInParent().getMinY());
-        edges.put("bottom", this.getBoundsInParent().getMaxY());
-        edges.put("left", this.getBoundsInParent().getMinX());
-        edges.put("right", this.getBoundsInParent().getMaxX());
+        edges.put("top", getCenterY() + getRadius());
+        edges.put("bottom", getCenterY() - getRadius());
+        edges.put("left", getCenterX() - getRadius());
+        edges.put("right", getCenterX() + getRadius());
         return edges;
     }
     
