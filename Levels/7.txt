@@ -1,0 +1,21 @@
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+E                            E
+E         T      MT     C    E
+E          XXXXXXX      X    E
+E                       X    E
+E SSSS     C          XXX    E
+E XXXXXX  XXX     S     X    E
+E  X            XXXX    XX   E
+E  X                     X   E
+E  X  XXXXX              X   E
+E  X      X           T    MTE
+E  X      X  XXX    XXXXXXXX E
+E  X C    X                  E
+E  XXXX   X        C         E
+E         X       XXX        E
+E         X     S            E
+E             XXX            E
+E                   C        E
+E                  XXX       E
+E        XXXXX      SS       E
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

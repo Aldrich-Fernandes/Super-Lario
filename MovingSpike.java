@@ -1,4 +1,3 @@
-import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
 /**
@@ -33,11 +32,12 @@ public class MovingSpike extends Trap {
     /**
      * Update trap position, check for player collision and manage the cooldown.
      */
+    @Override
     public void update(Player player, double deltaTime) {
         super.update(player, deltaTime);
         
         // Move  enemy
-        baseCenterX += MOVE_SPEED * direction * deltaTime * 60;
+        centerX += MOVE_SPEED * direction * deltaTime * 60;
         
         drawTriangle();
         lastDamageTime += deltaTime;

@@ -10,7 +10,7 @@ import javafx.util.Duration;
  */
 public abstract class Item {
     private boolean collected = false;
-    private String type;
+    private final String TYPE;
     private Rectangle key;
     private Circle coin;
     
@@ -18,7 +18,7 @@ public abstract class Item {
      * Create a new item of the specified type at a given position.
      */
     public Item(String type, double x, double y) {
-        this.type = type;
+        this.TYPE = type;
         setType(x, y);
     }
     
@@ -26,7 +26,7 @@ public abstract class Item {
      * Set up visual representation based on item type.
      */
     private void setType(double x, double y) {
-        switch (type) {
+        switch (TYPE) {
             case "KEY":
                 key = new Rectangle(GameMap.TILE_SIZE/2, GameMap.TILE_SIZE/2 * 1.5);
                 
@@ -73,7 +73,7 @@ public abstract class Item {
      * Plays animation when the item is collected.
      */
     private void collectionAnimation(){
-        final Shape item = (type.equals("KEY")) ? key : coin;
+        Shape item = (TYPE.equals("KEY")) ? key : coin;
         
         TranslateTransition ascend = new TranslateTransition(Duration.millis(300), item);
         TranslateTransition fall = new TranslateTransition(Duration.millis(300), item);

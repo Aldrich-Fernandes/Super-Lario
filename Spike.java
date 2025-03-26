@@ -1,5 +1,4 @@
 import javafx.scene.paint.Color;
-import java.lang.Math;
 
 /**
  * A stationary trap that applies damage on the player on contact.

@@ -1,19 +1,17 @@
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
-import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
-import javafx.util.Duration;
-import javafx.animation.KeyFrame;
-import javafx.scene.input.KeyCode;
-import javafx.animation.Timeline;
-import javafx.scene.paint.Color;
 import javafx.geometry.Bounds;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.VBox;
+import javafx.animation.KeyFrame;
+import javafx.animation.AnimationTimer;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 
 /**
@@ -56,6 +54,7 @@ public class GameScreen extends BaseScreen {
     /**
      * Set up the UI components and the game pane
      */
+    @Override
     protected void setContent() {
         // game pane where game objects are rendered
         if (gamePane != null){
