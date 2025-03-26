@@ -200,7 +200,7 @@ public class GameScreen extends BaseScreen {
         game.reset();
         
         root.getChildren().clear();
-        root.getChildren().add(makeMenuBar());
+        root.getChildren().add(super.makeMenuBar());
         
         gameOver = false;
         setupView();

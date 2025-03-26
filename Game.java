@@ -52,7 +52,7 @@ public class Game {
         
         // Initialize player and current level elements
         updateCurrentLevelElements();
-        player = new Player(levelMaps[index].getPlayerX(), levelMaps[index].getPlayerY(), levelMaps[index].getPlayerRadius());
+        player = new Player(levelMaps[index].getPlayerX(), levelMaps[index].getPlayerY(), levelMaps[index].getPlayerRadius()*0.9);
         setPaused(false);
     }
     
@@ -117,16 +117,16 @@ public class Game {
                         Math.min(topOverlap, bottomOverlap),
                         Math.min(leftOverlap, rightOverlap));
                     
-                    // Collision with top of platform
-                    if (minOverlap == topOverlap && player.getVelocityY() >= 0) {
-                        player.setCenterY(tile_top - player_radius);
-                        onPlatform = true;
+                    // Collision with bottom of platform
+                    if (minOverlap == bottomOverlap && player.getVelocityY() < 0) {
+                        player.setCenterY(tile_bottom + player_radius);
                         player.stopVerticalMovement();
                         break;
                     }
-                    // Collision with bottom of platform
-                    else if (minOverlap == bottomOverlap && player.getVelocityY() < 0) {
-                        player.setCenterY(tile_bottom + player_radius);
+                    // Collision with top of platform
+                    else if (minOverlap == topOverlap && player.getVelocityY() >= 0) {
+                        player.setCenterY(tile_top - player_radius);
+                        onPlatform = true;
                         player.stopVerticalMovement();
                         break;
                     }

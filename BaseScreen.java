@@ -37,8 +37,7 @@ public abstract class BaseScreen
         MenuItem quitOpt = new MenuItem("Quit");
         quitOpt.setOnAction(event -> System.exit(0));
         fileMenu.getItems().add(quitOpt);
-        
-        
+                
         Menu helpMenu = new Menu("Help");
         MenuItem aboutOpt = new MenuItem("About");
         aboutOpt.setOnAction(event -> showAboutDialog());

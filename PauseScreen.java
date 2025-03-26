@@ -42,7 +42,7 @@ public class PauseScreen extends BaseScreen {
         overlayStage.initOwner(gameManager.getStage()); //sets the parent of the pause screen to be the main game screen
         
         overlayRoot = new VBox(10);
-        overlayRoot.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
+        overlayRoot.getStyleClass().add("overlay_root");
         overlayRoot.setPadding(new javafx.geometry.Insets(50));
         overlayRoot.setMouseTransparent(false);
         overlayRoot.setAlignment(Pos.CENTER);
