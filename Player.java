@@ -155,10 +155,10 @@ public class Player extends Circle {
      */
     public HashMap<String, Double> getEdges(){
         HashMap<String, Double> edges = new HashMap<>();
-        edges.put("top", this.getBoundsInParent().getMinY());
-        edges.put("bottom", this.getBoundsInParent().getMaxY());
-        edges.put("left", this.getBoundsInParent().getMinX());
-        edges.put("right", this.getBoundsInParent().getMaxX());
+        edges.put("top", getCenterY() + getRadius());
+        edges.put("bottom", getCenterY() - getRadius());
+        edges.put("left", getCenterX() - getRadius());
+        edges.put("right", getCenterX() + getRadius());
         return edges;
     }
     
