@@ -95,8 +95,8 @@
 }
 
 .key-checkbox .box, .key-checkbox:disabled .box {
-    -fx-background-color: white;
-    -fx-border-color: black;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #000000;
     -fx-border-width: 1px;
 }
 
