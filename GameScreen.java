@@ -30,7 +30,7 @@ public class GameScreen extends BaseScreen {
     
     private HBox statsBox;
     private Label coinLabel;
-    private Label keyLabel;
+    private CheckBox keyLabel;
     private Label fpsLabel;
     
     private Label healthLabel;
@@ -80,8 +80,11 @@ public class GameScreen extends BaseScreen {
         coinLabel.getStyleClass().add("ui_text_lbl");
         
         // Key collected status label
-        keyLabel = new Label("Key Collected: false");
+        keyLabel = new CheckBox("Key");
         keyLabel.getStyleClass().add("ui_text_lbl");
+        keyLabel.getStyleClass().add("key-checkbox");
+        keyLabel.setDisable(true); 
+        keyLabel.setSelected(false);
         
         // Health box
         HBox health = new HBox(2);
@@ -132,7 +135,7 @@ public class GameScreen extends BaseScreen {
         timeBar.setProgress((double) game.getTimeRemaining() / (double)game.getINITIAL_TIME());
         coinLabel.setText("Coins " + game.getCoinCount());
         countdownLabel.setText("Time: " + game.getTimeRemaining());
-        keyLabel.setText("Collected: "+ game.isKeyCollected());
+        keyLabel.setSelected(game.isKeyCollected());
     }
     
     /**
@@ -196,7 +199,7 @@ public class GameScreen extends BaseScreen {
         if (gameLoop != null){
             gameLoop.stop();
         }
-        
+    
         game.reset();
         
         root.getChildren().clear();
