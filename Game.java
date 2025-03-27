@@ -83,6 +83,7 @@ public class Game {
         checkKey();
     }
     
+    
     private void checkCollisions() {
         boolean onPlatform = false;
         
