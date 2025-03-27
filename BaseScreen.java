@@ -29,6 +29,7 @@ public abstract class BaseScreen
     
     /**
      * Creates the menu bar with File and Help options.
+     * @return A menu bar containing additional operational and informational buttons.
      */
     protected MenuBar makeMenuBar() {        
         MenuBar menuBar = new MenuBar();
@@ -57,7 +58,9 @@ public abstract class BaseScreen
     protected abstract void setContent();
     
     /**
-     * Returns the scene, creates it if null.
+     * Accessor for the type of scene.
+     * 
+     * @return Returns the scene, creates it if null.
      */
     public Scene getScene(){
         // Prevents having to reload a new screen each time it is called.

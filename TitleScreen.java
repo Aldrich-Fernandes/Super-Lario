@@ -51,6 +51,12 @@ public class TitleScreen extends BaseScreen {
         root.getChildren().addAll(container);
     }  
     
+    /**
+     * Enables if the resume button can be used.
+     * This is if there is a game to load
+     * 
+     * @param disabled whether the player can resume thier game or need to load a new one
+     */
     public void setResumeDisable(boolean disabled) {
         btn_resume.setDisable(disabled);
     }

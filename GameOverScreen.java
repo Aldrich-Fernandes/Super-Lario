@@ -39,7 +39,6 @@ public class GameOverScreen extends BaseScreen {
         lbl_comment = new Label("");
         lbl_comment.setWrapText(true);
         lbl_comment.getStyleClass().add("comment_lbl");
-        
 
         btn_return = new Button("MAIN MENU");
         btn_return.getStyleClass().add("button");
