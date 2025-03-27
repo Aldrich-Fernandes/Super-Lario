@@ -89,9 +89,12 @@ public class Game {
         List<Tile> collisionTiles = levelMaps[index].getTerrainTiles();
         
         for (Tile terrain : collisionTiles) {
-            // Use bounds intersection for initial broad-phase collision check
+            // Check if the player is interacting with this terrain tile
             if (player.getBoundsInParent().intersects(terrain.getBoundsInParent())) {
-                // Compute precise overlap
+                // We find the overlap in the X-axis, this is done by:
+                // So we find the minimum X-value that dictates the right side of either the player or tile
+                // We find the maximum X-value that dictates the left side of the either the player or tile
+                // We then find the difference between these values to get the overlap
                 double overlapLeft = Math.min(
                     player.getBoundsInParent().getMaxX(), 
                     terrain.getBoundsInParent().getMaxX()
@@ -100,6 +103,8 @@ public class Game {
                     terrain.getBoundsInParent().getMinX()
                 );
                 
+                
+                // Same calculation as above, but now we are looking at the Y-values
                 double overlapTop = Math.min(
                     player.getBoundsInParent().getMaxY(), 
                     terrain.getBoundsInParent().getMaxY()
@@ -108,9 +113,11 @@ public class Game {
                     terrain.getBoundsInParent().getMinY()
                 );
                 
-                // Determine collision direction based on smallest overlap
+                // We decide what axis the collision is taking place
+                // If the difference for the Y-axis is greater than the X-axis
                 if (overlapLeft < overlapTop) {
-                    // Horizontal collision
+                    // There must be a collision in the X-axis (horizontal) as the differences are negative
+                    
                     if (player.getCenterX() < terrain.getBoundsInParent().getCenterX()) {
                         // Collision from left
                         player.setCenterX(terrain.getBoundsInParent().getMinX() - player.getRadius());
@@ -121,7 +128,7 @@ public class Game {
                         player.stopHorizontalMovement();
                     }
                 } else {
-                    // Vertical collision
+                    // Vertical collision (Y-axis)
                     if (player.getCenterY() < terrain.getBoundsInParent().getCenterY()) {
                         // Collision from top
                         player.setCenterY(terrain.getBoundsInParent().getMinY() - player.getRadius());
