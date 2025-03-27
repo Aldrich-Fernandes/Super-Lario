@@ -1,10 +1,10 @@
 import javafx.scene.layout.Pane;
+import javafx.scene.image.ImageView;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.image.ImageView;
 
 /**
  * GameMap class handles the creation and management of the game's tile-based world.
@@ -21,6 +21,7 @@ public class GameMap {
     private int width;
     private int height;
     
+    // Player dimensions
     private int playerX;
     private int playerY;
     private int playerRadius;

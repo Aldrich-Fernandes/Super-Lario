@@ -1,7 +1,8 @@
 import javafx.scene.shape.Circle;
 import javafx.animation.*;
+
 /**
- * Coin class represents a collectible coin in the game.
+ * Coin class represents a collectible item (coin) in the game.
  */
 public class Coin extends Item {
     
