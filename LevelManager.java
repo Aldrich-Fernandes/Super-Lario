@@ -73,6 +73,7 @@ public class LevelManager {
         levelMaps[rand.nextInt(1, Game.NO_OF_SCREENS-1)] = new GameMap("Levels/keyRoom.txt");
         levelMaps[Game.NO_OF_SCREENS-1] = new GameMap("Levels/endRoom.txt");
         
+        // Picks individual rooms for the level
         for (int i = 0; i < Game.NO_OF_SCREENS; i++) {
             if (levelMaps[i] == null) {
                 levelMaps[i] = generateRandomRoom();

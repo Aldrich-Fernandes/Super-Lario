@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.HashMap;
 
 /**
  * Game class represents the model component of the game.
@@ -83,13 +82,16 @@ public class Game {
         checkKey();
     }
     
-    
+    /**
+     * Checks for collisions between player and solid tiles
+     */
     private void checkCollisions() {
         boolean onPlatform = false;
         
         List<Tile> collisionTiles = levelMaps[index].getTerrainTiles();
         
         for (Tile terrain : collisionTiles) {
+
             // Check if the player is interacting with this terrain tile
             if (player.getBoundsInParent().intersects(terrain.getBoundsInParent())) {
                 // We find the overlap in the X-axis, this is done by:
@@ -103,7 +105,6 @@ public class Game {
                     player.getBoundsInParent().getMinX(), 
                     terrain.getBoundsInParent().getMinX()
                 );
-                
                 
                 // Same calculation as above, but now we are looking at the Y-values
                 double overlapTop = Math.min(
@@ -202,8 +203,10 @@ public class Game {
      * Check if player has collected the key
      */
     private void checkKey() {
+        // Checks if the key exists in the level or the player already obtained it
         if (key != null && !key.isCollected()) {
             if (key.checkCollection(player)) {
+                // Checks if the player has sufficent funds to 'buy' the key
                 if (coinCount >= key.getRequiredCoins()) {
                     key.collect();
                     keyCollected = true;
@@ -222,6 +225,7 @@ public class Game {
                 return;
             }
             
+            // Invokes additional updates for moving spikes
             if (trap instanceof MovingSpike){
                 for (Tile point: turns){
                     MovingSpike movingSpike = (MovingSpike) trap;
@@ -238,6 +242,7 @@ public class Game {
     
     /**
      * Calculate score (based on time, coins and health).
+     * @return  A score calculated based on performance in game  
      */
     public int calculateScore(){
         if (!player.checkAlive() || (timeRemaining <= 0)){

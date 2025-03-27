@@ -1,20 +1,20 @@
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-X              X          C  X
-X     X        X             X
-X     X        X             X
-X   XXXXXX     X            SX
-X     X        X          XXXX
-X     X C      X             X
-X C   X      SSX       XX    X
-XXX   XXXXXXXXXX             X
-X     X          S      C    X
-X     X          XXX         X
-X     X                    SSX
-X   XXX               XXXXXXXE
-X     X                      E
-X     X            S         E
-X     X  C     XXXXXXX       E
-XXX   XXXXX                  E
+E              X          C  E
+ES    X        X             E
+EX    X        X             E
+EX  XXXXXX     X            SE
+EX    X        X          XXXE 
+E     X C      X            XE
+E C   X      SSX       XX   XE
+EXX   XXXXXXXXXX            XE
+E     X          S      C   XE
+ES    X          XXX         E
+EX    X                    SSE
+EX  XXX               XXXXXXXE
+EX    X                      E
+E     X            S         E
+E     X  C     XXXXXXX       E
+EXXX  XXXXX                  E
 E                            E
 E                            E
 E              SSSS        S E

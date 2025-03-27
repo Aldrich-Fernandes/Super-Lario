@@ -13,17 +13,17 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-
 /**
  * GameScreen is responsible for rendering the game and handling UI components.
  * View component of the MVC pattern.
  */
 public class GameScreen extends BaseScreen {    
-    private Game game;
-    private Pane gamePane;
+
+    private Game game;          
+    private Pane gamePane;      // Pane within the Stage where the game is displayed and updated
     private boolean gameOver;
     
-    // UI 
+    // UI Components
     private AnimationTimer gameLoop;
     private long lastUpdateTime = 0;
     private int frameCount = 0;
@@ -140,7 +140,7 @@ public class GameScreen extends BaseScreen {
     }
     
     /**
-     * update scene when player moves to a different room
+     * Update scene when player moves to a different room
      */
     private void handleSceneChange() {
         if (game.getCurrentMap().getMapGrid() != gamePane) {
@@ -149,10 +149,9 @@ public class GameScreen extends BaseScreen {
             gamePane.getChildren().remove(game.getPlayer());
             root.getChildren().remove(gamePane);
             
-            // Get the new map pane
+            // Gets the game map to render
             gamePane = game.getCurrentMap().getMapGrid();
             
-            // Add player to the new pane
             gamePane.getChildren().add(game.getPlayer());
             root.getChildren().add(gamePane);
         }
@@ -201,8 +200,8 @@ public class GameScreen extends BaseScreen {
             gameLoop.stop();
         }
     
+        // Hard clears all nodes to prevent dupliation of elements
         game.reset();
-        
         root.getChildren().clear();
         root.getChildren().add(super.makeMenuBar());
         
@@ -277,6 +276,7 @@ public class GameScreen extends BaseScreen {
         int score = 0;
         String comment = "";
         
+        //Adds a comment to the game over screen
         if (!game.getPlayer().checkAlive()){
             comment="You've developed a rather deadly affliction to spikes.";
         }
@@ -289,6 +289,7 @@ public class GameScreen extends BaseScreen {
         
         game.reset();
         
+        // Invokes gameManager to show the title screen
         if (score == 0) {
             gameManager.showGameOverScreen(false, score, comment);
         }
@@ -306,7 +307,7 @@ public class GameScreen extends BaseScreen {
     }
     
     /**
-     * Set up the game loop animation timer which handles updates and collisions.
+     * Set up the game loop animation timer which handles game state updates.
      */
     private void setGameLoop() {
         lastUpdateTime = System.nanoTime();

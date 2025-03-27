@@ -1,3 +1,5 @@
+
+/* Title screen customisation */
 .title_lbl {
     -fx-font-family: "Impact", sans-serif;
     -fx-font-size: 60px;
@@ -34,6 +36,7 @@
     -fx-cursor: hand;
 }
 
+/* Stage customisation */
 .root {
     -fx-background-color: #dcdcdc;
 }
@@ -42,7 +45,7 @@
     -fx-background-color: rgba(0, 0, 0, 0.5);
 }
 
-
+/* UI bar elements customisation */
 .ui_text_lbl {
     -fx-font-family: "Lucida Console", monospace;
     -fx-font-size: 16px;
@@ -51,6 +54,7 @@
     -fx-effect: dropshadow(three-pass-box, #2f4f4f, 2, 0, 1, 1);
 }
 
+/* Progress bars */
 #health_bar, #timer {
     -fx-pref-width: 120px;
     -fx-pref-height: 18px;
@@ -68,27 +72,7 @@
     -fx-background-color: #a9a9a9;
 }
 
-
-.menu-bar {
-    -fx-background-color: #f0f0f0;
-}
-
-.menu-bar .label {
-    -fx-text-fill: #000000;
-}
-
-.menu-item {
-    -fx-background-color: #ffffff;
-}
-
-.menu-item .label {
-    -fx-text-fill: #000000;
-}
-
-.menu-item:hover {
-    -fx-background-color: #e0e0e0;
-}
-
+/* Key collection indicator */
 .key-checkbox {
     -fx-opacity: 1.0; 
     -fx-background-color: transparent; 
