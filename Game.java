@@ -80,6 +80,7 @@ public class Game {
         checkOutOfBounds();
         checkCoins();
         checkKey();
+        checkExit();
     }
     
     /**
@@ -213,6 +214,12 @@ public class Game {
                     coinCount -= key.getRequiredCoins();
                 }
             }
+        }
+    }
+    
+    private void checkExit() {
+        if (exit != null && keyCollected) {
+            levelMaps[index].updateExit();
         }
     }
     
