@@ -26,6 +26,10 @@ public class GameMap {
     private int playerY;
     private int playerRadius;
     
+    // Exit location
+    private int exitX;
+    private int exitY;
+    
     // Storage for game entities
     private Tile[][] tiles;
     private Player player;
@@ -152,6 +156,8 @@ public class GameMap {
             case 'A': // Exit
                 // Create an empty/background tile first
                 exit = new Tile(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, "EXIT");
+                exitX = x;
+                exitY = y;
                 tiles[x][y] = exit;
                 mapPane.getChildren().add(exit);
                 showSprite(exit, x, y);
@@ -210,6 +216,10 @@ public class GameMap {
         }
     }
     
+    public void updateExit() {
+        exit.updateSprite();
+        showSprite(exit, exitX, exitY);
+    }
     
     /**
      * Adds a background tile at the specified position.

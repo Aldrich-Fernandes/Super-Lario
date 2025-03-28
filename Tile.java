@@ -70,6 +70,12 @@ public class Tile extends Rectangle {
         }
     }
     
+    public void updateSprite() {
+        if (TYPE.equals("EXIT")) {
+            loadSprite("Sprites/dngn_exit_abyss.png");
+        }
+    }
+    
     /**
      * Loads a sprite image for this tile.
      * 
