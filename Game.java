@@ -217,6 +217,10 @@ public class Game {
         }
     }
     
+    /**
+     * Check if the exit exists and the key is collected,
+     * then updates the exit tile sprite 
+     */
     private void checkExit() {
         if (exit != null && keyCollected) {
             levelMaps[index].updateExit();

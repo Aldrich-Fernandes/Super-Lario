@@ -70,6 +70,9 @@ public class Tile extends Rectangle {
         }
     }
     
+    /**
+     * Updates the sprite for the exit tile.
+     */
     public void updateSprite() {
         if (TYPE.equals("EXIT")) {
             loadSprite("Sprites/dngn_exit_abyss.png");

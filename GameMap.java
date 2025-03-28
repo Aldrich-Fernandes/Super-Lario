@@ -216,6 +216,9 @@ public class GameMap {
         }
     }
     
+    /**
+     * Method to update the sprite of the exit
+     */
     public void updateExit() {
         exit.updateSprite();
         showSprite(exit, exitX, exitY);
