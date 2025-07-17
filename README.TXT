@@ -1,12 +1,37 @@
-------------------------------------------------------------------------
-This is the project README file. Here, you should describe your project.
-Tell the reader (someone who does not know anything about this project)
-all they need to know. The comments should usually include at least:
-------------------------------------------------------------------------
+Super Lario - Java Platformer Game
 
-PROJECT TITLE:
-PURPOSE OF PROJECT:
-VERSION or DATE:
-HOW TO START THIS PROJECT:
-AUTHORS: Mehdi Belhadj, Aldrich Fernandes, Fadi Mostefei, Kishan Prakash
-USER INSTRUCTIONS:
+Contributors:
+- Fadi Mohamed Mostefai 
+- Aldrich Antonio Fernandes 
+- Mehdi Belhadj 
+- Kishan Prakash
+
+Overview:
+Super Lario is a 2D platformer game inspired by the classic Super Mario franchise, developed in Java as part of a university coursework project. The game features 6 uniquely designed maps, where the player must collect coins, avoid traps and enemies, and ultimately retrieve a key to unlock the final door and complete the game.
+
+Game Features:
+- 2D movement using WASD or arrow keys, with jump functionality.
+- 6 different levels: static start/end rooms with randomized middle levels.
+- Static and dynamic spike traps that damage the player.
+- Coin collection system used to unlock the key.
+- A key-and-door mechanic to progress and win the game.
+- Health and timer indicators in the info bar.
+- FPS display for performance monitoring.
+- Pause functionality.
+- Multiple unique death screens based on how the player dies.
+- End of game score calculation.
+
+Technical Details:
+- Built using Java and JavaFX.
+- Custom delta time implementation for consistent gameplay across devices.
+- Collision system with directional checks for accurate terrain interactions.
+
+Known Issues:
+- Game must be run on Windows or macOS (currently incompatible with Linux systems via the provided JAR).
+- Collision system may behave inconsistently under extremely high input frequency (e.g., long key presses), although mitigated with refined collision logic.
+
+Planned Features:
+- Background music and sound effects.
+- Difficulty settings for varied playstyles.
+- Power-ups and item drops.
+- Enhanced level design for a more "roguelike" experience.
