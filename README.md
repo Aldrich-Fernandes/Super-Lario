@@ -4,10 +4,10 @@ A 2D platformer inspired by Super Mario, built in Java as part of a university c
 
 ## Contributors
 
-- Fadi Mohamed Mostefai  
-- Aldrich Antonio Fernandes  
-- Mehdi Belhadj  
-- Kishan Prakash  
+- [Fadi Mohamed Mostefai](https://github.com/Fadi-Mostefai)
+- [Aldrich Antonio Fernandes](https://github.com/Aldrich-Fernandes)
+- [Mehdi Belhadj](https://github.com/MehB06)
+- [Kishan Prakash](https://github.com/KishPrak)
 
 ## Overview
 
