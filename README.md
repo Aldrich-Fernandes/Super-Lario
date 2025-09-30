@@ -1,4 +1,4 @@
-# Super Lario
+# **Super Lario**
 
 A 2D platformer inspired by Super Mario, built in Java as part of a university coursework project.
 
